@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6" />
+	<Project>
+		<Option title="Tankmania" />
+		<Option pch_mode="2" />
+		<Option compiler="gcc" />
+		<Build>
+			<Target title="Debug">
+				<Option output="bin/Debug/Tankmania" prefix_auto="1" extension_auto="1" />
+				<Option object_output="obj/Debug/" />
+				<Option type="1" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-g" />
+				</Compiler>
+				<Linker>
+					<Add library="sfml-graphics-d" />
+					<Add library="sfml-window-d" />
+					<Add library="sfml-system-d" />
+				</Linker>
+			</Target>
+			<Target title="Release">
+				<Option output="bin/Release/Tankmania" prefix_auto="1" extension_auto="1" />
+				<Option object_output="obj/Release/" />
+				<Option type="1" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-O2" />
+				</Compiler>
+				<Linker>
+					<Add option="-s" />
+					<Add library="sfml-graphics" />
+					<Add library="sfml-window" />
+					<Add library="sfml-system" />
+				</Linker>
+			</Target>
+		</Build>
+		<Compiler>
+			<Add option="-Wall" />
+			<Add option="-fexceptions" />
+			<Add directory="SFML-2.3/include" />
+		</Compiler>
+		<Linker>
+			<Add directory="SFML-2.3/lib" />
+		</Linker>
+		<Unit filename="Barrel.cpp" />
+		<Unit filename="Barrel.hpp" />
+		<Unit filename="Core/CollisionManager.cpp" />
+		<Unit filename="Core/CollisionManager.hpp" />
+		<Unit filename="Core/FontManager.cpp" />
+		<Unit filename="Core/FontManager.hpp" />
+		<Unit filename="Core/Game.cpp" />
+		<Unit filename="Core/Game.hpp" />
+		<Unit filename="Core/GameState.hpp" />
+		<Unit filename="Core/Object.cpp" />
+		<Unit filename="Core/Object.hpp" />
+		<Unit filename="Core/TextureManager.cpp" />
+		<Unit filename="Core/TextureManager.hpp" />
+		<Unit filename="Gameplay.cpp" />
+		<Unit filename="Gameplay.hpp" />
+		<Unit filename="Human.cpp" />
+		<Unit filename="Human.hpp" />
+		<Unit filename="Map.cpp" />
+		<Unit filename="Map.hpp" />
+		<Unit filename="Tank.cpp" />
+		<Unit filename="Tank.hpp" />
+		<Unit filename="main.cpp" />
+		<Extensions>
+			<code_completion />
+			<envvars />
+			<debugger />
+			<lib_finder disable_auto="1" />
+		</Extensions>
+	</Project>
+</CodeBlocks_project_file>
