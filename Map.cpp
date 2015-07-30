@@ -71,11 +71,13 @@ void Map::draw_above(sf::RenderWindow& window)
     for(auto& tree : forest) tree.draw(window);
 }
 
-void Map::handle_collision(Tank& tank, float dt)
+bool Map::handle_collision(Object& object, float dt)
 {
-    for(auto& barrel : borders) if(!barrel.isDestroyed()) CollisionManager::collide(tank, barrel, dt);
-    //for(auto& barrel : barrels) if(!barrel.isDestroyed()) CollisionManager::collide(tank, barrel, dt);
-    //for(auto& puddleOfOil : puddleOfOils) if(!puddleOfOil.barrel.isDestroyed()) CollisionManager::collide(tank, puddleOfOil.barrel, dt);
+    for(auto& barrel : borders)           if(!barrel.isDestroyed())             if(CollisionManager::collide(object, barrel, dt))             return true;
+    for(auto& barrel : barrels)           if(!barrel.isDestroyed())             if(CollisionManager::collide(object, barrel, dt))             return true;
+    for(auto& puddleOfOil : puddleOfOils) if(!puddleOfOil.barrel.isDestroyed()) if(CollisionManager::collide(object, puddleOfOil.barrel, dt)) return true;
+
+    return false;
 }
 
 void Map::create_puddleOfOil(float x, float y)

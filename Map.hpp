@@ -40,9 +40,13 @@ public:
 
     void create();
 
-    void handle_collision(Tank& tank, float dt);
-    void draw_above(sf::RenderWindow& window);
+    //Gère les collisions avec le décor
+    bool handle_collision(Object& object, float dt);
+
+    //Affiche les éléments en dessous des chars
     void draw_below(sf::RenderWindow& window);
+    //Affiche les éléments au dessus des chars
+    void draw_above(sf::RenderWindow& window);
 };
 
 #endif // MAP_HPP_INCLUDED

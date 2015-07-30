@@ -12,6 +12,7 @@ Human::~Human()
 
 void Human::handleInput()
 {
+    //Déplacement
     if(sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
     {
         this->change_direction(direction + 3);
@@ -36,6 +37,9 @@ void Human::handleInput()
     }
 
     this->regulate_velocity();
+
+    //Tir
+    if(sf::Mouse::isButtonPressed(sf::Mouse::Left)) this->fire();
 }
 
 void Human::update(float dt)
@@ -44,4 +48,5 @@ void Human::update(float dt)
     this->move(dt);
 
     update_barrel();
+    if(bullet != 0) bullet->update(dt);
 }

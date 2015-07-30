@@ -1,26 +1,27 @@
 #include "Tank.hpp"
 
-Tank::Tank(TextureManager& textureManager, float x, float y) : Object(textureManager.getRef("tankBeige"), x, y, 83, 78)
+Tank::Tank(TextureManager& tM, float x, float y) : Object(tM.getRef("tankBeige"), x, y, 83, 78), textureManager(tM), bullet(nullptr)
 {
     sprite.rotate(90);
     barrel.rotate(90);
-    this->init_barrel(textureManager);
+    this->init_barrel();
     this->update_barrel();
 }
 
 
 Tank::~Tank()
 {
-
+    delete bullet;
 }
 
 void Tank::draw(sf::RenderWindow& window)
 {
     window.draw(sprite);
+    if(bullet != 0) bullet->draw(window);
     window.draw(barrel);
 }
 
-void Tank::init_barrel(TextureManager& textureManager)
+void Tank::init_barrel()
 {
     barrel.setOrigin(sf::Vector2f(12, 58));
     barrel.setTexture(textureManager.getRef("barrelBeige"));
@@ -52,5 +53,22 @@ void Tank::align_barrel(sf::Vector2f point)
     float angle = atan2(point.y - this->getPosition().y, point.x - this->getPosition().x) * 180 / PI;
     barrel.rotate(angle - barrel_angle);
     barrel_angle = angle;
-    std::cout << barrel_angle << std::endl;
+}
+
+void Tank::fire()
+{
+    sf::Time time = reloading.getElapsedTime();
+    if(time.asSeconds() > 1)
+    {
+        delete bullet;
+        bullet = new Bullet(textureManager, this->getPosition().x, this->getPosition().y, barrel_angle);
+        reloading.restart();
+    }
+}
+
+Bullet* Tank::getBullet()
+{
+    Bullet* bullet = this->bullet;
+    this->bullet = nullptr;
+    return bullet;
 }

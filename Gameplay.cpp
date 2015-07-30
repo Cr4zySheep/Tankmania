@@ -18,6 +18,12 @@ Gameplay::~Gameplay()
         delete tanks.back();
         tanks.pop_back();
     }
+
+    while(!bullets.empty())
+    {
+        delete bullets.back();
+        bullets.pop_back();
+    }
 }
 
 void Gameplay::handleInput()
@@ -51,12 +57,28 @@ void Gameplay::handleInput()
 
 void Gameplay::update(float dt)
 {
-    for(auto tank : tanks) map.handle_collision(*tank, dt);
+    //Récupération des obus
+    for(auto tank : tanks)
+    {
+        Bullet* bullet = tank->getBullet();
+        if(bullet != nullptr) bullets.push_back(bullet);
+    }
 
+    //Collisions
+    for(auto tank : tanks) map.handle_collision(*tank, dt);
+    for(uint a(0); a < bullets.size(); a++) if(map.handle_collision(*bullets[a], dt))
+    {
+        delete bullets[a];
+        bullets.erase(bullets.begin() + a);
+    }
+
+    //Alignement canon / souris
     sf::Vector2i mouse = sf::Mouse::getPosition(game->window);
     tanks[tankToFollow]->align_barrel(game->window.mapPixelToCoords(mouse));
 
+
     for(auto tank : tanks) tank->update(dt);
+    for(auto bullet : bullets) bullet->update(dt);
 
     this->scrolling();
 }
@@ -64,7 +86,8 @@ void Gameplay::update(float dt)
 void Gameplay::draw()
 {
     map.draw_below(game->window);
-    for(auto& tank : tanks) tank->draw(game->window);
+    for(auto tank : tanks)     tank->draw(game->window);
+    for(auto bullet : bullets) bullet->draw(game->window);
     map.draw_above(game->window);
 }
 
@@ -112,4 +135,7 @@ void Gameplay::load_textures()
     textureManager.loadTexture("oil", "rsc/Obstacles/oil.png");
     textureManager.loadTexture("treeLarge", "rsc/Environment/treeLarge.png");
     textureManager.loadTexture("treeSmall", "rsc/Environment/treeSmall.png");
+
+    //Munitions
+    textureManager.loadTexture("bulletBeige", "rsc/Bullets/bulletBeige_outline.png");
 }

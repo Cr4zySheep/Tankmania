@@ -46,6 +46,8 @@
 		</Linker>
 		<Unit filename="Barrel.cpp" />
 		<Unit filename="Barrel.hpp" />
+		<Unit filename="Bullet.cpp" />
+		<Unit filename="Bullet.hpp" />
 		<Unit filename="Core/CollisionManager.cpp" />
 		<Unit filename="Core/CollisionManager.hpp" />
 		<Unit filename="Core/FontManager.cpp" />

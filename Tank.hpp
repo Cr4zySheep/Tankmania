@@ -1,8 +1,7 @@
 #ifndef TANK_HPP_INCLUDED
 #define TANK_HPP_INCLUDED
 
-#include "Core/Object.hpp"
-#include "Core/TextureManager.hpp"
+#include "Bullet.hpp"
 
 constexpr float tank_velocity_max(400);
 
@@ -11,13 +10,17 @@ class Tank : public Object
 protected:
     sf::Sprite barrel;
     float barrel_angle;
-    void init_barrel(TextureManager& textureManager);
+    Bullet* bullet;
+    sf::Clock reloading;
+    void init_barrel();
     void update_barrel();
 
     void regulate_velocity();
 
+    TextureManager& textureManager;
+
 public:
-    Tank(TextureManager& textureManager, float x, float y);
+    Tank(TextureManager& tM, float x, float y);
     virtual ~Tank();
 
     void handleInput() = 0;
@@ -26,6 +29,9 @@ public:
 
     void change_direction(float const new_direction);
     void align_barrel(sf::Vector2f point);
+    void fire();
+
+    Bullet* getBullet();
 };
 
 #endif // TANK_HPP_INCLUDED

@@ -101,7 +101,7 @@ void Object::calculate_MotionVector()
 
 void Object::change_direction(float const new_direction)
 {
-    direction = new_direction + 180;
+    direction = new_direction;
 
     //Recalcule du vecteur de déplacement
     this->calculate_MotionVector();
@@ -117,7 +117,7 @@ void Object::change_velocity(float const new_velocity)
 
 void Object::change_movement(float const new_direction, float const new_velocity)
 {
-    direction = new_direction + 180;
+    direction = new_direction;
     velocity = new_velocity;
 
     //Recalcule du vecteur de déplacement

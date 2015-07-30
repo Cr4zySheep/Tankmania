@@ -17,6 +17,7 @@ private:
 
     Map map;
     std::vector<Tank*> tanks;
+    std::vector<Bullet*> bullets;
 
     //Centre la view sur ce char
     unsigned int tankToFollow;
