@@ -2,6 +2,8 @@
 
 int main()
 {
+    srand(time(nullptr));
+
     Game game;
     try {
         game.addState(new Gameplay(&game));

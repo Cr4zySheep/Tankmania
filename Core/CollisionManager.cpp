@@ -23,5 +23,8 @@ bool CollisionManager::collide(Object& object1, Object& object2, float dt)
     {
         object1.change_velocity(0);
         object2.change_velocity(0);
+        return true;
     }
+
+    return false;
 }

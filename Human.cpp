@@ -14,15 +14,11 @@ void Human::handleInput()
 {
     if(sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
     {
-        sprite.rotate(-3);
-        barrel.rotate(-3);
-        direction += 3;
+        this->change_direction(direction + 3);
     }
     if(sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
     {
-        sprite.rotate(3);
-        barrel.rotate(3);
-        direction += -3;
+        this->change_direction(direction - 3);
     }
 
     if(sf::Keyboard::isKeyPressed(sf::Keyboard::Up))

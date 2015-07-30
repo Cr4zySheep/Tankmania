@@ -65,6 +65,8 @@
 		<Unit filename="Map.hpp" />
 		<Unit filename="Tank.cpp" />
 		<Unit filename="Tank.hpp" />
+		<Unit filename="Tree.cpp" />
+		<Unit filename="Tree.hpp" />
 		<Unit filename="main.cpp" />
 		<Extensions>
 			<code_completion />

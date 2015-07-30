@@ -39,3 +39,18 @@ void Tank::regulate_velocity()
     if(velocity < tank_velocity_max * -1) velocity = tank_velocity_max * -1;
     if(velocity > tank_velocity_max) velocity = tank_velocity_max;
 }
+
+void Tank::change_direction(float const new_direction)
+{
+    float angle = direction - new_direction;
+    sprite.rotate(angle);
+    direction = new_direction;
+}
+
+void Tank::align_barrel(sf::Vector2f point)
+{
+    float angle = atan2(point.y - this->getPosition().y, point.x - this->getPosition().x) * 180 / PI;
+    barrel.rotate(angle - barrel_angle);
+    barrel_angle = angle;
+    std::cout << barrel_angle << std::endl;
+}

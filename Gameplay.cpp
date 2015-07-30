@@ -1,11 +1,11 @@
 #include "Gameplay.hpp"
 
-Gameplay::Gameplay(Game* game)
+Gameplay::Gameplay(Game* game) : map(textureManager)
 {
     this->game = game;
     this->adapt_view_to_window();
     this->load_textures();
-    map.create(textureManager);
+    map.create();
 
     tanks.push_back(new Human(textureManager, 200, 200));
     tankToFollow = tanks.size() - 1;
@@ -38,6 +38,10 @@ void Gameplay::handleInput()
 
         case sf::Event::KeyPressed:
             if(event.key.code == sf::Keyboard::Escape) game->window.close();
+            if(event.key.code == sf::Keyboard::Space)
+            {
+                game->changeState(new Gameplay(game));
+            }
             break;
         }
     }
@@ -49,6 +53,9 @@ void Gameplay::update(float dt)
 {
     for(auto tank : tanks) map.handle_collision(*tank, dt);
 
+    sf::Vector2i mouse = sf::Mouse::getPosition(game->window);
+    tanks[tankToFollow]->align_barrel(game->window.mapPixelToCoords(mouse));
+
     for(auto tank : tanks) tank->update(dt);
 
     this->scrolling();
@@ -56,8 +63,9 @@ void Gameplay::update(float dt)
 
 void Gameplay::draw()
 {
-    map.draw(game->window);
+    map.draw_below(game->window);
     for(auto& tank : tanks) tank->draw(game->window);
+    map.draw_above(game->window);
 }
 
 void Gameplay::adapt_view_to_window()
@@ -90,6 +98,7 @@ void Gameplay::load_textures()
 {
     //Sols
     textureManager.loadTexture("dirt", "rsc/Environment/dirt.png");
+    textureManager.loadTexture("grass", "rsc/Environment/grass.png");
 
     //Tanks
     textureManager.loadTexture("tankBeige", "rsc/Tanks/tankBeige_outline.png");
@@ -98,4 +107,9 @@ void Gameplay::load_textures()
     //Obstacles
     textureManager.loadTexture("barrelSide", "rsc/Obstacles/barrelGreen_side.png");
     textureManager.loadTexture("barrelUp", "rsc/Obstacles/barrelGreen_up.png");
+
+    //Décors
+    textureManager.loadTexture("oil", "rsc/Obstacles/oil.png");
+    textureManager.loadTexture("treeLarge", "rsc/Environment/treeLarge.png");
+    textureManager.loadTexture("treeSmall", "rsc/Environment/treeSmall.png");
 }

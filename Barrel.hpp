@@ -11,6 +11,7 @@ private:
     bool destroyed;
 
 public:
+    Barrel();
     Barrel(TextureManager& TextureManager, bool topdown, float x, float y, bool indestructible = false);
     ~Barrel();
 
@@ -18,8 +19,12 @@ public:
     void update(float dt);
     void draw(sf::RenderWindow& window);
 
+    void setTexture(TextureManager& textureManager, bool topdown);
+
     bool isDestroyed() const;
     void destroy();
+
+    void change_direction(float const new_direction);
 };
 
 #endif // BARREL_HPP_INCLUDED
