@@ -8,7 +8,7 @@ Bullet::Bullet(TextureManager& textureManager, float x, float y, float direction
 
     this->setTexture(textureManager.getRef("bulletBeige"), 20, 34);
     this->setPosition(x, y);
-    collisionData.radius = 5;
+    collisionData.circle.radius = 5;
 }
 
 Bullet::~Bullet()

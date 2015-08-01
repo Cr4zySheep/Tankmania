@@ -6,6 +6,8 @@ Tree::Tree(TextureManager& textureManager, float x, float y)
 
     if(rand() % 2) this->setTexture(textureManager.getRef("treeSmall"), 87, 87);
     else           this->setTexture(textureManager.getRef("treeLarge"), 98, 107);
+
+    sprite.setColor(sf::Color(255, 255, 255, 210));
 }
 
 Tree::~Tree()

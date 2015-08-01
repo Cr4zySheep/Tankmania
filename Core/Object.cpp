@@ -45,19 +45,14 @@ float Object::left() const
     return sprite.getGlobalBounds().left;
 }
 
-float Object::right() const
-{
-    return this->left() + sprite.getGlobalBounds().width;
-}
-
 float Object::top() const
 {
     return sprite.getGlobalBounds().top;
 }
 
-float Object::bottom() const
+float Object::getVelocity() const
 {
-    return this->top() + sprite.getGlobalBounds().height;
+    return velocity;
 }
 
 float Object::getWidth() const
@@ -152,9 +147,15 @@ bool Object::isMovingToBottom() const
     else return false;
 }
 
-Circle Object::getCollisionData(float dt)
+CollisionData Object::getCollisionData(float dt)
 {
-    collisionData.center.x = this->getPosition().x + this->getMotionVector().x * dt;
-    collisionData.center.y = this->getPosition().y + this->getMotionVector().y * dt;
+    //AABB
+    collisionData.aabb.box = sprite.getGlobalBounds();
+    collisionData.aabb.box.left += this->getMotionVector().x * dt;
+    collisionData.aabb.box.top += this->getMotionVector().y * dt;
+
+    //Circle
+    collisionData.circle.center.x = this->getPosition().x + this->getMotionVector().x * dt;
+    collisionData.circle.center.y = this->getPosition().y + this->getMotionVector().y * dt;
     return collisionData;
 }

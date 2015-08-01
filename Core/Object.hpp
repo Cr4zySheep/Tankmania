@@ -18,7 +18,7 @@ protected:
 
     /* Gestion des collisions */
     bool collision; //Une collision a eu lieu
-    Circle collisionData;
+    CollisionData collisionData;
 
     /* Gestion des déplacement */
     float velocity;  //Vitesse
@@ -48,11 +48,10 @@ public:
     sf::Vector2f getOrigin() const;
     sf::Vector2f getPosition() const;
 
-    Circle getCollisionData(float dt);
+    CollisionData getCollisionData(float dt);
     float left() const;
-    float right() const;
-    float bottom() const;
     float top() const;
+    float getVelocity() const;
     float getWidth() const;
     float getHeight() const;
 
