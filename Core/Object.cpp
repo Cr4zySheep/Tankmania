@@ -151,3 +151,10 @@ bool Object::isMovingToBottom() const
     if(sin(direction * PI / 180) <= 0) return true;
     else return false;
 }
+
+Circle Object::getCollisionData(float dt)
+{
+    collisionData.center.x = this->getPosition().x + this->getMotionVector().x * dt;
+    collisionData.center.y = this->getPosition().y + this->getMotionVector().y * dt;
+    return collisionData;
+}

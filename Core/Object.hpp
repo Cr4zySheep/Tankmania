@@ -3,7 +3,7 @@
 
 #include <SFML/Graphics.hpp>
 #include <vector>
-#include <math.h>
+#include "CollisionManager.hpp"
 #include <iostream>
 constexpr float PI = 3.1415927;
 
@@ -15,8 +15,10 @@ protected:
     unsigned int width;
     unsigned int height;
 
+
     /* Gestion des collisions */
     bool collision; //Une collision a eu lieu
+    Circle collisionData;
 
     /* Gestion des déplacement */
     float velocity;  //Vitesse
@@ -46,6 +48,7 @@ public:
     sf::Vector2f getOrigin() const;
     sf::Vector2f getPosition() const;
 
+    Circle getCollisionData(float dt);
     float left() const;
     float right() const;
     float bottom() const;

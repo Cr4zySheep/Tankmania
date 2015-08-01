@@ -37,6 +37,7 @@ void Human::handleInput()
     }
 
     this->regulate_velocity();
+    this->calculate_MotionVector();
 
     //Tir
     if(sf::Mouse::isButtonPressed(sf::Mouse::Left)) this->fire();
@@ -44,7 +45,6 @@ void Human::handleInput()
 
 void Human::update(float dt)
 {
-    this->calculate_MotionVector();
     this->move(dt);
 
     update_barrel();

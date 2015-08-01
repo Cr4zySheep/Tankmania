@@ -6,6 +6,8 @@ Tank::Tank(TextureManager& tM, float x, float y) : Object(tM.getRef("tankBeige")
     barrel.rotate(90);
     this->init_barrel();
     this->update_barrel();
+    this->collisionData.radius = 40;
+    this->collisionData.center = this->getPosition();
 }
 
 

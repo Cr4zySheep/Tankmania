@@ -9,6 +9,7 @@ Barrel::Barrel(TextureManager& textureManager, bool topdown, float x, float y, b
 {
     this->indestructible = indestructible;
     this->setPosition(x, y);
+    collisionData.center = this->getPosition();
     this->setTexture(textureManager, topdown);
 }
 
@@ -19,6 +20,7 @@ Barrel::~Barrel()
 
 void Barrel::setTexture(TextureManager& textureManager, bool topdown)
 {
+    collisionData.radius = 24;
     if(topdown) Object::setTexture(textureManager.getRef("barrelUp"), 48, 48);
     else        Object::setTexture(textureManager.getRef("barrelSide"), 44, 62);
 }
