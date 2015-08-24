@@ -11,7 +11,7 @@ Barrel::Barrel(TextureManager& textureManager, bool topdown, float x, float y, b
     this->setPosition(x, y);
     this->setTexture(textureManager, topdown);
 
-    collisionData.circle.center = this->getPosition();
+    collisionData.circle.center = Point(this->getPosition());
     collisionData.circle.radius = 24;
 }
 

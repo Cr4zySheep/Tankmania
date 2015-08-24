@@ -3,6 +3,7 @@
 
 #include "Core/GameState.hpp"
 #include "Human.hpp"
+#include "IA.hpp"
 #include "Map.hpp"
 #include <iostream>
 

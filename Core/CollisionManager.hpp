@@ -7,10 +7,21 @@
 struct Point {
     float x;
     float y;
+
+    Point()
+    {}
+
+    Point(sf::Vector2f pos) : x(pos.x), y(pos.y)
+    {}
+
+    //Distance euclidienne
+    static float distance(Point p1, Point p2) {
+        return (p2.x - p1.x) * (p2.x - p1.x) + (p2.y - p1.y) * (p2.y - p1.y);
+    }
 };
 
 struct Circle {
-    sf::Vector2f center;
+    Point center;
     int radius;
 };
 

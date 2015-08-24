@@ -44,7 +44,7 @@ void Map::create()
     }
 
     uint width((map_width - 2) * 128),
-        height((map_height - 2) * 128);
+         height((map_height - 2) * 128);
 
     //Generate puddle of oil
     for(uint a(0); a < 10 + rand() % 20; a++) this->create_puddleOfOil(128 + rand() % width , 128 + rand() % height);

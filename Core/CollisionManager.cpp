@@ -50,10 +50,7 @@ bool CollisionManager::circle_and_circle(Circle circle1, Circle circle2)
      * Donc si [OI] < A + B
      */
 
-     long x(circle2.center.x - circle1.center.x),
-          y(circle2.center.y - circle1.center.y);
-
-     int OI(x*x + y*y);
+     int OI(Point::distance(circle1.center, circle2.center));
 
      if(OI <= (circle1.radius + circle2.radius) * (circle1.radius + circle2.radius)) return true;
      else                                                                            return false;
