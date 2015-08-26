@@ -1,7 +1,7 @@
 #ifndef MAP_HPP_INCLUDED
 #define MAP_HPP_INCLUDED
 
-#include "Core/CollisionManager.hpp"
+#include "Pathfinding.hpp"
 #include "Tank.hpp"
 #include "Barrel.hpp"
 #include "Tree.hpp"
@@ -33,6 +33,7 @@ private:
     void create_puddleOfOil(float x, float y); //Créer une flaque d'huile aux coordonnées
     void create_barrel(float x, float y); //Créer un baril aux coordonnées
     void create_forest(float x, float y, uint number_of_tree); //Créer une forêt avec un nombre d'arbre prédéterminé
+    void create_scheme(); //Create a sheme for the pathfinding
 
 public:
     Map(TextureManager& tM);

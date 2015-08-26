@@ -7,7 +7,7 @@ Gameplay::Gameplay(Game* game) : map(textureManager)
     this->load_textures();
     map.create();
 
-    tanks.push_back(new IA(textureManager, 200, 200));
+    tanks.push_back(new IA(textureManager, 1000, 1000));
     tankToFollow = tanks.size() - 1;
 }
 
@@ -57,6 +57,7 @@ void Gameplay::handleInput()
 
 void Gameplay::update(float dt)
 {
+    if(dt > 1) dt = 1 / 60;
     //Récupération des obus
     for(auto tank : tanks)
     {

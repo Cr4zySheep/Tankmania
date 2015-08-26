@@ -150,9 +150,10 @@ bool Object::isMovingToBottom() const
 CollisionData Object::getCollisionData(float dt)
 {
     //AABB
-    collisionData.aabb.box = sprite.getGlobalBounds();
-    collisionData.aabb.box.left += this->getMotionVector().x * dt;
-    collisionData.aabb.box.top += this->getMotionVector().y * dt;
+    collisionData.aabb.w = this->getWidth();
+    collisionData.aabb.h = this->getHeight();
+    collisionData.aabb.x = this->left() + this->getMotionVector().x * dt;
+    collisionData.aabb.y = this->top() + this->getMotionVector().y * dt;
 
     //Circle
     collisionData.circle.center.x = this->getPosition().x + this->getMotionVector().x * dt;

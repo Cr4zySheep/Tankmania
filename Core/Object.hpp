@@ -12,8 +12,8 @@ class Object
 protected:
     /* Côté graphique */
     sf::Sprite sprite;
-    unsigned int width;
-    unsigned int height;
+    uint width;
+    uint height;
 
 
     /* Gestion des collisions */

@@ -54,6 +54,9 @@ void Map::create()
 
     //Generate forest
     for(uint a(0); a < 10 + rand() % 10; a++) this->create_forest(128 + rand() % width, 128 + rand() % height, 1 + rand() % 20);
+
+    this->create_scheme();
+    std::cout << "Map generated !" << std::endl;
 }
 
 void Map::draw_below(sf::RenderWindow& window)
@@ -78,6 +81,24 @@ bool Map::handle_collision(Object& object, float dt)
     for(auto& puddleOfOil : puddleOfOils) if(!puddleOfOil.barrel.isDestroyed()) if(CollisionManager::collide(object, puddleOfOil.barrel, dt)) return true;
 
     return false;
+}
+
+void Map::create_scheme()
+{
+    AABB node;
+    node.w = 32;
+    node.h = 32;
+    for(int x(0); x < 128 * 30 / 32; x++) for(int y(0); y < 128 * 30 / 30; y++)
+    {
+        bool obstacle(false);
+        node.x = x * 32;
+        node.y = y * 32;
+        for(auto& barrel : borders)           if(!barrel.isDestroyed())             if(CollisionManager::AABB_and_AABB(node, barrel.getCollisionData(0).aabb))             obstacle = true;
+        for(auto& barrel : barrels)           if(!barrel.isDestroyed())             if(CollisionManager::AABB_and_AABB(node, barrel.getCollisionData(0).aabb))             obstacle = true;
+        for(auto& puddleOfOil : puddleOfOils) if(!puddleOfOil.barrel.isDestroyed()) if(CollisionManager::AABB_and_AABB(node, puddleOfOil.barrel.getCollisionData(0).aabb)) obstacle = true;
+
+        Pathfinding::graph[std::pair<int, int>(x, y)] = Square(obstacle, 1);
+    }
 }
 
 void Map::create_puddleOfOil(float x, float y)

@@ -1,87 +1,110 @@
 #include "Pathfinding.hpp"
 using std::pair;
+using std::cout;
+using std::endl;
 
-std::map<std::pair<int, int>, bool> Pathfinding::graph;
+std::map<std::pair<int, int>, Square> Pathfinding::graph;
 
 std::vector<Point> Pathfinding::find_path(pair<int, int> const start, pair<int, int> const finish)
 {
     //Offset
     Graph open_list,    //All node already evaluate
           closed_list;  //Node can be choose for the final path
-    pair<int, int> current = start; //Current node selected
+    pair<int, int> current; //Current node selected
+    std::vector<Point> path; //Final path
 
-    //Starting loop
-    while(current != finish)
+    if(Pathfinding::graph[start].obstacle == true || Pathfinding::graph[finish].obstacle == true) return path;
+
+    //Add the starting node to the open_list
+    open_list[start] = Node(start);
+
+    //Until the target node isn't finded or the open_list isn't empty
+    while(1 == 1)
     {
-        //Evaluate his 8 neigthbors
-        for(int _x(-1); _x < 2; _x++) for(int _y(-1); _y < 2; _y++)
-        {
-            pair<int, int> actual(current.first  + _x, current.second + _y);
+        if(Pathfinding::exist(finish, closed_list)) break;
+        if(open_list.empty()) break;
 
-            //Node can be evaluate
-            if(actual.first < 0  || actual.first  >= limit_x ||
-               actual.second < 0 || actual.second >= limit_y)          continue;
-            if(!Pathfinding::exist(actual, closed_list)) continue;
-            if(Pathfinding::graph[actual])               continue;
-
-            //Evaluation
-            Node n;
-            n.G = closed_list[current].F;
-            n.H = heuristic(current, actual);
-
-            n.F = n.G + n.H;
-            n.parent = current;
-
-            //Add to the open_list
-            //Already inside
-            if(Pathfinding::exist(actual, open_list))
-            {
-                //Is this one best ?
-                if(open_list[actual].F > n.F)
-                //If yes, remplace the other
-                {
-                    open_list[actual] = n;
-                }
-                //If no, go away !
-            }
-            else {
-                open_list[actual] = n;
-            }
-        }
-
-        //Search the best node in the open_list
-        pair<int, int> best;
+        //Look for the lowest F in the open_list
         uint min(0);
-        for(auto& n : open_list)
-        {
-            if(min == 0 || n.second.F < min)
-            {
-                min = n.second.F;
-                best = n.first;
+        pair<int, int> current;
+        for(auto& i : open_list) {
+            if(min == 0 || i.second.F < min) {
+                min = i.second.F;
+                current = i.first;
             }
         }
 
-        //Add it to the closed_list
-        closed_list[best] = open_list[best];
+        //Switch it in the closed_list
+        closed_list[current] = open_list[current];
+        open_list.erase(current);
 
-        //Define it as the current node
-        current = best;
+        //Evaluate his neightbors
+        for(int _x(-1); _x < 2; _x++) for(int _y(-1); _y < 2; _y++) if(_x != 0 && _y != 0)
+        {
+            pair<int, int> node = current;
+            node.first  += _x;
+            node.second += _y;
 
-        //Remove it from the open_list
-        open_list.erase(best);
+            bool enoughPlace = Pathfinding::enough_place(node);
+            if(node == start || node == finish) enoughPlace = true;
+
+            //If not walkable or already in the closed_list, ignore it
+            if(node.first  < 0 || node.first  > 128 * 30 / 32 ||
+               node.second < 0 || node.second > 128 * 30 / 32 ||
+               Pathfinding::graph[node].obstacle == true || Pathfinding::exist(node, closed_list) || !enoughPlace) continue;
+            else {
+                //Determine G, H, F
+                Node n(current);
+                n.G = closed_list[current].F;
+                n.H = Pathfinding::graph[current].H;
+                n.F = n.H + n.G;
+
+                //Not in open_list, add it
+                if(!Pathfinding::exist(node, open_list)) {
+                    open_list[node] = n;
+                }
+                //Alreay in ? Is his new F lowest than the previous ? If yes, switch it
+                else {
+                    if(open_list[node].F > n.F) {
+                        open_list[node] = n;
+                    }
+                }
+            }
+        }
     }
 
-    std::vector<Point> path;
-
-    //Construct the path
-    current = finish;
-    while(current != start)
+    //Target node finded !
+    if(Pathfinding::exist(finish, closed_list))
     {
-        path.push_back(Point({(float)current.first * 32 + 16, (float)current.second * 32 + 16}));
-        current = closed_list[current].parent;
+        //Construct path
+        pair<int, int> last_node = finish;
+        while(last_node != start)
+        {
+            path.push_back(Point({(float)last_node.first * 32 + 16, (float)last_node.second * 32 + 16}));
+            last_node = closed_list[last_node].parent;
+        }
     }
 
     return path;
+}
+
+bool Pathfinding::enough_place(std::pair<int, int> node)
+{
+    bool enough(true);
+    for(int _x(-1); _x < 2 && enough; _x++) for(int _y(-1); _y < 2 && enough; _y++) if(_x != 0 && _y != 0)
+    {
+        pair<int, int> n = node;
+        n.first  += _x;
+        n.second += _y;
+        if(n.first  < 0 || n.first  > 128 * 30 / 32 ||
+           n.second < 0 || n.second > 128 * 30 / 32 ||
+           Pathfinding::graph[n].obstacle == true)
+        {
+            enough = false;
+        }
+    }
+
+    return enough;
 }
 
 bool Pathfinding::exist(pair<int, int> n, Graph& graph)
@@ -93,4 +116,9 @@ bool Pathfinding::exist(pair<int, int> n, Graph& graph)
 
 int Pathfinding::heuristic(std::pair<int, int> p1, std::pair<int, int> p2) {
     return (p2.first - p1.first) * (p2.first - p1.first) + (p2.second - p1.second) * (p2.second - p1.second);
+}
+
+pair<int, int> Pathfinding::convert_pos(sf::Vector2f pos)
+{
+    return pair<int, int>((int)(pos.x / 32), (int)(pos.y / 32));
 }

@@ -4,6 +4,8 @@
 #include <SFML/Graphics.hpp>
 #include <math.h>
 
+typedef unsigned int uint;
+
 struct Point {
     float x;
     float y;
@@ -26,7 +28,12 @@ struct Circle {
 };
 
 struct AABB {
-    sf::FloatRect box;
+    AABB() : x(0), y(0), w(0), h(0)
+    {
+
+    }
+
+    float x, y, w, h;
 };
 
 struct CollisionData {

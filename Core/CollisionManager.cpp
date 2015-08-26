@@ -58,9 +58,9 @@ bool CollisionManager::circle_and_circle(Circle circle1, Circle circle2)
 
 bool CollisionManager::AABB_and_AABB(AABB box1, AABB box2)
 {
-    if(box1.box.left > box2.box.left + box2.box.width ||
-       box1.box.left + box1.box.width < box2.box.left ||
-       box1.box.top > box2.box.top + box2.box.height  ||
-       box1.box.top + box1.box.height < box2.box.top) return false;
+    if(box1.x > box2.x + box2.w ||
+       box1.x + box1.w < box2.x ||
+       box1.y > box2.y + box2.h  ||
+       box1.y + box1.h < box2.y) return false;
     else return true;
 }

@@ -2,11 +2,12 @@
 #define IA_HPP_INCLUDED
 
 #include "Tank.hpp"
+#include "Pathfinding.hpp"
 
 class IA : public Tank
 {
 private:
-    Point point;
+    std::vector<Point> path;
 
 public:
     IA(TextureManager& textureManager, float x, float y);
