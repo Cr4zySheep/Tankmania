@@ -67,6 +67,8 @@
 		<Unit filename="IA.hpp" />
 		<Unit filename="Map.cpp" />
 		<Unit filename="Map.hpp" />
+		<Unit filename="Pathfinding.cpp" />
+		<Unit filename="Pathfinding.hpp" />
 		<Unit filename="Tank.cpp" />
 		<Unit filename="Tank.hpp" />
 		<Unit filename="Tree.cpp" />
