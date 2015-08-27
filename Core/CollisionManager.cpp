@@ -12,6 +12,9 @@ bool CollisionManager::collide(Object& object1, Object& object2, float dt)
     {
         if(circle_and_circle(obj1.circle, obj2.circle))
         {
+            object1.activeCollision();
+            object2.activeCollision();
+
             if(object1.getVelocity() < 0) object1.change_velocity(100);
             else                          object1.change_velocity(-100);
 
