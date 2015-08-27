@@ -1,7 +1,7 @@
 #ifndef MAP_HPP_INCLUDED
 #define MAP_HPP_INCLUDED
 
-#include "Pathfinding.hpp"
+#include "IA/Pathfinding.hpp"
 #include "Tank.hpp"
 #include "Barrel.hpp"
 #include "Tree.hpp"

@@ -8,7 +8,7 @@ class Bullet : public Object
 {
 public:
     uint const damage;
-    std::string const owner;
+    std::string const shooter;
 
     Bullet(TextureManager& textureManager, float x, float y, float direction, std::string const _owner);
     ~Bullet();

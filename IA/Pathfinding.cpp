@@ -49,8 +49,8 @@ std::vector<Point> Pathfinding::find_path(pair<int, int> const start, pair<int, 
             if(node == start || node == finish) enoughPlace = true;
 
             //If not walkable or already in the closed_list, ignore it
-            if(node.first  < 0 || node.first  > 128 * 30 / 32 ||
-               node.second < 0 || node.second > 128 * 30 / 32 ||
+            if(node.first  < 0 || node.first  > 128 * 30 / 64 ||
+               node.second < 0 || node.second > 128 * 30 / 64 ||
                Pathfinding::graph[node].obstacle == true || Pathfinding::exist(node, closed_list) || !enoughPlace) continue;
             else {
                 //Determine G, H, F
@@ -80,7 +80,7 @@ std::vector<Point> Pathfinding::find_path(pair<int, int> const start, pair<int, 
         pair<int, int> last_node = finish;
         while(last_node != start)
         {
-            path.push_back(Point({(float)last_node.first * 32 + 16, (float)last_node.second * 32 + 16}));
+            path.push_back(Point({(float)last_node.first * 64 + 32, (float)last_node.second * 64 + 32}));
             last_node = closed_list[last_node].parent;
         }
     }
@@ -90,19 +90,19 @@ std::vector<Point> Pathfinding::find_path(pair<int, int> const start, pair<int, 
 
 bool Pathfinding::enough_place(std::pair<int, int> node)
 {
-    bool enough(true);
+    bool enough(true);/*
     for(int _x(-1); _x < 2 && enough; _x++) for(int _y(-1); _y < 2 && enough; _y++) if(_x != 0 && _y != 0)
     {
         pair<int, int> n = node;
         n.first  += _x;
         n.second += _y;
-        if(n.first  < 0 || n.first  > 128 * 30 / 32 ||
-           n.second < 0 || n.second > 128 * 30 / 32 ||
+        if(n.first  < 0 || n.first  > 128 * 30 / 64 ||
+           n.second < 0 || n.second > 128 * 30 / 64 ||
            Pathfinding::graph[n].obstacle == true)
         {
             enough = false;
         }
-    }
+    }*/
 
     return enough;
 }
@@ -120,5 +120,5 @@ int Pathfinding::heuristic(std::pair<int, int> p1, std::pair<int, int> p2) {
 
 pair<int, int> Pathfinding::convert_pos(sf::Vector2f pos)
 {
-    return pair<int, int>((int)(pos.x / 32), (int)(pos.y / 32));
+    return pair<int, int>((int)(pos.x / 64), (int)(pos.y / 64));
 }

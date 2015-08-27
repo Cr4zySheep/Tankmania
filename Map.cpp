@@ -85,20 +85,24 @@ bool Map::handle_collision(Object& object, float dt)
 
 void Map::create_scheme()
 {
+    int a(64);
     AABB node;
-    node.w = 32;
-    node.h = 32;
-    for(int x(0); x < 128 * 30 / 32; x++) for(int y(0); y < 128 * 30 / 30; y++)
+    node.w = a;
+    node.h = a;
+    for(int x(0); x < 128 * 30 / a; x++) for(int y(0); y < 128 * 30 / a; y++)
     {
         bool obstacle(false);
-        node.x = x * 32;
-        node.y = y * 32;
+        node.x = x * a;
+        node.y = y * a;
         for(auto& barrel : borders)           if(!barrel.isDestroyed())             if(CollisionManager::AABB_and_AABB(node, barrel.getCollisionData(0).aabb))             obstacle = true;
         for(auto& barrel : barrels)           if(!barrel.isDestroyed())             if(CollisionManager::AABB_and_AABB(node, barrel.getCollisionData(0).aabb))             obstacle = true;
         for(auto& puddleOfOil : puddleOfOils) if(!puddleOfOil.barrel.isDestroyed()) if(CollisionManager::AABB_and_AABB(node, puddleOfOil.barrel.getCollisionData(0).aabb)) obstacle = true;
 
         Pathfinding::graph[std::pair<int, int>(x, y)] = Square(obstacle, 1);
     }
+
+    int b(0);
+    for(auto& i : Pathfinding::graph) if(i.second.obstacle) b++;
 }
 
 void Map::create_puddleOfOil(float x, float y)

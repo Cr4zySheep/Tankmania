@@ -3,7 +3,7 @@
 
 #include "Core/GameState.hpp"
 #include "Human.hpp"
-#include "IA.hpp"
+#include "IA/IA.hpp"
 #include "Map.hpp"
 #include <iostream>
 
@@ -17,11 +17,11 @@ private:
     void load_textures();
 
     Map map;
-    std::vector<Tank*> tanks;
+    std::map<std::string, Tank*> tanks;
     std::vector<Bullet*> bullets;
 
     //Centre la view sur ce char
-    unsigned int tankToFollow;
+    std::string tankToFollow;
     void scrolling();
 
 public:

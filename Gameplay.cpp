@@ -7,16 +7,16 @@ Gameplay::Gameplay(Game* game) : map(textureManager)
     this->load_textures();
     map.create();
 
-    tanks.push_back(new IA(textureManager, 1000, 1000));
-    tankToFollow = tanks.size() - 1;
+    tanks["bot1"] = new IA(textureManager, 500, 1000, "bot1", tanks);
+    tanks["human"] = new Human(textureManager, 1000, 1000, "human");
+    tankToFollow = "human";
 }
 
 Gameplay::~Gameplay()
 {
-    while(!tanks.empty())
+    for(auto& tank : tanks)
     {
-        delete tanks.back();
-        tanks.pop_back();
+        delete tank.second;
     }
 
     while(!bullets.empty())
@@ -52,44 +52,45 @@ void Gameplay::handleInput()
         }
     }
 
-    for(auto& tank : tanks) tank->handleInput();
+    for(auto& tank : tanks) tank.second->handleInput();
 }
 
 void Gameplay::update(float dt)
 {
     if(dt > 1) dt = 1 / 60;
-    //Récupération des obus
-    for(auto tank : tanks)
-    {
-        Bullet* bullet = tank->getBullet();
-        if(bullet != nullptr) bullets.push_back(bullet);
-    }
 
-    //Collisions map
-    for(auto tank : tanks) map.handle_collision(*tank, dt);
-    for(int a(bullets.size() - 1); a >= 0; a--) if(map.handle_collision(*bullets[a], dt))
+    for(auto& tank : tanks)
     {
-        delete bullets[a];
-        bullets.erase(bullets.begin() + a);
-    }
-    else for(auto tank : tanks) if(CollisionManager::collide(*tank, *bullets[a], dt, false) && tank->name != bullets[a]->owner)
-    {
-        tank->damaged(bullets[a]);
-        delete bullets[a];
-        bullets.erase(bullets.begin() + a);
+        //Récupération des obus
+        Bullet* bullet = tank.second->getBullet();
+        if(bullet != nullptr) bullets.push_back(bullet);
+
+        //Collisions map
+        map.handle_collision(*tank.second, dt);
+        for(int a(bullets.size() - 1); a >= 0; a--)
+        {
+            if(map.handle_collision(*bullets[a], dt))
+            {
+                delete bullets[a];
+                bullets.erase(bullets.begin() + a);
+            }
+            else if(CollisionManager::collide(*tank.second, *bullets[a], dt, false) && tank.second->name != bullets[a]->shooter)
+            {
+                tank.second->damaged(bullets[a]);
+                delete bullets[a];
+                bullets.erase(bullets.begin() + a);
+            }
+            else bullets[a]->update(dt);
+        }
+
+        //Respawn
+        if(tank.second->isDestroyed()) tank.second->respawn({1000, 1000});
+        else tank.second->update(dt);
     }
 
     //Alignement canon / souris
     sf::Vector2i mouse = sf::Mouse::getPosition(game->window);
     tanks[tankToFollow]->align_barrel(game->window.mapPixelToCoords(mouse));
-
-
-    for(auto tank : tanks)
-    {
-        if(tank->isDestroyed()) tank->respawn({1000, 1000});
-        else tank->update(dt);
-    }
-    for(auto bullet : bullets) bullet->update(dt);
 
     this->scrolling();
 }
@@ -97,7 +98,7 @@ void Gameplay::update(float dt)
 void Gameplay::draw()
 {
     map.draw_below(game->window);
-    for(auto tank : tanks)     tank->draw(game->window);
+    for(auto& tank : tanks)     tank.second->draw(game->window);
     for(auto bullet : bullets) bullet->draw(game->window);
     map.draw_above(game->window);
 }

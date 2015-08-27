@@ -3,7 +3,7 @@
 
 #include <map>
 #include <vector>
-#include "Core/CollisionManager.hpp"
+#include "../Core/CollisionManager.hpp"
 #include <iostream>
 
 constexpr int limit_x = 128 * 30 / 32;
@@ -45,8 +45,9 @@ private:
     static int heuristic(std::pair<int, int> p1, std::pair<int, int> p2);
     static bool enough_place(std::pair<int, int> node);
 public:
-    static std::pair<int, int> convert_pos(sf::Vector2f pos);
     static std::map<std::pair<int, int>, Square> graph;
+
+    static std::pair<int, int> convert_pos(sf::Vector2f pos);
     static std::vector<Point> find_path(std::pair<int, int> const start, std::pair<int, int> const finish);
 
 };
