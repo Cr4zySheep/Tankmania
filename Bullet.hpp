@@ -6,10 +6,11 @@
 
 class Bullet : public Object
 {
-private:
-
 public:
-    Bullet(TextureManager& textureManager, float x, float y, float direction);
+    uint const damage;
+    std::string const owner;
+
+    Bullet(TextureManager& textureManager, float x, float y, float direction, std::string const _owner);
     ~Bullet();
 
     void handleInput();

@@ -50,7 +50,7 @@ public:
     static bool circle_and_point(Circle circle, Point point);
     static bool circle_and_circle(Circle circle1, Circle circle2);
 
-    static bool collide(Object& object1, Object& object2, float dt);
+    static bool collide(Object& object1, Object& object2, float dt, bool react = true);
 };
 
 #endif // COLLISIONMANAGER_HPP_INCLUDED

@@ -1,6 +1,6 @@
 #include "IA.hpp"
 
-IA::IA(TextureManager &textureManager, float x, float y) : Tank(textureManager, x, y)
+IA::IA(TextureManager &textureManager, float x, float y) : Tank(textureManager, x, y, "bot")
 {
     state.type = IA_WAIT;
 }
@@ -38,13 +38,8 @@ void IA::handleInput()
                 state.type = IA_WAIT;
             }
 
-            //Encore loin du prochain point ?
-            if(Point::distance(Point(this->getPosition()), point) > 300)
-            {
-                velocity += 10;
-            }
-            //Ou on peut passer au suivant ?
-            else if(Point::distance(Point(this->getPosition()), point) <= 16)
+            //Peut-on passer au suivant ?
+            if(Point::distance(Point(this->getPosition()), point) <= 16)
             {
                 velocity -= 10;
                 path.pop_back();
@@ -67,6 +62,11 @@ void IA::handleInput()
             velocity -= 10;
             if(velocity < 0) velocity = 0;
         }
+        else if(velocity < 0)
+        {
+            velocity += 10;
+            if(velocity > 0) velocity = 0;
+        }
         if(velocity == 0) {
             state.type = IA_SEARCH_PATH;
             state.data.path.destination = Point({rand() % 128 * 30, rand() % 128 * 30});
@@ -84,6 +84,7 @@ void IA::update(float dt)
         state.data.path.path.clear();
         state.type = IA_WAIT;
         collision = false;
+        std::cout << "Collision !";
     }
 
     this->move(dt);

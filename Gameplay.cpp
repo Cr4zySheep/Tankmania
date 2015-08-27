@@ -7,7 +7,7 @@ Gameplay::Gameplay(Game* game) : map(textureManager)
     this->load_textures();
     map.create();
 
-    tanks.push_back(new Human(textureManager, 1000, 1000));
+    tanks.push_back(new IA(textureManager, 1000, 1000));
     tankToFollow = tanks.size() - 1;
 }
 
@@ -65,10 +65,16 @@ void Gameplay::update(float dt)
         if(bullet != nullptr) bullets.push_back(bullet);
     }
 
-    //Collisions
+    //Collisions map
     for(auto tank : tanks) map.handle_collision(*tank, dt);
-    for(uint a(0); a < bullets.size(); a++) if(map.handle_collision(*bullets[a], dt))
+    for(int a(bullets.size() - 1); a >= 0; a--) if(map.handle_collision(*bullets[a], dt))
     {
+        delete bullets[a];
+        bullets.erase(bullets.begin() + a);
+    }
+    else for(auto tank : tanks) if(CollisionManager::collide(*tank, *bullets[a], dt, false) && tank->name != bullets[a]->owner)
+    {
+        tank->damaged(bullets[a]);
         delete bullets[a];
         bullets.erase(bullets.begin() + a);
     }
@@ -78,7 +84,11 @@ void Gameplay::update(float dt)
     tanks[tankToFollow]->align_barrel(game->window.mapPixelToCoords(mouse));
 
 
-    for(auto tank : tanks) tank->update(dt);
+    for(auto tank : tanks)
+    {
+        if(tank->isDestroyed()) tank->respawn({1000, 1000});
+        else tank->update(dt);
+    }
     for(auto bullet : bullets) bullet->update(dt);
 
     this->scrolling();

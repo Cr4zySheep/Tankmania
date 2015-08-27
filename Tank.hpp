@@ -20,9 +20,11 @@ protected:
 
     TextureManager& textureManager;
     HealthBar health;
+    bool destroyed;
 
 public:
-    Tank(TextureManager& tM, float x, float y);
+    std::string const name;
+    Tank(TextureManager& tM, float x, float y, std::string const _name);
     virtual ~Tank();
 
     void handleInput() = 0;
@@ -32,7 +34,10 @@ public:
     void change_direction(float const new_direction);
     void align_barrel(sf::Vector2f point);
     void fire();
+    void damaged(Bullet* bullet);
+    void respawn(sf::Vector2f pos);
 
+    bool isDestroyed() const;
     Bullet* getBullet();
 };
 

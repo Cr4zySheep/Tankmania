@@ -2,7 +2,8 @@
 
 Barrel::Barrel() : indestructible(false)
 {
-
+    collisionData.circle.center = Point(this->getPosition());
+    collisionData.circle.radius = 24;
 }
 
 Barrel::Barrel(TextureManager& textureManager, bool topdown, float x, float y, bool indestructible) : destroyed(false)

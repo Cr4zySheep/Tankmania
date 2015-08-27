@@ -3,7 +3,7 @@
 #include <iostream>
 using namespace std;
 
-bool CollisionManager::collide(Object& object1, Object& object2, float dt)
+bool CollisionManager::collide(Object& object1, Object& object2, float dt, bool react)
 {
     CollisionData obj1 = object1.getCollisionData(dt);
     CollisionData obj2 = object2.getCollisionData(dt);
@@ -12,14 +12,17 @@ bool CollisionManager::collide(Object& object1, Object& object2, float dt)
     {
         if(circle_and_circle(obj1.circle, obj2.circle))
         {
-            object1.activeCollision();
-            object2.activeCollision();
+            if(react)
+            {
+                object1.activeCollision();
+                object2.activeCollision();
 
-            if(object1.getVelocity() < 0) object1.change_velocity(100);
-            else                          object1.change_velocity(-100);
+                if(object1.getVelocity() < 0) object1.change_velocity(100);
+                else                          object1.change_velocity(-100);
 
-            if(object2.getVelocity() < 0) object2.change_velocity(100);
-            else                          object2.change_velocity(-100);
+                if(object2.getVelocity() < 0) object2.change_velocity(100);
+                else                          object2.change_velocity(-100);
+            }
 
             return true;
         }

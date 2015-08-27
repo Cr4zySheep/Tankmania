@@ -1,6 +1,6 @@
 #include "Tank.hpp"
 
-Tank::Tank(TextureManager& tM, float x, float y) : Object(tM.getRef("tankBeige"), x, y, 83, 78), textureManager(tM), bullet(nullptr), health(100)
+Tank::Tank(TextureManager& tM, float x, float y, std::string _name) : Object(tM.getRef("tankBeige"), x, y, 83, 78), textureManager(tM), bullet(nullptr), health(100), destroyed(false), name(_name)
 {
     sprite.rotate(90);
     barrel.rotate(90);
@@ -18,6 +18,12 @@ Tank::~Tank()
 
 void Tank::draw(sf::RenderWindow& window)
 {
+    //Died ?
+    if(health.get_health() == 0)
+    {
+        destroyed = true;
+    }
+
     //HealthBar
     health.update({this->getPosition().x, this->getPosition().y + 50});
     health.draw(window);
@@ -68,7 +74,7 @@ void Tank::fire()
     if(time.asSeconds() > 1)
     {
         delete bullet;
-        bullet = new Bullet(textureManager, this->getPosition().x, this->getPosition().y, barrel_angle);
+        bullet = new Bullet(textureManager, this->getPosition().x, this->getPosition().y, barrel_angle, name);
         reloading.restart();
     }
 }
@@ -78,4 +84,23 @@ Bullet* Tank::getBullet()
     Bullet* bullet = this->bullet;
     this->bullet = nullptr;
     return bullet;
+}
+
+bool Tank::isDestroyed() const
+{
+    return destroyed;
+}
+
+void Tank::damaged(Bullet* bullet)
+{
+    health.remove(bullet->damage);
+}
+
+void Tank::respawn(sf::Vector2f pos)
+{
+    destroyed = false;
+    sprite.setPosition(pos);
+    barrel.setPosition(pos);
+    velocity = 0;
+    health.set_health(health.get_max());
 }
