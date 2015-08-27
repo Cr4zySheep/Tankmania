@@ -2,6 +2,7 @@
 #define TANK_HPP_INCLUDED
 
 #include "Bullet.hpp"
+#include "HealthBar.hpp"
 
 constexpr float tank_velocity_max(400);
 
@@ -18,6 +19,7 @@ protected:
     void regulate_velocity();
 
     TextureManager& textureManager;
+    HealthBar health;
 
 public:
     Tank(TextureManager& tM, float x, float y);

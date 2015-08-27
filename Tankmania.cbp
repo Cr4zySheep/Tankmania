@@ -61,6 +61,8 @@
 		<Unit filename="Core/TextureManager.hpp" />
 		<Unit filename="Gameplay.cpp" />
 		<Unit filename="Gameplay.hpp" />
+		<Unit filename="HealthBar.cpp" />
+		<Unit filename="HealthBar.hpp" />
 		<Unit filename="Human.cpp" />
 		<Unit filename="Human.hpp" />
 		<Unit filename="IA.cpp" />

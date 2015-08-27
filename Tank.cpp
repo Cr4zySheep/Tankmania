@@ -1,6 +1,6 @@
 #include "Tank.hpp"
 
-Tank::Tank(TextureManager& tM, float x, float y) : Object(tM.getRef("tankBeige"), x, y, 83, 78), textureManager(tM), bullet(nullptr)
+Tank::Tank(TextureManager& tM, float x, float y) : Object(tM.getRef("tankBeige"), x, y, 83, 78), textureManager(tM), bullet(nullptr), health(100)
 {
     sprite.rotate(90);
     barrel.rotate(90);
@@ -11,7 +11,6 @@ Tank::Tank(TextureManager& tM, float x, float y) : Object(tM.getRef("tankBeige")
     collisionData.circle.center = this->getPosition();
 }
 
-
 Tank::~Tank()
 {
     delete bullet;
@@ -19,6 +18,11 @@ Tank::~Tank()
 
 void Tank::draw(sf::RenderWindow& window)
 {
+    //HealthBar
+    health.update({this->getPosition().x, this->getPosition().y + 50});
+    health.draw(window);
+
+    //Tank
     window.draw(sprite);
     if(bullet != 0) bullet->draw(window);
     window.draw(barrel);

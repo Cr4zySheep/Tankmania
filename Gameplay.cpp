@@ -7,7 +7,7 @@ Gameplay::Gameplay(Game* game) : map(textureManager)
     this->load_textures();
     map.create();
 
-    tanks.push_back(new IA(textureManager, 1000, 1000));
+    tanks.push_back(new Human(textureManager, 1000, 1000));
     tankToFollow = tanks.size() - 1;
 }
 
@@ -75,7 +75,7 @@ void Gameplay::update(float dt)
 
     //Alignement canon / souris
     sf::Vector2i mouse = sf::Mouse::getPosition(game->window);
-    //tanks[tankToFollow]->align_barrel(game->window.mapPixelToCoords(mouse));
+    tanks[tankToFollow]->align_barrel(game->window.mapPixelToCoords(mouse));
 
 
     for(auto tank : tanks) tank->update(dt);
