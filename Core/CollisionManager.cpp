@@ -14,20 +14,23 @@ bool CollisionManager::collide(Object& object1, Object& object2, float dt, bool 
         {
             if(react)
             {
-                object1.activeCollision();
-                object2.activeCollision();
+                if(!object1.already_collided())
+                {
+                    object1.activeCollision();
+                    if(object1.getVelocity() < 0) object1.change_velocity(100);
+                    else                          object1.change_velocity(-100);
+                }
 
-                if(object1.getVelocity() < 0) object1.change_velocity(100);
-                else                          object1.change_velocity(-100);
-
-                if(object2.getVelocity() < 0) object2.change_velocity(100);
-                else                          object2.change_velocity(-100);
+                if(!object2.already_collided())
+                {
+                    object2.activeCollision();
+                    if(object2.getVelocity() < 0) object2.change_velocity(100);
+                    else                          object2.change_velocity(-100);
+                }
             }
-
             return true;
         }
     }
-
     return false;
 }
 
@@ -56,7 +59,7 @@ bool CollisionManager::circle_and_circle(Circle circle1, Circle circle2)
      * Donc si [OI] < A + B
      */
 
-     int OI(Point::distance(circle1.center, circle2.center));
+     auto OI(Point::distance(circle1.center, circle2.center));
 
      if(OI <= (circle1.radius + circle2.radius) * (circle1.radius + circle2.radius)) return true;
      else                                                                            return false;

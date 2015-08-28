@@ -1,6 +1,7 @@
 #include "IA.hpp"
 
-IA::IA(TextureManager &textureManager, float x, float y, std::string const name, int const _team, std::map<std::string, Tank*>& _tanks) : Tank(textureManager, x, y, name, _team), follow(this), shoot(this), tanks(_tanks)
+IA::IA(TextureManager &textureManager, float x, float y, std::string const name, int const _team, std::map<std::string, Tank*>& _tanks) : Tank(textureManager, x, y, name, _team),
+    follow(this), shoot(this), think(this), tanks(_tanks)
 {
 
 }
@@ -13,9 +14,19 @@ IA::~IA()
 void IA::handleInput()
 {
     if(this->isDestroyed()) return;
-    if(!follow.has_target()) follow.follow(tanks["human"]);
-    if(!shoot.has_target()) shoot.shoot(tanks["human"]);
+    if(collision)
+    {
+        moving.stop();
+        collision = false;
+    }
 
+    if(affected)
+    {
+        shoot.stop();
+        affected = false;
+    }
+
+    think.update();
     follow.update();
     moving.update(this);
     shoot.update();

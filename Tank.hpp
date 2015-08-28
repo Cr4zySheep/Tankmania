@@ -26,6 +26,7 @@ protected:
     TextureManager& textureManager;
     HealthBar health;
     bool destroyed;
+    bool affected;
     sf::Clock respawn;
 
 public:

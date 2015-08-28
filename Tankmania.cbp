@@ -59,8 +59,8 @@
 		<Unit filename="Core/Object.hpp" />
 		<Unit filename="Core/TextureManager.cpp" />
 		<Unit filename="Core/TextureManager.hpp" />
-		<Unit filename="Gameplay.cpp" />
-		<Unit filename="Gameplay.hpp" />
+		<Unit filename="GameMode.cpp" />
+		<Unit filename="GameMode.hpp" />
 		<Unit filename="HealthBar.cpp" />
 		<Unit filename="HealthBar.hpp" />
 		<Unit filename="Human.cpp" />
@@ -73,10 +73,14 @@
 		<Unit filename="IA/IA_Moving.hpp" />
 		<Unit filename="IA/IA_Shoot.cpp" />
 		<Unit filename="IA/IA_Shoot.hpp" />
+		<Unit filename="IA/IA_Think.cpp" />
+		<Unit filename="IA/IA_Think.hpp" />
 		<Unit filename="IA/Pathfinding.cpp" />
 		<Unit filename="IA/Pathfinding.hpp" />
 		<Unit filename="Map.cpp" />
 		<Unit filename="Map.hpp" />
+		<Unit filename="Melee.cpp" />
+		<Unit filename="Melee.hpp" />
 		<Unit filename="Tank.cpp" />
 		<Unit filename="Tank.hpp" />
 		<Unit filename="Tree.cpp" />

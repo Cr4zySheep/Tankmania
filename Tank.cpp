@@ -1,6 +1,6 @@
 #include "Tank.hpp"
 
-Tank::Tank(TextureManager& tM, float x, float y, std::string _name, int const _team) : Object(tM.getRef("tankBeige"), x, y, 83, 78), textureManager(tM), bullet(nullptr), health(100), destroyed(false), name(_name), team(_team)
+Tank::Tank(TextureManager& tM, float x, float y, std::string _name, int const _team) : Object(tM.getRef("tankBeige"), x, y, 83, 78), textureManager(tM), bullet(nullptr), health(100), destroyed(false), name(_name), team(_team), affected(false)
 {
     sprite.rotate(90);
     barrel.rotate(90);
@@ -108,6 +108,7 @@ bool Tank::isDestroyed() const
 bool Tank::damaged(Bullet* bullet)
 {
     health.remove(bullet->damage);
+    affected = true;
 
     //Died ?
     if(health.get_health() == 0 && destroyed == false)

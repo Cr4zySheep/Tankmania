@@ -85,6 +85,11 @@ sf::Vector2f Object::getMotionVector() const
     return motion_vector;
 }
 
+bool Object::already_collided() const
+{
+    return collision;
+}
+
 void Object::calculate_MotionVector()
 {
     float x(cos(direction * PI / 180) * velocity),

@@ -14,7 +14,7 @@ std::vector<Point> Pathfinding::find_path(pair<int, int> const start, pair<int, 
     pair<int, int> current; //Current node selected
     std::vector<Point> path; //Final path
 
-    if(Pathfinding::graph[start].obstacle == true || Pathfinding::graph[finish].obstacle == true) return path;
+    if(Pathfinding::graph[finish].obstacle == true) return path;
 
     //Add the starting node to the open_list
     open_list[start] = Node(start);
@@ -51,10 +51,12 @@ std::vector<Point> Pathfinding::find_path(pair<int, int> const start, pair<int, 
                node.second < 0 || node.second > 128 * 30 / 64 ||
                Pathfinding::graph[node].obstacle == true || Pathfinding::exist(node, closed_list)) continue;
             else {
+                //Distance Manhattan
+                int d = abs(finish.first - node.first) + abs(finish.second - node.second);
                 //Determine G, H, F
                 Node n(current);
                 n.G = closed_list[current].F;
-                n.H = Pathfinding::graph[current].H;
+                n.H = Pathfinding::graph[current].H + d;
                 n.F = n.H + n.G;
 
                 //Not in open_list, add it

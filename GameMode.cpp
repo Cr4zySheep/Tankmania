@@ -51,7 +51,7 @@ void GameMode::handleInput()
 void GameMode::draw()
 {
     map.draw_below(game->window);
-    for(auto& tank : tanks)     tank.second->draw(game->window);
+    for(auto& tank : tanks)    tank.second->draw(game->window);
     for(auto bullet : bullets) bullet->draw(game->window);
     map.draw_above(game->window);
 }
@@ -82,6 +82,7 @@ void GameMode::handleCollision(Tank* tank, float dt)
             bullets.erase(bullets.begin() + a);
         }
     }
+    for(auto& i : tanks) if(i.second->name != tank->name) CollisionManager::collide(*i.second, *tank, dt);
 }
 
 sf::Vector2f GameMode::generate_pos()
@@ -107,7 +108,7 @@ void GameMode::get_bullet(Tank* tank)
 
 void GameMode::limit_dt(float& dt)
 {
-    if(dt > 0.5) dt = 1 / 60;
+    if(dt > 0.08) dt = 1 / 60;
 }
 
 void GameMode::adapt_view_to_window()

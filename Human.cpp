@@ -12,6 +12,7 @@ Human::~Human()
 
 void Human::handleInput()
 {
+    collision = false;
     if(this->isDestroyed()) return;
 
     //Déplacement

@@ -65,6 +65,7 @@ public:
     bool isMovingToLeft() const;
     bool isMovingToTop() const;
     bool isMovingToBottom() const;
+    bool already_collided() const;
 
     sf::Vector2f getMotionVector() const;
 };

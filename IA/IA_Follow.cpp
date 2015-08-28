@@ -19,7 +19,7 @@ void IA_Follow::update()
 
     float distance = Point::distance(ia->getPosition(), target->getPosition());
     //Trop loin, on se rapproche
-    if(distance > (128*2)*(128*2))
+    if(distance > (128*3)*(128*3))
     {
         sf::Time time = clock.getElapsedTime();
         if(time.asSeconds() >= 0.5)
@@ -29,7 +29,7 @@ void IA_Follow::update()
         }
     }
     //Trop prêt, on s'arrete
-    else if(distance < 128*128)
+    else if(distance < 128*128*4)
     {
         ia->moving.stop();
     }
