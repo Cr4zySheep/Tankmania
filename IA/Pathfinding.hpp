@@ -45,6 +45,7 @@ private:
     static int heuristic(std::pair<int, int> p1, std::pair<int, int> p2);
     static bool enough_place(std::pair<int, int> node);
 public:
+    static bool enable;
     static std::map<std::pair<int, int>, Square> graph;
 
     static std::pair<int, int> convert_pos(sf::Vector2f pos);

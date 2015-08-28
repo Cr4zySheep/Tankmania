@@ -1,4 +1,4 @@
-#include "Gameplay.hpp"
+#include "Melee.hpp"
 
 int main()
 {
@@ -6,7 +6,7 @@ int main()
 
     Game game;
     try {
-        game.addState(new Gameplay(&game));
+        game.addState(new Melee(&game));
 
         game.gameLoop();
     }

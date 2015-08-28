@@ -18,13 +18,6 @@ Tank::~Tank()
 
 void Tank::update(float dt)
 {
-    //Died ?
-    if(health.get_health() == 0 && destroyed == false)
-    {
-        destroyed = true;
-        respawn.restart();
-    }
-
     health.update({this->getPosition().x, this->getPosition().y + 50});
 
     this->move(dt);
@@ -112,9 +105,18 @@ bool Tank::isDestroyed() const
     return destroyed;
 }
 
-void Tank::damaged(Bullet* bullet)
+bool Tank::damaged(Bullet* bullet)
 {
     health.remove(bullet->damage);
+
+    //Died ?
+    if(health.get_health() == 0 && destroyed == false)
+    {
+        destroyed = true;
+        respawn.restart();
+    }
+
+    return this->isDestroyed();
 }
 
 void Tank::spawn(sf::Vector2f pos)

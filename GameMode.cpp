@@ -1,18 +1,14 @@
-#include "Gameplay.hpp"
+#include "GameMode.hpp"
 
-Gameplay::Gameplay(Game* game) : map(textureManager)
+GameMode::GameMode(Game* game) : map(textureManager)
 {
     this->game = game;
     this->adapt_view_to_window();
     this->load_textures();
     map.create();
-
-    tanks["bot1"] = new IA(textureManager, 500, 1000, "bot1", NO_TEAM, tanks);
-    tanks["human"] = new Human(textureManager, 1000, 1000, "human", NO_TEAM);
-    tankToFollow = "human";
 }
 
-Gameplay::~Gameplay()
+GameMode::~GameMode()
 {
     for(auto& tank : tanks)
     {
@@ -26,10 +22,11 @@ Gameplay::~Gameplay()
     }
 }
 
-void Gameplay::handleInput()
+void GameMode::handleInput()
 {
-    sf::Event event;
+    Pathfinding::enable = true;
 
+    sf::Event event;
     while(game->window.pollEvent(event))
     {
         switch(event.type)
@@ -44,10 +41,6 @@ void Gameplay::handleInput()
 
         case sf::Event::KeyPressed:
             if(event.key.code == sf::Keyboard::Escape) game->window.close();
-            if(event.key.code == sf::Keyboard::Space)
-            {
-                game->changeState(new Gameplay(game));
-            }
             break;
         }
     }
@@ -55,49 +48,7 @@ void Gameplay::handleInput()
     for(auto& tank : tanks) tank.second->handleInput();
 }
 
-void Gameplay::update(float dt)
-{
-    if(dt > 1) dt = 1 / 60;
-
-    for(auto& tank : tanks)
-    {
-        //Récupération des obus
-        Bullet* bullet = tank.second->getBullet();
-        if(bullet != nullptr) bullets.push_back(bullet);
-
-        //Collisions
-        map.handle_collision(*tank.second, dt);
-        for(int a(bullets.size() - 1); a >= 0; a--)
-        {
-            if(map.handle_collision(*bullets[a], dt))
-            {
-                delete bullets[a];
-                bullets.erase(bullets.begin() + a);
-            }
-            else if(CollisionManager::collide(*tank.second, *bullets[a], dt, false) &&
-                    tank.second->name != bullets[a]->shooter &&
-                    (tank.second->team != bullets[a]->team || bullets[a]->team == NO_TEAM))
-            {
-                tank.second->damaged(bullets[a]);
-                delete bullets[a];
-                bullets.erase(bullets.begin() + a);
-            }
-            else bullets[a]->update(dt);
-        }
-
-        //Respawn
-        if(tank.second->need_to_spawn()) tank.second->spawn({1000, 1000});
-        else tank.second->update(dt);
-    }
-
-    //Alignement canon / souris
-    sf::Vector2i mouse = sf::Mouse::getPosition(game->window);
-    tanks[tankToFollow]->align_barrel(game->window.mapPixelToCoords(mouse));
-
-    this->scrolling();
-}
-
-void Gameplay::draw()
+void GameMode::draw()
 {
     map.draw_below(game->window);
     for(auto& tank : tanks)     tank.second->draw(game->window);
@@ -105,13 +56,67 @@ void Gameplay::draw()
     map.draw_above(game->window);
 }
 
-void Gameplay::adapt_view_to_window()
+void GameMode::align_player_barrel()
+{
+    //Alignement canon / souris
+    sf::Vector2i mouse = sf::Mouse::getPosition(game->window);
+    tanks[mainPlayer]->align_barrel(game->window.mapPixelToCoords(mouse));
+}
+
+void GameMode::handleCollision(Tank* tank, float dt)
+{
+    map.handle_collision(*tank, dt);
+    for(int a(bullets.size() - 1); a >= 0; a--)
+    {
+        if(map.handle_collision(*bullets[a], dt) || !bullets[a]->alive())
+        {
+            delete bullets[a];
+            bullets.erase(bullets.begin() + a);
+        }
+        else if(CollisionManager::collide(*tank, *bullets[a], dt, false) &&
+                tank->name != bullets[a]->shooter &&
+                (tank->team != bullets[a]->team || bullets[a]->team == NO_TEAM))
+        {
+            if(tank->damaged(bullets[a])) kills.push({bullets[a]->shooter, tank->name, bullets[a]->team});
+            delete bullets[a];
+            bullets.erase(bullets.begin() + a);
+        }
+    }
+}
+
+sf::Vector2f GameMode::generate_pos()
+{
+    for(;;)
+    {
+        sf::Vector2f pos({rand() % 128 * 30, rand() % 128 * 30});
+        if(Pathfinding::graph[Pathfinding::convert_pos(pos)].obstacle == false) return pos;
+    }
+}
+
+void GameMode::update_bullets(float dt)
+{
+    for(int a(bullets.size() - 1); a >= 0; a--) bullets[a]->update(dt);
+}
+
+void GameMode::get_bullet(Tank* tank)
+{
+    //Récupération des obus
+    Bullet* bullet = tank->getBullet();
+    if(bullet != nullptr) bullets.push_back(bullet);
+}
+
+void GameMode::limit_dt(float& dt)
+{
+    if(dt > 0.5) dt = 1 / 60;
+}
+
+void GameMode::adapt_view_to_window()
 {
     view.reset(sf::FloatRect(0, 0, (float)game->window.getSize().x * 2, (float)game->window.getSize().y * 2));
     game->window.setView(view);
 }
 
-void Gameplay::scrolling()
+void GameMode::scrolling()
 {
     sf::Vector2u window = game->window.getSize();
     double tiles_x(window.x / 128),
@@ -131,7 +136,7 @@ void Gameplay::scrolling()
     game->window.setView(view);
 }
 
-void Gameplay::load_textures()
+void GameMode::load_textures()
 {
     //Sols
     textureManager.loadTexture("dirt", "rsc/Environment/dirt.png");

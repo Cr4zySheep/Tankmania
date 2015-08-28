@@ -4,6 +4,7 @@ using std::cout;
 using std::endl;
 
 std::map<std::pair<int, int>, Square> Pathfinding::graph;
+bool Pathfinding::enable = true;
 
 std::vector<Point> Pathfinding::find_path(pair<int, int> const start, pair<int, int> const finish)
 {
@@ -45,13 +46,10 @@ std::vector<Point> Pathfinding::find_path(pair<int, int> const start, pair<int, 
             node.first  += _x;
             node.second += _y;
 
-            bool enoughPlace = Pathfinding::enough_place(node);
-            if(node == start || node == finish) enoughPlace = true;
-
             //If not walkable or already in the closed_list, ignore it
             if(node.first  < 0 || node.first  > 128 * 30 / 64 ||
                node.second < 0 || node.second > 128 * 30 / 64 ||
-               Pathfinding::graph[node].obstacle == true || Pathfinding::exist(node, closed_list) || !enoughPlace) continue;
+               Pathfinding::graph[node].obstacle == true || Pathfinding::exist(node, closed_list)) continue;
             else {
                 //Determine G, H, F
                 Node n(current);
@@ -90,7 +88,7 @@ std::vector<Point> Pathfinding::find_path(pair<int, int> const start, pair<int, 
 
 bool Pathfinding::enough_place(std::pair<int, int> node)
 {
-    bool enough(true);/*
+    bool enough(true);
     for(int _x(-1); _x < 2 && enough; _x++) for(int _y(-1); _y < 2 && enough; _y++) if(_x != 0 && _y != 0)
     {
         pair<int, int> n = node;
@@ -102,7 +100,7 @@ bool Pathfinding::enough_place(std::pair<int, int> node)
         {
             enough = false;
         }
-    }*/
+    }
 
     return enough;
 }

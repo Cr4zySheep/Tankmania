@@ -7,10 +7,11 @@ IA_Moving::IA_Moving() : state(IA_WAIT)
 
 void IA_Moving::update(Tank* tank)
 {
-    if(state == IA_SEARCH_PATH)
+    if(state == IA_SEARCH_PATH && Pathfinding::enable == true)
     {
         path = Pathfinding::find_path(Pathfinding::convert_pos(tank->getPosition()), Pathfinding::convert_pos(sf::Vector2f(destination.x, destination.y)));
         state = IA_FOLLOW_PATH;
+        Pathfinding::enable = false;
     }
 
     if(state == IA_FOLLOW_PATH)

@@ -42,7 +42,7 @@ public:
     void change_direction(float const new_direction);
     void align_barrel(sf::Vector2f point);
     void fire();
-    void damaged(Bullet* bullet);
+    bool damaged(Bullet* bullet);
     void spawn(sf::Vector2f pos);
     bool need_to_spawn();
 
