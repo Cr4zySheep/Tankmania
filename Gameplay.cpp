@@ -7,8 +7,8 @@ Gameplay::Gameplay(Game* game) : map(textureManager)
     this->load_textures();
     map.create();
 
-    tanks["bot1"] = new IA(textureManager, 500, 1000, "bot1", tanks);
-    tanks["human"] = new Human(textureManager, 1000, 1000, "human");
+    tanks["bot1"] = new IA(textureManager, 500, 1000, "bot1", NO_TEAM, tanks);
+    tanks["human"] = new Human(textureManager, 1000, 1000, "human", NO_TEAM);
     tankToFollow = "human";
 }
 
@@ -65,7 +65,7 @@ void Gameplay::update(float dt)
         Bullet* bullet = tank.second->getBullet();
         if(bullet != nullptr) bullets.push_back(bullet);
 
-        //Collisions map
+        //Collisions
         map.handle_collision(*tank.second, dt);
         for(int a(bullets.size() - 1); a >= 0; a--)
         {
@@ -74,7 +74,9 @@ void Gameplay::update(float dt)
                 delete bullets[a];
                 bullets.erase(bullets.begin() + a);
             }
-            else if(CollisionManager::collide(*tank.second, *bullets[a], dt, false) && tank.second->name != bullets[a]->shooter)
+            else if(CollisionManager::collide(*tank.second, *bullets[a], dt, false) &&
+                    tank.second->name != bullets[a]->shooter &&
+                    (tank.second->team != bullets[a]->team || bullets[a]->team == NO_TEAM))
             {
                 tank.second->damaged(bullets[a]);
                 delete bullets[a];
@@ -84,7 +86,7 @@ void Gameplay::update(float dt)
         }
 
         //Respawn
-        if(tank.second->isDestroyed()) tank.second->respawn({1000, 1000});
+        if(tank.second->need_to_spawn()) tank.second->spawn({1000, 1000});
         else tank.second->update(dt);
     }
 

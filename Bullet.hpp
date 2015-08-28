@@ -9,8 +9,9 @@ class Bullet : public Object
 public:
     uint const damage;
     std::string const shooter;
+    int const team;
 
-    Bullet(TextureManager& textureManager, float x, float y, float direction, std::string const _owner);
+    Bullet(TextureManager& textureManager, float x, float y, float direction, std::string const _owner, int const _team);
     ~Bullet();
 
     void handleInput();

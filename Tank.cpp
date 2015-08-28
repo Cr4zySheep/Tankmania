@@ -1,6 +1,6 @@
 #include "Tank.hpp"
 
-Tank::Tank(TextureManager& tM, float x, float y, std::string _name) : Object(tM.getRef("tankBeige"), x, y, 83, 78), textureManager(tM), bullet(nullptr), health(100), destroyed(false), name(_name)
+Tank::Tank(TextureManager& tM, float x, float y, std::string _name, int const _team) : Object(tM.getRef("tankBeige"), x, y, 83, 78), textureManager(tM), bullet(nullptr), health(100), destroyed(false), name(_name), team(_team)
 {
     sprite.rotate(90);
     barrel.rotate(90);
@@ -16,17 +16,27 @@ Tank::~Tank()
     delete bullet;
 }
 
-void Tank::draw(sf::RenderWindow& window)
+void Tank::update(float dt)
 {
     //Died ?
-    if(health.get_health() == 0)
+    if(health.get_health() == 0 && destroyed == false)
     {
         destroyed = true;
+        respawn.restart();
     }
 
-    //HealthBar
     health.update({this->getPosition().x, this->getPosition().y + 50});
-    health.draw(window);
+
+    this->move(dt);
+
+    update_barrel();
+    if(bullet != 0) bullet->update(dt);
+}
+
+void Tank::draw(sf::RenderWindow& window)
+{
+    //HealthBar
+    if(!this->isDestroyed()) health.draw(window);
 
     //Tank
     window.draw(sprite);
@@ -48,6 +58,16 @@ void Tank::update_barrel()
     barrel.setPosition(this->left() + this->getWidth() / 2, this->top() + this->getHeight() / 2);
 }
 
+bool Tank::need_to_spawn()
+{
+    if(!this->isDestroyed()) return false;
+
+    sf::Time elapsed = respawn.getElapsedTime();
+    if(elapsed.asSeconds() >= 2) return true;
+    else return false;
+
+}
+
 void Tank::regulate_velocity()
 {
     if(velocity < tank_velocity_max * -1) velocity = tank_velocity_max * -1;
@@ -63,6 +83,7 @@ void Tank::change_direction(float const new_direction)
 
 void Tank::align_barrel(sf::Vector2f point)
 {
+    if(this->isDestroyed()) return;
     float angle = atan2(point.y - this->getPosition().y, point.x - this->getPosition().x) * 180 / PI;
     barrel.rotate(angle - barrel_angle);
     barrel_angle = angle;
@@ -71,10 +92,10 @@ void Tank::align_barrel(sf::Vector2f point)
 void Tank::fire()
 {
     sf::Time time = reloading.getElapsedTime();
-    if(time.asSeconds() > 1)
+    if(time.asSeconds() > 2)
     {
         delete bullet;
-        bullet = new Bullet(textureManager, this->getPosition().x, this->getPosition().y, barrel_angle, name);
+        bullet = new Bullet(textureManager, this->getPosition().x, this->getPosition().y, barrel_angle, name, team);
         reloading.restart();
     }
 }
@@ -96,7 +117,7 @@ void Tank::damaged(Bullet* bullet)
     health.remove(bullet->damage);
 }
 
-void Tank::respawn(sf::Vector2f pos)
+void Tank::spawn(sf::Vector2f pos)
 {
     destroyed = false;
     sprite.setPosition(pos);

@@ -13,7 +13,7 @@ public:
     IA_Shoot shoot;
     std::map<std::string, Tank*>& tanks;
 
-    IA(TextureManager& textureManager, float x, float y, std::string const name, std::map<std::string, Tank*>& _tanks);
+    IA(TextureManager& textureManager, float x, float y, std::string const name, int const _team, std::map<std::string, Tank*>& _tanks);
     virtual ~IA();
 
     void handleInput();

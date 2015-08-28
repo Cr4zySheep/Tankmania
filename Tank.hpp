@@ -5,6 +5,11 @@
 #include "HealthBar.hpp"
 
 constexpr float tank_velocity_max(400);
+enum {
+    NO_TEAM,
+    TEAM_1,
+    TEAM_2
+};
 
 class Tank : public Object
 {
@@ -21,10 +26,13 @@ protected:
     TextureManager& textureManager;
     HealthBar health;
     bool destroyed;
+    sf::Clock respawn;
 
 public:
     std::string const name;
-    Tank(TextureManager& tM, float x, float y, std::string const _name);
+    int const team;
+
+    Tank(TextureManager& tM, float x, float y, std::string const _name, int const _team = NO_TEAM);
     virtual ~Tank();
 
     void handleInput() = 0;
@@ -35,7 +43,8 @@ public:
     void align_barrel(sf::Vector2f point);
     void fire();
     void damaged(Bullet* bullet);
-    void respawn(sf::Vector2f pos);
+    void spawn(sf::Vector2f pos);
+    bool need_to_spawn();
 
     bool isDestroyed() const;
     Bullet* getBullet();

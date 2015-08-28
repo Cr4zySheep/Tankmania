@@ -8,7 +8,7 @@ class Human : public Tank
 private:
 
 public:
-    Human(TextureManager& textureManager, float x, float y, std::string const name);
+    Human(TextureManager& textureManager, float x, float y, std::string const name, int const team);
     virtual ~Human();
 
     void handleInput();

@@ -1,6 +1,6 @@
 #include "Human.hpp"
 
-Human::Human(TextureManager& textureManager, float x, float y, std::string const name) : Tank(textureManager, x, y, name)
+Human::Human(TextureManager& textureManager, float x, float y, std::string const name, int const _team) : Tank(textureManager, x, y, name, _team)
 {
 
 }
@@ -12,6 +12,8 @@ Human::~Human()
 
 void Human::handleInput()
 {
+    if(this->isDestroyed()) return;
+
     //Déplacement
     if(sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
     {
@@ -45,8 +47,5 @@ void Human::handleInput()
 
 void Human::update(float dt)
 {
-    this->move(dt);
-
-    update_barrel();
-    if(bullet != 0) bullet->update(dt);
+    Tank::update(dt);
 }
