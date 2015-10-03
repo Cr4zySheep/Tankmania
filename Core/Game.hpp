@@ -6,9 +6,6 @@
 
 class GameState;
 
-constexpr unsigned int window_width(600);
-constexpr unsigned int window_height(600);
-
 class Game
 {
 private:

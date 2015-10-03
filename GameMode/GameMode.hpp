@@ -1,10 +1,10 @@
 #ifndef GAMEMODE_HPP_INCLUDED
 #define GAMEMODE_HPP_INCLUDED
 
-#include "Core/GameState.hpp"
-#include "Human.hpp"
-#include "IA/IA.hpp"
-#include "Map.hpp"
+#include "../Core/GameState.hpp"
+#include "../Human.hpp"
+#include "../IA/IA.hpp"
+#include "../Map.hpp"
 #include <iostream>
 
 struct KillData {

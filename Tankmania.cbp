@@ -59,8 +59,10 @@
 		<Unit filename="Core/Object.hpp" />
 		<Unit filename="Core/TextureManager.cpp" />
 		<Unit filename="Core/TextureManager.hpp" />
-		<Unit filename="GameMode.cpp" />
-		<Unit filename="GameMode.hpp" />
+		<Unit filename="GameMode/GameMode.cpp" />
+		<Unit filename="GameMode/GameMode.hpp" />
+		<Unit filename="GameMode/Melee.cpp" />
+		<Unit filename="GameMode/Melee.hpp" />
 		<Unit filename="HealthBar.cpp" />
 		<Unit filename="HealthBar.hpp" />
 		<Unit filename="Human.cpp" />
@@ -79,8 +81,6 @@
 		<Unit filename="IA/Pathfinding.hpp" />
 		<Unit filename="Map.cpp" />
 		<Unit filename="Map.hpp" />
-		<Unit filename="Melee.cpp" />
-		<Unit filename="Melee.hpp" />
 		<Unit filename="Tank.cpp" />
 		<Unit filename="Tank.hpp" />
 		<Unit filename="Tree.cpp" />

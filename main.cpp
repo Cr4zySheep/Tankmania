@@ -1,4 +1,4 @@
-#include "Melee.hpp"
+#include "GameMode/Melee.hpp"
 
 int main()
 {
