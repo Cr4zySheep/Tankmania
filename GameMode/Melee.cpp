@@ -1,6 +1,6 @@
 #include "Melee.hpp"
 
-Melee::Melee(Game* game) : GameMode(game) {
+Melee::Melee(Game* game) : GameMode(game), hud(nullptr) {
     sf::Vector2f pos = this->generate_pos();
     tanks["human"] = new Human(textureManager, pos.x, pos.y, "human", NO_TEAM);
     tankToFollow = "human";
@@ -16,13 +16,22 @@ Melee::Melee(Game* game) : GameMode(game) {
 
     for(auto& i : tanks) scores[i.first] = 0;
 
-    hud = new HUD(game->window.getSize(), fontManager);
-    hud->addMessage("The game start ! ;)");
+    hud = new HUD_Melee(game->window.getSize(), fontManager);
+    hud->addMessage("Go ! Good luck !");
 }
 
 Melee::~Melee()
 {
+    delete hud;
+}
 
+void Melee::draw() {
+    //Display game
+    GameMode::draw();
+
+    //Display HUD
+    hud->draw(game->window);
+    game->window.setView(view);
 }
 
 void Melee::update(float dt)
@@ -44,7 +53,7 @@ void Melee::update(float dt)
     this->handleKills();
 
     //Hud
-    hud->update(dt);
+    hud->update();
 }
 
 void Melee::handleKills()
@@ -59,5 +68,35 @@ void Melee::handleKills()
         hud->addMessage(msg);
 
         kills.pop();
+
+        //Get the 3 best player
+        std::pair<std::string, int> bests[3];
+        for(unsigned int a(0); a < 3; a++) {
+            bests[a] = {"", 0};
+        }
+
+        //Get the first
+        int best(-1);
+        for(auto& player : scores) {
+            if(best < 0 || player.second > best) {
+                bests[0] = {player.first, player.second};
+                best = player.second;
+            }
+        }
+        //Get the second
+        for(auto& player : scores) {
+            if(player.second > bests[1].second && player.first != bests[0].first) {
+                bests[1] = {player.first, player.second};
+            }
+        }
+
+        //Get the third
+        for(auto& player : scores) {
+            if(player.second > bests[2].second && player.first != bests[0].first && player.first != bests[1].first) {
+                bests[2] = {player.first, player.second};
+            }
+        }
+
+        hud->setBests(bests);
     }
 }

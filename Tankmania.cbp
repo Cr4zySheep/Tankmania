@@ -65,8 +65,10 @@
 		<Unit filename="GameMode/GameMode.hpp" />
 		<Unit filename="GameMode/Melee.cpp" />
 		<Unit filename="GameMode/Melee.hpp" />
-		<Unit filename="HUD.cpp" />
-		<Unit filename="HUD.hpp" />
+		<Unit filename="HUD/HUD.cpp" />
+		<Unit filename="HUD/HUD.hpp" />
+		<Unit filename="HUD/HUD_Melee.cpp" />
+		<Unit filename="HUD/HUD_Melee.hpp" />
 		<Unit filename="HealthBar.cpp" />
 		<Unit filename="HealthBar.hpp" />
 		<Unit filename="Human.cpp" />

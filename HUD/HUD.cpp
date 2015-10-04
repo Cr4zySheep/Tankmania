@@ -1,14 +1,17 @@
 #include "HUD.hpp"
 
-HUD::HUD(sf::Vector2u const& windowSize, FontManager& _fontManager) : fontManager(_fontManager), timer(ALIGN_CENTER) {
+HUD::HUD(sf::Vector2u const& windowSize, FontManager& _fontManager) : timer(ALIGN_CENTER), fontManager(_fontManager) {
     timer.setFont(fontManager.getRef("arial"));
-    timer.setPosition(windowSize.x / 2, 0);
+    timer.setPosition(windowSize.x / 2, 10);
     timerClock.restart();
 
     for(unsigned int a(0); a < 5; a++) {
         tchat[a].setFont(fontManager.getRef("arial"));
         tchat[a].setPosition(10, windowSize.y - (a + 1) * 24 - 10);
     }
+}
+
+HUD::~HUD() {
 }
 
 void HUD::addMessage(std::string msg) {
@@ -36,7 +39,7 @@ void HUD::updateTimer() {
     timer.modifyText(time);
 }
 
-void HUD::update(float dt) {
+void HUD::update() {
     this->updateTimer();
 }
 
