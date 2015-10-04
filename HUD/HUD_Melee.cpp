@@ -2,9 +2,9 @@
 
 HUD_Melee::HUD_Melee(sf::Vector2u const& windowSize, FontManager& fontManager) : HUD(windowSize, fontManager) {
     for(unsigned int a(0); a < 3; a++) {
-        bests[a].setFont(fontManager.getRef("arial"));
+        bests[a].setFont(fontManager.getRef("thickhead"));
         bests[a].setAlign(ALIGN_RIGHT);
-        bests[a].setPosition(windowSize.x - 10, a * 24 + 10);
+        bests[a].setPosition(windowSize.x - 28, a * 24 + 24);
     }
 }
 

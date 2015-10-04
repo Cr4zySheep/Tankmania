@@ -1,13 +1,13 @@
 #include "HUD.hpp"
 
 HUD::HUD(sf::Vector2u const& windowSize, FontManager& _fontManager) : timer(ALIGN_CENTER), fontManager(_fontManager) {
-    timer.setFont(fontManager.getRef("arial"));
-    timer.setPosition(windowSize.x / 2, 10);
+    timer.setFont(fontManager.getRef("thickhead"));
+    timer.setPosition(windowSize.x / 2, 18);
     timerClock.restart();
 
     for(unsigned int a(0); a < 5; a++) {
-        tchat[a].setFont(fontManager.getRef("arial"));
-        tchat[a].setPosition(10, windowSize.y - (a + 1) * 24 - 10);
+        tchat[a].setFont(fontManager.getRef("thickhead"));
+        tchat[a].setPosition(28, windowSize.y - (a + 1) * 24 - 28);
     }
 }
 

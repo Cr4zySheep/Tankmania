@@ -161,5 +161,5 @@ void GameMode::load_textures()
     textureManager.loadTexture("bulletBeige", "rsc/Bullets/bulletBeige_outline.png");
 
     //Fonts
-    fontManager.loadFont("arial", "rsc/fonts/arial.ttf");
+    fontManager.loadFont("thickhead", "rsc/fonts/thickhead.ttf");
 }
