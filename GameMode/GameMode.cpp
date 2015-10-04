@@ -121,8 +121,8 @@ void GameMode::adapt_view_to_window()
 void GameMode::scrolling()
 {
     sf::Vector2u window = game->window.getSize();
-    double tiles_x(window.x / 128),
-           tiles_y(window.y / 128);
+    double tiles_x((double)window.x / 128),
+           tiles_y((double)window.y / 128);
 
     Tank* tank = tanks[tankToFollow];
     sf::Vector2f center = tank->getPosition();
