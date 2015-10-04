@@ -5,6 +5,7 @@
 #include "../Human.hpp"
 #include "../IA/IA.hpp"
 #include "../Map.hpp"
+#include "../Core/FontManager.hpp"
 #include <iostream>
 
 struct KillData {
@@ -20,6 +21,7 @@ protected:
     void adapt_view_to_window();
 
     TextureManager textureManager;
+    FontManager fontManager;
     void load_textures();
 
     Map map;

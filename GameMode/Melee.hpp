@@ -16,6 +16,7 @@ public:
     ~Melee();
 
     virtual void update(float dt);
+    virtual void draw();
 };
 
 #endif // MELEE_HPP_INCLUDED

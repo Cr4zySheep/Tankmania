@@ -158,4 +158,7 @@ void GameMode::load_textures()
 
     //Munitions
     textureManager.loadTexture("bulletBeige", "rsc/Bullets/bulletBeige_outline.png");
+
+    //Fonts
+    fontManager.loadFont("arial", "rsc/fonts/arial.ttf");
 }

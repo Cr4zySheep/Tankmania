@@ -1,13 +1,12 @@
 #include "Melee.hpp"
 
-Melee::Melee(Game* game) : GameMode(game)
-{
+Melee::Melee(Game* game) : GameMode(game) {
     sf::Vector2f pos = this->generate_pos();
     tanks["human"] = new Human(textureManager, pos.x, pos.y, "human", NO_TEAM);
     tankToFollow = "human";
     mainPlayer = "human";
 
-    for(uint a(0); a < 10; a++)
+    for(uint a(0); a < 9; a++)
     {
         sf::Vector2f pos = this->generate_pos();
         std::stringstream ss;
@@ -22,7 +21,7 @@ Melee::Melee(Game* game) : GameMode(game)
 
 Melee::~Melee()
 {
-
+    std::cout << scores.size();
 }
 
 void Melee::update(float dt)
@@ -42,6 +41,10 @@ void Melee::update(float dt)
     this->align_player_barrel();
     this->scrolling();
     this->handleKills();
+}
+
+void Melee::draw() {
+    GameMode::draw();
 }
 
 void Melee::handleKills()
