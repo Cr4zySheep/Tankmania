@@ -5,7 +5,7 @@
 #include "../Human.hpp"
 #include "../IA/IA.hpp"
 #include "../Map.hpp"
-#include "../Core/FontManager.hpp"
+#include "../HUD.hpp"
 #include <iostream>
 
 struct KillData {
@@ -19,6 +19,8 @@ class GameMode : public GameState
 protected:
     sf::View view;
     void adapt_view_to_window();
+
+    HUD* hud;
 
     TextureManager textureManager;
     FontManager fontManager;

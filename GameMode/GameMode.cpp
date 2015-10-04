@@ -1,6 +1,6 @@
 #include "GameMode.hpp"
 
-GameMode::GameMode(Game* game) : map(textureManager)
+GameMode::GameMode(Game* game) : map(textureManager), hud(nullptr)
 {
     this->game = game;
     this->adapt_view_to_window();
@@ -20,6 +20,8 @@ GameMode::~GameMode()
         delete bullets.back();
         bullets.pop_back();
     }
+
+    delete hud;
 }
 
 void GameMode::handleInput()
@@ -50,10 +52,15 @@ void GameMode::handleInput()
 
 void GameMode::draw()
 {
+    //Display game
     map.draw_below(game->window);
     for(auto& tank : tanks)    tank.second->draw(game->window);
     for(auto bullet : bullets) bullet->draw(game->window);
     map.draw_above(game->window);
+
+    //Display HUD
+    hud->draw(game->window);
+    game->window.setView(view);
 }
 
 void GameMode::align_player_barrel()

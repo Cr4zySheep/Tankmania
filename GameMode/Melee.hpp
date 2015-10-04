@@ -2,7 +2,6 @@
 #define MELEE_HPP_INCLUDED
 
 #include "GameMode.hpp"
-#include <sstream>
 
 class Melee : public GameMode
 {
@@ -16,7 +15,6 @@ public:
     ~Melee();
 
     virtual void update(float dt);
-    virtual void draw();
 };
 
 #endif // MELEE_HPP_INCLUDED

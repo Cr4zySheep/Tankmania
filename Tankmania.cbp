@@ -55,6 +55,8 @@
 		<Unit filename="Core/Game.cpp" />
 		<Unit filename="Core/Game.hpp" />
 		<Unit filename="Core/GameState.hpp" />
+		<Unit filename="Core/Label.cpp" />
+		<Unit filename="Core/Label.hpp" />
 		<Unit filename="Core/Object.cpp" />
 		<Unit filename="Core/Object.hpp" />
 		<Unit filename="Core/TextureManager.cpp" />
@@ -63,6 +65,8 @@
 		<Unit filename="GameMode/GameMode.hpp" />
 		<Unit filename="GameMode/Melee.cpp" />
 		<Unit filename="GameMode/Melee.hpp" />
+		<Unit filename="HUD.cpp" />
+		<Unit filename="HUD.hpp" />
 		<Unit filename="HealthBar.cpp" />
 		<Unit filename="HealthBar.hpp" />
 		<Unit filename="Human.cpp" />

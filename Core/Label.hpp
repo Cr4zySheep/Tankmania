@@ -26,6 +26,8 @@ public:
     void setPosition(float x, float y);
     void setFont(sf::Font const& font);
 
+    std::string getString() const;
+
     void draw(sf::RenderWindow& window);
 };
 

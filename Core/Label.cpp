@@ -39,3 +39,7 @@ void Label::adaptAlign() {
 void Label::setFont(sf::Font const& font) {
     text.setFont(font);
 }
+
+std::string Label::getString() const {
+    return text.getString();
+}

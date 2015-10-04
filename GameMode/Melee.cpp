@@ -9,19 +9,20 @@ Melee::Melee(Game* game) : GameMode(game) {
     for(uint a(0); a < 9; a++)
     {
         sf::Vector2f pos = this->generate_pos();
-        std::stringstream ss;
-        ss << a;
-        std::string name = "bot_" + ss.str();
+        std::string name = "bot_" + Str::convert(a);
 
         tanks[name] = new IA(textureManager, pos.x, pos.y, name, NO_TEAM, tanks);
     }
 
     for(auto& i : tanks) scores[i.first] = 0;
+
+    hud = new HUD(game->window.getSize(), fontManager);
+    hud->addMessage("The game start ! ;)");
 }
 
 Melee::~Melee()
 {
-    std::cout << scores.size();
+
 }
 
 void Melee::update(float dt)
@@ -41,10 +42,9 @@ void Melee::update(float dt)
     this->align_player_barrel();
     this->scrolling();
     this->handleKills();
-}
 
-void Melee::draw() {
-    GameMode::draw();
+    //Hud
+    hud->update(dt);
 }
 
 void Melee::handleKills()
@@ -55,7 +55,8 @@ void Melee::handleKills()
         scores[kills.top().killer] += 1;
 
         //Message
-        std::cout << kills.top().victim << " was killed by " << kills.top().killer << " !" << std::endl;
+        std::string msg = kills.top().victim + " was killed by " + kills.top().killer + " !";
+        hud->addMessage(msg);
 
         kills.pop();
     }
