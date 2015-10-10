@@ -6,6 +6,10 @@ Melee::Melee(Game* game) : GameMode(game), hud(nullptr) {
     tankToFollow = "human";
     mainPlayer = "human";
 
+    for(uint a(0); a <3; a++) {
+        bestPlayers[a] = "";
+    }
+
     for(uint a(0); a < 9; a++)
     {
         sf::Vector2f pos = this->generate_pos();
@@ -52,6 +56,10 @@ void Melee::update(float dt)
     this->scrolling();
     this->handleKills();
 
+    if(this->isFinished()) {
+        this->finish();
+    }
+
     //Hud
     hud->update();
 }
@@ -69,34 +77,41 @@ void Melee::handleKills()
 
         kills.pop();
 
-        //Get the 3 best player
+        //Update ranking of HUD
+        this->orderBestPlayers();
         std::pair<std::string, int> bests[3];
-        for(unsigned int a(0); a < 3; a++) {
-            bests[a] = {"", 0};
-        }
-
-        //Get the first
-        int best(-1);
-        for(auto& player : scores) {
-            if(best < 0 || player.second > best) {
-                bests[0] = {player.first, player.second};
-                best = player.second;
-            }
-        }
-        //Get the second
-        for(auto& player : scores) {
-            if(player.second > bests[1].second && player.first != bests[0].first) {
-                bests[1] = {player.first, player.second};
-            }
-        }
-
-        //Get the third
-        for(auto& player : scores) {
-            if(player.second > bests[2].second && player.first != bests[0].first && player.first != bests[1].first) {
-                bests[2] = {player.first, player.second};
-            }
-        }
-
+        bests[0] = {bestPlayers[0], scores[bestPlayers[0]]};
+        bests[1] = {bestPlayers[1], scores[bestPlayers[1]]};
+        bests[2] = {bestPlayers[2], scores[bestPlayers[2]]};
         hud->setBests(bests);
     }
+}
+
+void Melee::orderBestPlayers() {
+    int best(-1);
+    for(auto& player : scores) {
+        if(best < 0 || player.second > best) {                                                                           //First
+            bestPlayers[0] = player.first;
+            best = player.second;
+        } else if(player.second > scores[bestPlayers[1]] && player.first != bestPlayers[0]) {                                   //Second
+            bestPlayers[1] = player.first;
+        } else if(player.second > scores[bestPlayers[2]] && player.first != bestPlayers[0] && player.first != bestPlayers[1]) { //Third
+            bestPlayers[2] = player.first;
+        }
+    }
+}
+
+bool Melee::isFinished() {
+    if(!bestPlayers[0].empty() && scores[bestPlayers[0]] >= MAX_KILLS) {
+        return true;
+    } else if(hud->getTime().asSeconds() >= MAX_TIME) {
+        return true;
+    }
+
+    return false;
+}
+
+void Melee::finish() {
+    hud->addMessage("Game finished !");
+
 }

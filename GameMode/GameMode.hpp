@@ -42,6 +42,8 @@ protected:
     void update_bullets(float dt);
     sf::Vector2f generate_pos();
 
+    virtual bool isFinished() = 0;
+
 public:
     GameMode(Game* game);
     virtual ~GameMode();
@@ -49,6 +51,7 @@ public:
     virtual void handleInput();
     virtual void update(float dt) = 0;
     virtual void draw();
+    virtual void finish() = 0;
 };
 
 #endif // GAMEMODE_HPP_INCLUDED
