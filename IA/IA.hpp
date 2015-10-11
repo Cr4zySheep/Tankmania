@@ -15,7 +15,7 @@ public:
     IA_Think think;
     std::map<std::string, Tank*>& tanks;
 
-    IA(TextureManager& textureManager, float x, float y, std::string const name, int const _team, std::map<std::string, Tank*>& _tanks);
+    IA(TextureManager& textureManager, sf::Font& _font, float x, float y, std::string const name, int const _team, std::map<std::string, Tank*>& _tanks);
     virtual ~IA();
 
     void handleInput();

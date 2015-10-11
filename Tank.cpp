@@ -1,11 +1,25 @@
 #include "Tank.hpp"
 
-Tank::Tank(TextureManager& tM, float x, float y, std::string _name, int const _team) : Object(tM.getRef("tankBeige"), x, y, 83, 78), textureManager(tM), bullet(nullptr), health(100), destroyed(false), name(_name), team(_team), affected(false)
+Tank::Tank(TextureManager& tM, sf::Font& _font, float x, float y, std::string _name, int const _team) : Object(tM.getRef("tankBeige"), x, y, 83, 78), textureManager(tM), bullet(nullptr), health(100), destroyed(false), name(_name), team(_team),
+    affected(false), font(_font), labelName(ALIGN_CENTER)
 {
     sprite.rotate(90);
     barrel.rotate(90);
     this->init_barrel();
     this->update_barrel();
+
+    sf::Color color;
+    if(team == NO_TEAM) {
+        color = {rand() % 255, rand() % 255, rand() % 255};
+    } else if(team == TEAM_1) {
+        color = {0, 0, 255};
+    } else if(team == TEAM_2) {
+        color = {153, 0, 51};
+    }
+
+    labelName.setFont(font);
+    labelName.modifyText(this->name, color, 36);
+    this->adapt_labelName();
 
     collisionData.circle.radius = 40;
     collisionData.circle.center = this->getPosition();
@@ -24,6 +38,8 @@ void Tank::update(float dt)
 
     update_barrel();
     if(bullet != 0) bullet->update(dt);
+
+    this->adapt_labelName();
 }
 
 void Tank::draw(sf::RenderWindow& window)
@@ -35,6 +51,9 @@ void Tank::draw(sf::RenderWindow& window)
     window.draw(sprite);
     if(bullet != 0) bullet->draw(window);
     window.draw(barrel);
+
+    //Name
+    labelName.draw(window);
 }
 
 void Tank::init_barrel()
@@ -127,4 +146,8 @@ void Tank::spawn(sf::Vector2f pos)
     barrel.setPosition(pos);
     velocity = 0;
     health.set_health(health.get_max());
+}
+
+void Tank::adapt_labelName() {
+    labelName.setPosition(this->getPosition().x, this->getPosition().y - 100);
 }

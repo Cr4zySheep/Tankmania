@@ -3,6 +3,7 @@
 
 #include "Bullet.hpp"
 #include "HealthBar.hpp"
+#include "Core/Label.hpp"
 
 constexpr float tank_velocity_max(400);
 enum {
@@ -29,11 +30,15 @@ protected:
     bool affected;
     sf::Clock respawn;
 
+    sf::Font& font;
+    Label labelName;
+    void adapt_labelName();
+
 public:
     std::string const name;
     int const team;
 
-    Tank(TextureManager& tM, float x, float y, std::string const _name, int const _team = NO_TEAM);
+    Tank(TextureManager& tM, sf::Font& _font, float x, float y, std::string const _name, int const _team = NO_TEAM);
     virtual ~Tank();
 
     void handleInput() = 0;

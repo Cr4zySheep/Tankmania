@@ -2,7 +2,9 @@
 
 Melee::Melee(Game* game) : GameMode(game), hud(nullptr) {
     sf::Vector2f pos = this->generate_pos();
-    tanks["human"] = new Human(textureManager, pos.x, pos.y, "human", NO_TEAM);
+    sf::Font& font = fontManager.getRef("thickhead");
+
+    tanks["human"] = new Human(textureManager, font, pos.x, pos.y, "human", NO_TEAM);
     tankToFollow = "human";
     mainPlayer = "human";
 
@@ -15,7 +17,7 @@ Melee::Melee(Game* game) : GameMode(game), hud(nullptr) {
         sf::Vector2f pos = this->generate_pos();
         std::string name = "bot_" + Str::convert(a);
 
-        tanks[name] = new IA(textureManager, pos.x, pos.y, name, NO_TEAM, tanks);
+        tanks[name] = new IA(textureManager, font, pos.x, pos.y, name, NO_TEAM, tanks);
     }
 
     for(auto& i : tanks) scores[i.first] = 0;

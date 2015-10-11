@@ -1,6 +1,6 @@
 #include "IA.hpp"
 
-IA::IA(TextureManager &textureManager, float x, float y, std::string const name, int const _team, std::map<std::string, Tank*>& _tanks) : Tank(textureManager, x, y, name, _team),
+IA::IA(TextureManager &textureManager, sf::Font& _font, float x, float y, std::string const name, int const _team, std::map<std::string, Tank*>& _tanks) : Tank(textureManager, _font, x, y, name, _team),
     follow(this), shoot(this), think(this), tanks(_tanks)
 {
 
