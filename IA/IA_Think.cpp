@@ -13,7 +13,7 @@ void IA_Think::update()
     //Find the closest and kill it !
     std::string best;
     float min(0);
-    for(auto& i : ia->tanks) if(i.second->name != ia->name)
+    for(auto& i : ia->tanks) if(i.second->name != ia->name && !i.second->isDestroyed())
     {
         float d = Point::distance(ia->getPosition(), i.second->getPosition());
         if(min == 0 || d < min)

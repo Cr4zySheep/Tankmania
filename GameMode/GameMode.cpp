@@ -78,7 +78,7 @@ void GameMode::handleCollision(Tank* tank, float dt)
                 tank->name != bullets[a]->shooter &&
                 (tank->team != bullets[a]->team || bullets[a]->team == NO_TEAM))
         {
-            if(tank->damaged(bullets[a])) kills.push({bullets[a]->shooter, tank->name, bullets[a]->team});
+            if(!tank->isDestroyed()) if(tank->damaged(bullets[a])) kills.push({bullets[a]->shooter, tank->name, bullets[a]->team});
             delete bullets[a];
             bullets.erase(bullets.begin() + a);
         }

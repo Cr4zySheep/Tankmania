@@ -19,6 +19,7 @@ Melee::Melee(Game* game) : GameMode(game), hud(nullptr) {
     }
 
     for(auto& i : tanks) scores[i.first] = 0;
+    scores[""] = 0;
 
     hud = new HUD_Melee(game->window.getSize(), fontManager);
     hud->addMessage("Go ! Good luck !");
@@ -88,15 +89,27 @@ void Melee::handleKills()
 }
 
 void Melee::orderBestPlayers() {
-    int best(-1);
-    for(auto& player : scores) {
-        if(best < 0 || player.second > best) {                                                                           //First
-            bestPlayers[0] = player.first;
-            best = player.second;
-        } else if(player.second > scores[bestPlayers[1]] && player.first != bestPlayers[0]) {                                   //Second
-            bestPlayers[1] = player.first;
-        } else if(player.second > scores[bestPlayers[2]] && player.first != bestPlayers[0] && player.first != bestPlayers[1]) { //Third
-            bestPlayers[2] = player.first;
+    bool changed(true);
+    while(changed) {
+        changed = false;
+        for(auto& player : scores) {
+            std::string const& name = player.first;
+            int const& score = player.second;
+
+            if(name != bestPlayers[0] && score > scores[bestPlayers[0]]) {
+                bestPlayers[0] = name;
+                bestPlayers[1] = "";
+                bestPlayers[2] = "";
+                changed = true;
+                break;
+            } else if(name != bestPlayers[0] && name != bestPlayers[1] && score > scores[bestPlayers[1]]) {
+                bestPlayers[1] = name;
+                bestPlayers[2] = "";
+                changed = true;
+                break;
+            } else if(name != bestPlayers[0] && name != bestPlayers[1] && name != bestPlayers[2] && score > scores[bestPlayers[2]]) {
+                bestPlayers[2] = name;
+            }
         }
     }
 }
