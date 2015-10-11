@@ -5,13 +5,13 @@
 
 class HUD_Melee : public HUD {
 private:
-    Label bests[3];
+    Label bests[3][3];
 
 public:
-    HUD_Melee(sf::Vector2u const& windowSize, FontManager& _fontManager);
+    HUD_Melee(sf::Vector2u const wS, FontManager& _fontManager);
     virtual ~HUD_Melee();
 
-    void setBests(std::pair<std::string, int> _bests[]);
+    void setBests(std::pair<std::pair<std::string, sf::Color>, int> _bests[]);
 
     virtual void draw(sf::RenderWindow& window);
 };

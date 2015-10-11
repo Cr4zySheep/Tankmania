@@ -52,6 +52,9 @@ public:
     void spawn(sf::Vector2f pos);
     bool need_to_spawn();
 
+
+    const sf::Color getColorName() const;
+
     bool isDestroyed() const;
     Bullet* getBullet();
 };

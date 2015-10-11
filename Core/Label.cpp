@@ -43,3 +43,11 @@ void Label::setFont(sf::Font const& font) {
 std::string Label::getString() const {
     return text.getString();
 }
+
+const sf::Color Label::getColor() const {
+    return text.getColor();
+}
+
+sf::FloatRect Label::getSize() const {
+    return text.getGlobalBounds();
+}

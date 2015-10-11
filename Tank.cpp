@@ -151,3 +151,7 @@ void Tank::spawn(sf::Vector2f pos)
 void Tank::adapt_labelName() {
     labelName.setPosition(this->getPosition().x, this->getPosition().y - 100);
 }
+
+const sf::Color Tank::getColorName() const {
+    return labelName.getColor();
+}

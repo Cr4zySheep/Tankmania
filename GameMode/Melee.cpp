@@ -75,17 +75,20 @@ void Melee::handleKills()
         scores[kills.top().killer] += 1;
 
         //Message
-        std::string msg = kills.top().victim + " was killed by " + kills.top().killer + " !";
-        hud->addMessage(msg);
+        std::pair<std::string, sf::Color> names[2];
+        names[0] = {kills.top().victim, tanks[kills.top().victim]->getColorName()};
+        names[1] = {kills.top().killer, tanks[kills.top().killer]->getColorName()};
+        hud->addMessage(" was killed by ", names);
 
         kills.pop();
 
         //Update ranking of HUD
         this->orderBestPlayers();
-        std::pair<std::string, int> bests[3];
-        bests[0] = {bestPlayers[0], scores[bestPlayers[0]]};
-        bests[1] = {bestPlayers[1], scores[bestPlayers[1]]};
-        bests[2] = {bestPlayers[2], scores[bestPlayers[2]]};
+        std::pair<std::pair<std::string, sf::Color>, int> bests[3];
+        for(uint a(0); a < 3; a++) {
+            sf::Color color = (!bestPlayers[a].empty()) ? tanks[bestPlayers[a]]->getColorName() : sf::Color::Black;
+            bests[a] = {{bestPlayers[a], color}, scores[bestPlayers[a]]};
+        }
         hud->setBests(bests);
     }
 }

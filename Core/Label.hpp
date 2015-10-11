@@ -27,6 +27,8 @@ public:
     void setFont(sf::Font const& font);
 
     std::string getString() const;
+    const sf::Color getColor() const;
+    sf::FloatRect getSize() const;
 
     void draw(sf::RenderWindow& window);
 };
