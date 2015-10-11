@@ -12,7 +12,7 @@ Melee::Melee(Game* game) : GameMode(game), hud(nullptr) {
         bestPlayers[a] = "";
     }
 
-    for(uint a(0); a < 9; a++)
+    for(uint a(10); a < 19; a++)
     {
         sf::Vector2f pos = this->generate_pos();
         std::string name = "bot_" + Str::convert(a);
