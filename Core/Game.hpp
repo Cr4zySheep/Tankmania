@@ -3,6 +3,7 @@
 
 #include <SFML/graphics.hpp>
 #include <stack>
+#include <iostream>
 
 class GameState;
 

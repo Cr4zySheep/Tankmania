@@ -6,6 +6,7 @@
 #include "../IA/IA.hpp"
 #include "../Map.hpp"
 #include "../Core/FontManager.hpp"
+#include "../Scoreboard.hpp"
 #include <iostream>
 
 struct KillData {
@@ -17,6 +18,8 @@ struct KillData {
 class GameMode : public GameState
 {
 protected:
+    std::map<sf::String, std::map<sf::String, int>> scores;
+
     sf::View view;
     void adapt_view_to_window();
 
@@ -51,7 +54,7 @@ public:
     virtual void handleInput();
     virtual void update(float dt) = 0;
     virtual void draw();
-    virtual void finish() = 0;
+    void finish();
 };
 
 #endif // GAMEMODE_HPP_INCLUDED

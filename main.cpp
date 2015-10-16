@@ -6,7 +6,7 @@ int main()
 
     Game game;
     try {
-        game.addState(new Melee(&game));
+        game.changeState(new Melee(&game));
 
         game.gameLoop();
     }

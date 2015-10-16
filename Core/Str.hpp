@@ -2,13 +2,14 @@
 #define STR_HPP_INCLUDED
 
 #include <sstream>
+#include <SFML/System.hpp>
 
 class Str {
 public:
-    static std::string convert(int a) {
+    static sf::String convert(int a) {
         std::stringstream ss;
         ss << a;
-        return ss.str();
+        return sf::String(ss.str());
     }
 };
 

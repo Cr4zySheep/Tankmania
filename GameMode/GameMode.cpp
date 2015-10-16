@@ -41,6 +41,7 @@ void GameMode::handleInput()
 
         case sf::Event::KeyPressed:
             if(event.key.code == sf::Keyboard::Escape) game->window.close();
+            if(event.key.code == sf::Keyboard::Space) {this->finish(); return;} //DO NOT forget to remove later
             break;
         }
     }
@@ -162,4 +163,8 @@ void GameMode::load_textures()
 
     //Fonts
     fontManager.loadFont("thickhead", "rsc/fonts/thickhead.ttf");
+}
+
+void GameMode::finish() {
+    game->changeState(new Scoreboard(game, scores));
 }

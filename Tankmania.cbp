@@ -59,6 +59,7 @@
 		<Unit filename="Core/Label.hpp" />
 		<Unit filename="Core/Object.cpp" />
 		<Unit filename="Core/Object.hpp" />
+		<Unit filename="Core/Str.hpp" />
 		<Unit filename="Core/TextureManager.cpp" />
 		<Unit filename="Core/TextureManager.hpp" />
 		<Unit filename="GameMode/GameMode.cpp" />
@@ -87,6 +88,8 @@
 		<Unit filename="IA/Pathfinding.hpp" />
 		<Unit filename="Map.cpp" />
 		<Unit filename="Map.hpp" />
+		<Unit filename="Scoreboard.cpp" />
+		<Unit filename="Scoreboard.hpp" />
 		<Unit filename="Tank.cpp" />
 		<Unit filename="Tank.hpp" />
 		<Unit filename="Tree.cpp" />

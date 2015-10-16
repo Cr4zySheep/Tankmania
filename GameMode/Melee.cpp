@@ -4,9 +4,9 @@ Melee::Melee(Game* game) : GameMode(game), hud(nullptr) {
     sf::Vector2f pos = this->generate_pos();
     sf::Font& font = fontManager.getRef("thickhead");
 
-    tanks["human"] = new Human(textureManager, font, pos.x, pos.y, "human", NO_TEAM);
-    tankToFollow = "human";
-    mainPlayer = "human";
+    tanks["CrazySheep57"] = new Human(textureManager, font, pos.x, pos.y, "CrazySheep57", NO_TEAM);
+    tankToFollow = "CrazySheep57";
+    mainPlayer = "CrazySheep57";
 
     for(uint a(0); a <3; a++) {
         bestPlayers[a] = "";
@@ -20,8 +20,11 @@ Melee::Melee(Game* game) : GameMode(game), hud(nullptr) {
         tanks[name] = new IA(textureManager, font, pos.x, pos.y, name, NO_TEAM, tanks);
     }
 
-    for(auto& i : tanks) scores[i.first] = 0;
-    scores[""] = 0;
+    for(auto& i : tanks) {
+        scores[i.first]["kills"] = 0;
+        scores[i.first]["deaths"] = 0;
+    }
+    scores[""]["kills"] = 0;
 
     hud = new HUD_Melee(game->window.getSize(), fontManager);
     hud->addMessage("Go ! Good luck !");
@@ -60,7 +63,8 @@ void Melee::update(float dt)
     this->handleKills();
 
     if(this->isFinished()) {
-        this->finish();
+        this->finish(); //All the variable are destroyed by this call, so you need to stop here
+        return;
     }
 
     //Hud
@@ -72,7 +76,8 @@ void Melee::handleKills()
     while(!kills.empty())
     {
         //Points counting
-        scores[kills.top().killer] += 1;
+        scores[kills.top().killer]["kills"] += 1;
+        scores[kills.top().victim]["deaths"] += 1;
 
         //Message
         std::pair<std::string, sf::Color> names[2];
@@ -87,7 +92,7 @@ void Melee::handleKills()
         std::pair<std::pair<std::string, sf::Color>, int> bests[3];
         for(uint a(0); a < 3; a++) {
             sf::Color color = (!bestPlayers[a].empty()) ? tanks[bestPlayers[a]]->getColorName() : sf::Color::Black;
-            bests[a] = {{bestPlayers[a], color}, scores[bestPlayers[a]]};
+            bests[a] = {{bestPlayers[a], color}, scores[bestPlayers[a]]["kills"]};
         }
         hud->setBests(bests);
     }
@@ -99,20 +104,20 @@ void Melee::orderBestPlayers() {
         changed = false;
         for(auto& player : scores) {
             std::string const& name = player.first;
-            int const& score = player.second;
+            int const& killsNumber = player.second["kills"];
 
-            if(name != bestPlayers[0] && score > scores[bestPlayers[0]]) {
+            if(name != bestPlayers[0] && killsNumber > scores[bestPlayers[0]]["kills"]) {
                 bestPlayers[0] = name;
                 bestPlayers[1] = "";
                 bestPlayers[2] = "";
                 changed = true;
                 break;
-            } else if(name != bestPlayers[0] && name != bestPlayers[1] && score > scores[bestPlayers[1]]) {
+            } else if(name != bestPlayers[0] && name != bestPlayers[1] && killsNumber > scores[bestPlayers[1]]["kills"]) {
                 bestPlayers[1] = name;
                 bestPlayers[2] = "";
                 changed = true;
                 break;
-            } else if(name != bestPlayers[0] && name != bestPlayers[1] && name != bestPlayers[2] && score > scores[bestPlayers[2]]) {
+            } else if(name != bestPlayers[0] && name != bestPlayers[1] && name != bestPlayers[2] && killsNumber > scores[bestPlayers[2]]["kills"]) {
                 bestPlayers[2] = name;
             }
         }
@@ -120,16 +125,5 @@ void Melee::orderBestPlayers() {
 }
 
 bool Melee::isFinished() {
-    if(!bestPlayers[0].empty() && scores[bestPlayers[0]] >= MAX_KILLS) {
-        return true;
-    } else if(hud->getTime().asSeconds() >= MAX_TIME) {
-        return true;
-    }
-
-    return false;
-}
-
-void Melee::finish() {
-    hud->addMessage("Game finished !");
-
+    return ((!bestPlayers[0].empty() && scores[bestPlayers[0]]["kills"] >= MAX_KILLS) || (hud->getTime().asSeconds() >= MAX_TIME));
 }

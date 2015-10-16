@@ -25,6 +25,7 @@ void Game::removeState()
     if(!statesList.empty())
     {
         delete statesList.top();
+        statesList.top() = nullptr;
         statesList.pop();
     }
 
