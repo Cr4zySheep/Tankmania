@@ -14,7 +14,7 @@ HUD::HUD(sf::Vector2u const wS, FontManager& _fontManager) : windowSize(wS), tim
 HUD::~HUD() {
 }
 
-void HUD::addMessage(std::string msg) {
+void HUD::addMessage(sf::String msg) {
     for(unsigned int a(4); a > 0; a--) for(unsigned int b(0); b < 3; b++) {
         tchat[a][b].modifyText(tchat[a - 1][b].getString(), tchat[a - 1][b].getColor(), 24);
     }
@@ -28,7 +28,7 @@ void HUD::addMessage(std::string msg) {
     tchat[0][2].setPosition(28 + tchat[0][0].getSize().width + tchat[0][1].getSize().width, y);
 }
 
-void HUD::addMessage(std::string msg, std::pair<std::string, sf::Color> names[]) {
+void HUD::addMessage(sf::String msg, std::pair<sf::String, sf::Color> names[]) {
     for(unsigned int a(4); a > 0; a--) for(unsigned int b(0); b < 3; b++) {
         float y = tchat[a][0].getSize().top;
         tchat[a][b].modifyText(tchat[a - 1][b].getString(), tchat[a - 1][b].getColor(), 24);
@@ -50,7 +50,7 @@ void HUD::updateTimer() {
     int minutes = seconds / 60;
     seconds -= minutes * 60;
 
-    std::string time("");
+    sf::String time("");
     if(minutes < 10) {
         time += "0";
     }

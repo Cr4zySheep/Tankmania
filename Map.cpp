@@ -47,13 +47,13 @@ void Map::create()
          height((map_height - 2) * 128);
 
     //Generate puddle of oil
-    for(uint a(0); a < 10 + rand() % 20; a++) this->create_puddleOfOil(128 + rand() % width , 128 + rand() % height);
+    for(uint a(0); a < (uint)(10 + rand() % 20); a++) this->create_puddleOfOil(128 + rand() % width , 128 + rand() % height);
 
     //Generate barrels
-    for(uint a(0); a < 60 + rand() % 20; a++) this->create_barrel(128 + rand() % width, 128 + rand() % height);
+    for(uint a(0); a < (uint)(60 + rand() % 20); a++) this->create_barrel(128 + rand() % width, 128 + rand() % height);
 
     //Generate forest
-    for(uint a(0); a < 10 + rand() % 10; a++) this->create_forest(128 + rand() % width, 128 + rand() % height, 1 + rand() % 20);
+    for(uint a(0); a < (uint)(10 + rand() % 10); a++) this->create_forest(128 + rand() % width, 128 + rand() % height, 1 + rand() % 20);
 
     this->create_scheme();
     std::cout << "Map generated !" << std::endl;

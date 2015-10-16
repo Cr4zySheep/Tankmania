@@ -8,11 +8,11 @@ class Bullet : public Object
 {
 public:
     uint const damage;
-    std::string const shooter;
+    sf::String const shooter;
     int const team;
     sf::Time lifeTime;
 
-    Bullet(TextureManager& textureManager, float x, float y, float direction, std::string const _owner, int const _team);
+    Bullet(TextureManager& textureManager, float x, float y, float direction, sf::String const _owner, int const _team);
     ~Bullet();
 
     void handleInput();

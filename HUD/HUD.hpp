@@ -26,8 +26,8 @@ public:
     sf::Time getTime() const;
     void restart();
 
-    void addMessage(std::string msg);
-    void addMessage(std::string msg, std::pair<std::string, sf::Color> names[]);
+    void addMessage(sf::String msg);
+    void addMessage(sf::String msg, std::pair<sf::String, sf::Color> names[]);
 
     virtual void update();
     virtual void draw(sf::RenderWindow& window);

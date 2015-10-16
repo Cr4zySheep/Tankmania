@@ -1,6 +1,6 @@
 #include "Human.hpp"
 
-Human::Human(TextureManager& textureManager, sf::Font& _font, float x, float y, std::string const name, int const _team) : Tank(textureManager, _font, x, y, name, _team)
+Human::Human(TextureManager& textureManager, sf::Font& _font, float x, float y, sf::String const name, int const _team) : Tank(textureManager, _font, x, y, name, _team)
 {
 
 }

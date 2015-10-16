@@ -6,7 +6,7 @@ Label::Label(unsigned int align) : alignment(align) {
 Label::~Label() {
 }
 
-void Label::modifyText(std::string const& _text, sf::Color const& color, unsigned int charSize) {
+void Label::modifyText(sf::String const& _text, sf::Color const& color, unsigned int charSize) {
     text.setString(_text);
     text.setColor(color);
     text.setCharacterSize(charSize);
@@ -40,7 +40,7 @@ void Label::setFont(sf::Font const& font) {
     text.setFont(font);
 }
 
-std::string Label::getString() const {
+sf::String Label::getString() const {
     return text.getString();
 }
 

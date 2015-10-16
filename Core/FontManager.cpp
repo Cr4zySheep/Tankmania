@@ -1,7 +1,7 @@
 #include "FontManager.hpp"
 using namespace std;
 
-void FontManager::loadFont(std::string const& name, std::string const& filename)
+void FontManager::loadFont(sf::String const& name, sf::String const& filename)
 {
     //Chargement
     sf::Font font;
@@ -13,7 +13,7 @@ void FontManager::loadFont(std::string const& name, std::string const& filename)
     return;
 }
 
-sf::Font& FontManager::getRef(std::string const& name)
+sf::Font& FontManager::getRef(sf::String const& name)
 {
     return fonts.at(name);
 }

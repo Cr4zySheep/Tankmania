@@ -21,12 +21,12 @@ public:
     Label(unsigned int alignment = ALIGN_LEFT);
     ~Label();
 
-    void modifyText(std::string const& _text, sf::Color const& color = sf::Color::Black, unsigned int charSize = 36);
+    void modifyText(sf::String const& _text, sf::Color const& color = sf::Color::Black, unsigned int charSize = 36);
     void setAlign(unsigned int const align);
     void setPosition(float x, float y);
     void setFont(sf::Font const& font);
 
-    std::string getString() const;
+    sf::String getString() const;
     const sf::Color getColor() const;
     sf::FloatRect getSize() const;
 

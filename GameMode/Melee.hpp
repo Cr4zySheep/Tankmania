@@ -10,7 +10,7 @@ constexpr int MAX_TIME = 10 * 60; //Max game time in seconds
 class Melee : public GameMode
 {
 private:
-    std::string bestPlayers[3];
+    sf::String bestPlayers[3];
     HUD_Melee* hud;
 
     void orderBestPlayers();

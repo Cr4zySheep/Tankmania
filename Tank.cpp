@@ -1,7 +1,6 @@
 #include "Tank.hpp"
 
-Tank::Tank(TextureManager& tM, sf::Font& _font, float x, float y, std::string _name, int const _team) : Object(tM.getRef("tankBeige"), x, y, 83, 78), textureManager(tM), bullet(nullptr), health(100), destroyed(false), name(_name), team(_team),
-    affected(false), font(_font), labelName(ALIGN_CENTER)
+Tank::Tank(TextureManager& tM, sf::Font& _font, float x, float y, sf::String _name, int const _team) : Object(tM.getRef("tankBeige"), x, y, 83, 78), barrel_angle(0), bullet(nullptr), textureManager(tM), health(100), destroyed(false), affected(false), font(_font), labelName(ALIGN_CENTER), name(_name), team(_team)
 {
     sprite.rotate(90);
     barrel.rotate(90);
@@ -10,7 +9,7 @@ Tank::Tank(TextureManager& tM, sf::Font& _font, float x, float y, std::string _n
 
     sf::Color color;
     if(team == NO_TEAM) {
-        color = {rand() % 255, rand() % 255, rand() % 255};
+        color = {(sf::Uint8)(rand() % 255), (sf::Uint8)(rand() % 255), (sf::Uint8)(rand() % 255)};
     } else if(team == TEAM_1) {
         color = {0, 0, 255};
     } else if(team == TEAM_2) {
@@ -70,6 +69,14 @@ void Tank::update_barrel()
     barrel.setPosition(this->left() + this->getWidth() / 2, this->top() + this->getHeight() / 2);
 }
 
+void Tank::align_barrel(sf::Vector2f point)
+{
+    if(this->isDestroyed()) return;
+    float angle = atan2(point.y - this->getPosition().y, point.x - this->getPosition().x) * 180 / PI;
+    barrel.rotate(angle - barrel_angle);
+    barrel_angle = angle;
+}
+
 bool Tank::need_to_spawn()
 {
     if(!this->isDestroyed()) return false;
@@ -91,14 +98,6 @@ void Tank::change_direction(float const new_direction)
     float angle = direction - new_direction;
     sprite.rotate(angle);
     direction = new_direction;
-}
-
-void Tank::align_barrel(sf::Vector2f point)
-{
-    if(this->isDestroyed()) return;
-    float angle = atan2(point.y - this->getPosition().y, point.x - this->getPosition().x) * 180 / PI;
-    barrel.rotate(angle - barrel_angle);
-    barrel_angle = angle;
 }
 
 void Tank::fire()

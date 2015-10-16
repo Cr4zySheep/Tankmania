@@ -1,7 +1,7 @@
 #include "TextureManager.hpp"
 using namespace std;
 
-void TextureManager::loadTexture(std::string const& name, std::string const& filename)
+void TextureManager::loadTexture(sf::String const& name, sf::String const& filename)
 {
     //Chargement
     sf::Texture tex;
@@ -14,7 +14,7 @@ void TextureManager::loadTexture(std::string const& name, std::string const& fil
     return;
 }
 
-sf::Texture& TextureManager::getRef(std::string const& name)
+sf::Texture& TextureManager::getRef(sf::String const& name)
 {
     return textures.at(name);
 }

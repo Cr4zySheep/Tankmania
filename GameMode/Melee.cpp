@@ -12,10 +12,10 @@ Melee::Melee(Game* game) : GameMode(game), hud(nullptr) {
         bestPlayers[a] = "";
     }
 
-    for(uint a(10); a < 19; a++)
+    for(uint a(0); a < 9; a++)
     {
         sf::Vector2f pos = this->generate_pos();
-        std::string name = "bot_" + Str::convert(a);
+        sf::String name = "bot_" + Str::convert(a);
 
         tanks[name] = new IA(textureManager, font, pos.x, pos.y, name, NO_TEAM, tanks);
     }
@@ -80,7 +80,7 @@ void Melee::handleKills()
         scores[kills.top().victim]["deaths"] += 1;
 
         //Message
-        std::pair<std::string, sf::Color> names[2];
+        std::pair<sf::String, sf::Color> names[2];
         names[0] = {kills.top().victim, tanks[kills.top().victim]->getColorName()};
         names[1] = {kills.top().killer, tanks[kills.top().killer]->getColorName()};
         hud->addMessage(" was killed by ", names);
@@ -89,9 +89,9 @@ void Melee::handleKills()
 
         //Update ranking of HUD
         this->orderBestPlayers();
-        std::pair<std::pair<std::string, sf::Color>, int> bests[3];
+        std::pair<std::pair<sf::String, sf::Color>, int> bests[3];
         for(uint a(0); a < 3; a++) {
-            sf::Color color = (!bestPlayers[a].empty()) ? tanks[bestPlayers[a]]->getColorName() : sf::Color::Black;
+            sf::Color color = (!bestPlayers[a].isEmpty()) ? tanks[bestPlayers[a]]->getColorName() : sf::Color::Black;
             bests[a] = {{bestPlayers[a], color}, scores[bestPlayers[a]]["kills"]};
         }
         hud->setBests(bests);
@@ -103,7 +103,7 @@ void Melee::orderBestPlayers() {
     while(changed) {
         changed = false;
         for(auto& player : scores) {
-            std::string const& name = player.first;
+            sf::String const& name = player.first;
             int const& killsNumber = player.second["kills"];
 
             if(name != bestPlayers[0] && killsNumber > scores[bestPlayers[0]]["kills"]) {
@@ -125,5 +125,5 @@ void Melee::orderBestPlayers() {
 }
 
 bool Melee::isFinished() {
-    return ((!bestPlayers[0].empty() && scores[bestPlayers[0]]["kills"] >= MAX_KILLS) || (hud->getTime().asSeconds() >= MAX_TIME));
+    return ((!bestPlayers[0].isEmpty() && scores[bestPlayers[0]]["kills"] >= MAX_KILLS) || (hud->getTime().asSeconds() >= MAX_TIME));
 }

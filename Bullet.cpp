@@ -1,6 +1,6 @@
 #include "Bullet.hpp"
 
-Bullet::Bullet(TextureManager& textureManager, float x, float y, float direction, std::string const _shooter, int const _team) : damage(20), shooter(_shooter), team(_team), lifeTime(sf::seconds(10))
+Bullet::Bullet(TextureManager& textureManager, float x, float y, float direction, sf::String const _shooter, int const _team) : damage(20), shooter(_shooter), team(_team), lifeTime(sf::seconds(10))
 {
     this->change_movement(direction * -1, 1500);
     sprite.rotate(direction - 90 + 180);

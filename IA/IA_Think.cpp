@@ -11,7 +11,7 @@ void IA_Think::update()
     if(ia->shoot.has_target()) return;
     //If no target
     //Find the closest and kill it !
-    std::string best;
+    sf::String best;
     float min(0);
     for(auto& i : ia->tanks) if(i.second->name != ia->name && !i.second->isDestroyed())
     {

@@ -3,12 +3,11 @@
 
 #include <SFML/Graphics.hpp>
 #include <map>
-#include <string>
 
 class FontManager
 {
 private:
-    std::map<std::string, sf::Font> fonts;
+    std::map<sf::String, sf::Font> fonts;
 
 public:
     //Constructeur
@@ -17,10 +16,10 @@ public:
     }
 
     //Charge une Font et l'ajoute à la liste
-    void loadFont(std::string const& name, std::string const& filename);
+    void loadFont(sf::String const& name, sf::String const& filename);
 
     //Retourne une référence vers la Font demandée
-    sf::Font& getRef(std::string const& name);
+    sf::Font& getRef(sf::String const& name);
 };
 
 #endif // FONTMANAGER_HPP_INCLUDED

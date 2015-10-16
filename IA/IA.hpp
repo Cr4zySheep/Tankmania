@@ -13,9 +13,9 @@ public:
     IA_Follow follow;
     IA_Shoot shoot;
     IA_Think think;
-    std::map<std::string, Tank*>& tanks;
+    std::map<sf::String, Tank*>& tanks;
 
-    IA(TextureManager& textureManager, sf::Font& _font, float x, float y, std::string const name, int const _team, std::map<std::string, Tank*>& _tanks);
+    IA(TextureManager& textureManager, sf::Font& _font, float x, float y, sf::String const name, int const _team, std::map<sf::String, Tank*>& _tanks);
     virtual ~IA();
 
     void handleInput();

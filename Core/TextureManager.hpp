@@ -9,7 +9,7 @@ class TextureManager
 {
 private:
 
-    std::map<std::string, sf::Texture> textures;
+    std::map<sf::String, sf::Texture> textures;
 
 public:
     //Constructeur
@@ -18,10 +18,10 @@ public:
     }
 
     //Charge une texture et l'ajoute à la liste
-    void loadTexture(std::string const& name, std::string const& filename);
+    void loadTexture(sf::String const& name, sf::String const& filename);
 
     //Retourne une référence vers la texture demandée
-    sf::Texture& getRef(std::string const& name);
+    sf::Texture& getRef(sf::String const& name);
 };
 
 #endif // TEXTUREMANAGER_HPP_INCLUDED

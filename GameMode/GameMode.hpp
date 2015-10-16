@@ -10,7 +10,7 @@
 #include <iostream>
 
 struct KillData {
-    std::string killer,
+    sf::String killer,
                 victim;
     int team_killer;
 };
@@ -28,14 +28,14 @@ protected:
     void load_textures();
 
     Map map;
-    std::map<std::string, Tank*> tanks;
+    std::map<sf::String, Tank*> tanks;
     std::vector<Bullet*> bullets;
 
     std::stack<KillData> kills;
 
-    std::string mainPlayer; //Char contrôlé par le joueur
+    sf::String mainPlayer; //Char contrôlé par le joueur
     //Centre la view sur ce char
-    std::string tankToFollow;
+    sf::String tankToFollow;
     void scrolling();
 
     void limit_dt(float& dt);
