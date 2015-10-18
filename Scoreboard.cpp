@@ -1,6 +1,6 @@
 #include "Scoreboard.hpp"
 
-Scoreboard::Scoreboard(Game* game, std::map<sf::String, std::map<sf::String, int>> scores) {
+Scoreboard::Scoreboard(Game* game, std::map<sf::String, std::map<sf::String, int>> scores, std::map<sf::String, sf::Color> colors) {
     this->game = game;
     this->game->window.setView(this->game->window.getDefaultView());
 
@@ -21,7 +21,6 @@ Scoreboard::Scoreboard(Game* game, std::map<sf::String, std::map<sf::String, int
     }
     //Order the players by number of kills (score later)
     for(unsigned int a(0); a < ranked_players.size() - 1;) {
-        std::cout << ranked_players[a].first.toAnsiString() << std::endl;
         if(ranked_players[a].second < ranked_players[a + 1].second) { //If next player have more kills than the one before
             //Exchange the 2 players
             std::pair<sf::String, int> best_player = ranked_players[a];
@@ -40,34 +39,45 @@ Scoreboard::Scoreboard(Game* game, std::map<sf::String, std::map<sf::String, int
     //Create the stats
     for(unsigned int a(0); a < ranked_players.size(); a++) {
         pos.y = line * 28;
-        pos.x = longest_name->getSize() * 8 + 50;
+        pos.x = longest_name->getSize() * 8;
         sf::String& name = ranked_players[a].first;
 
-        this->addLabel(font, name, sf::Color::White, 24, pos); // Player username
+        this->addLabel(font, name, colors[name], 24, pos); // Player username
 
         pos.x *= 2;
+        pos.x += 50;
 
         //All stats
-        this->checkAndAdd(font, "kills", pos, scores[name], "Kills", (line == 1));   //Number of kills
-        this->checkAndAdd(font, "deaths", pos, scores[name], "Deaths", (line == 1)); //Number of deaths
+        this->checkAndAdd(font, "kills", pos, 150, scores[name], "Kills", (line == 1));   //Number of kills
+        this->checkAndAdd(font, "deaths", pos, 100, scores[name], "Deaths", (line == 1)); //Number of deaths
 
         line++;
     }
 
-    this->game->window.create({(unsigned int)pos.x + 100, (unsigned int)pos.y + 28*2, sf::VideoMode::getDesktopMode().bitsPerPixel}, "Tankmania", sf::Style::Close || sf::Style::Titlebar);
+    //Center label
+    //TODO IF LARGER THAN WINDOW -> FULL SCREEN AND SAME PROCESS
+    auto& lastElmtSize = labels.back().getPosition();
+    float _x = (720 - lastElmtSize.x) / 2 - longest_name->getSize() * 4,
+          _y = (480 - lastElmtSize.y) / 2 - 28;
+    for(auto& label : labels) {
+        label.setPosition(label.getPosition().x + _x,
+                          label.getPosition().y + _y);
+    }
+
+    this->game->window.create({720, 480, sf::VideoMode::getDesktopMode().bitsPerPixel}, "Tankmania", sf::Style::Close || sf::Style::Titlebar);
 }
 
 
 Scoreboard::~Scoreboard() {
 }
 
-void Scoreboard::checkAndAdd(sf::Font& font, sf::String field, sf::Vector2f& pos, std::map<sf::String, int>& data, sf::String nameField, bool needNameField) {
+void Scoreboard::checkAndAdd(sf::Font& font, sf::String field, sf::Vector2f& pos, float addToX, std::map<sf::String, int>& data, sf::String nameField, bool needNameField) {
     if(data.find(field) != data.end()) {
-        pos.x += 100;
         this->addLabel(font, Str::convert(data[field]), sf::Color::White, 24, pos);
         if(needNameField) {
             this->addLabel(font, nameField, sf::Color::White, 24, {pos.x, 0});
         }
+        pos.x += addToX;
     }
 }
 

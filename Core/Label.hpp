@@ -29,6 +29,8 @@ public:
     sf::String getString() const;
     const sf::Color getColor() const;
     sf::FloatRect getSize() const;
+    const sf::Vector2f getOrigin() const;
+    const sf::Vector2f getPosition() const;
 
     void draw(sf::RenderWindow& window);
 };

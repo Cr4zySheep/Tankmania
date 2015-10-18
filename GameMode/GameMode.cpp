@@ -166,5 +166,10 @@ void GameMode::load_textures()
 }
 
 void GameMode::finish() {
-    game->changeState(new Scoreboard(game, scores));
+    std::map<sf::String, sf::Color> colors;
+    for(auto& tank : tanks) if(!tank.first.isEmpty()) {
+        colors[tank.first] = tank.second->getColorName();
+    }
+
+    game->changeState(new Scoreboard(game, scores, colors));
 }

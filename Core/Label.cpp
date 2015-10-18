@@ -51,3 +51,11 @@ const sf::Color Label::getColor() const {
 sf::FloatRect Label::getSize() const {
     return text.getGlobalBounds();
 }
+
+const sf::Vector2f Label::getOrigin() const {
+    return text.getOrigin();
+}
+
+const sf::Vector2f Label::getPosition() const {
+    return text.getPosition();
+}
