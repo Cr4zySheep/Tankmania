@@ -15,6 +15,7 @@ private:
     std::vector<Label> labels;
 
     void addLabel(sf::Font& font, sf::String text, sf::Color color, unsigned int size, sf::Vector2f pos);
+    void checkAndAdd(sf::Font& font, sf::String field, sf::Vector2f& pos, std::map<sf::String, int>& data, sf::String nameField, bool needNameField);
 
 public:
     Scoreboard(Game* game, std::map<sf::String, std::map<sf::String, int>> scores);
