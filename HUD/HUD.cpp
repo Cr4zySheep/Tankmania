@@ -14,10 +14,17 @@ HUD::HUD(sf::Vector2u const wS, FontManager& _fontManager) : windowSize(wS), tim
 HUD::~HUD() {
 }
 
-void HUD::addMessage(sf::String msg) {
+void HUD::upTchatMsg() {
     for(unsigned int a(4); a > 0; a--) for(unsigned int b(0); b < 3; b++) {
+        float y = tchat[a][0].getSize().top;
         tchat[a][b].modifyText(tchat[a - 1][b].getString(), tchat[a - 1][b].getColor(), 24);
+        tchat[a][1].setPosition(28 + tchat[a][0].getSize().width, y);
+        tchat[a][2].setPosition(28 + tchat[a][0].getSize().width + tchat[0][1].getSize().width, y);
     }
+}
+
+void HUD::addMessage(sf::String msg) {
+    this->upTchatMsg();
 
     tchat[0][0].modifyText("", sf::Color::Black, 24);
     tchat[0][1].modifyText(msg, sf::Color::Black, 24);
@@ -29,12 +36,7 @@ void HUD::addMessage(sf::String msg) {
 }
 
 void HUD::addMessage(sf::String msg, std::pair<sf::String, sf::Color> names[]) {
-    for(unsigned int a(4); a > 0; a--) for(unsigned int b(0); b < 3; b++) {
-        float y = tchat[a][0].getSize().top;
-        tchat[a][b].modifyText(tchat[a - 1][b].getString(), tchat[a - 1][b].getColor(), 24);
-        tchat[a][1].setPosition(28 + tchat[0][0].getSize().width, y);
-        tchat[a][2].setPosition(28 + tchat[0][0].getSize().width + tchat[0][1].getSize().width, y);
-    }
+    this->upTchatMsg();
 
     tchat[0][0].modifyText(names[0].first, names[0].second, 24);
     tchat[0][1].modifyText(msg, sf::Color::Black, 24);

@@ -18,6 +18,7 @@ protected:
     FontManager& fontManager;
 
     void updateTimer();
+    void upTchatMsg();
 
 public:
     HUD(sf::Vector2u const wS, FontManager& _fontManager);
