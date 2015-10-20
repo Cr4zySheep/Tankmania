@@ -4,6 +4,9 @@ Scoreboard::Scoreboard(Game* game, std::map<sf::String, std::map<sf::String, int
     this->game = game;
     this->game->window.setView(this->game->window.getDefaultView());
 
+    textureManager.loadTexture("background", "rsc/backgrounds/scoreboard.png");
+    background.setTexture(textureManager.getRef("background"));
+
     fontManager.loadFont("thickhead", "rsc/fonts/thickhead.ttf");
     sf::Font& font = fontManager.getRef("thickhead");
 
@@ -111,6 +114,7 @@ void Scoreboard::update(float dt) {
 }
 
 void Scoreboard::draw() {
+    game->window.draw(background);
     for(auto& label : labels) {
         label.draw(game->window);
     }
