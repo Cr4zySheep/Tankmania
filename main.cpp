@@ -1,4 +1,4 @@
-#include "GameMode/Melee.hpp"
+#include "MainScreen.hpp"
 
 int main()
 {
@@ -6,7 +6,7 @@ int main()
 
     Game game;
     try {
-        game.changeState(new Melee(&game));
+        game.changeState(new MainScreen(&game));
 
         game.gameLoop();
     }

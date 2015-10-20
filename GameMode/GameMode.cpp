@@ -6,6 +6,9 @@ GameMode::GameMode(Game* game) : map(textureManager)
     this->adapt_view_to_window();
     this->load_textures();
     map.create();
+
+    game->window.create(sf::VideoMode::getFullscreenModes()[0], "Tankmania", sf::Style::Fullscreen);
+    this->adapt_view_to_window();
 }
 
 GameMode::~GameMode()

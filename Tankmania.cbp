@@ -48,6 +48,8 @@
 		<Unit filename="Barrel.hpp" />
 		<Unit filename="Bullet.cpp" />
 		<Unit filename="Bullet.hpp" />
+		<Unit filename="Core/Button.cpp" />
+		<Unit filename="Core/Button.hpp" />
 		<Unit filename="Core/CollisionManager.cpp" />
 		<Unit filename="Core/CollisionManager.hpp" />
 		<Unit filename="Core/FontManager.cpp" />
@@ -86,6 +88,8 @@
 		<Unit filename="IA/IA_Think.hpp" />
 		<Unit filename="IA/Pathfinding.cpp" />
 		<Unit filename="IA/Pathfinding.hpp" />
+		<Unit filename="MainScreen.cpp" />
+		<Unit filename="MainScreen.hpp" />
 		<Unit filename="Map.cpp" />
 		<Unit filename="Map.hpp" />
 		<Unit filename="Scoreboard.cpp" />

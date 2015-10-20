@@ -3,7 +3,7 @@
 
 using namespace std;
 
-Game::Game() : window(sf::VideoMode::getFullscreenModes()[0], "Tankmania", sf::Style::Fullscreen)
+Game::Game()
 {
     window.setFramerateLimit(60);
 }

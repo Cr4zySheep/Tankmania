@@ -11,7 +11,7 @@ enum {
 };
 
 class Label {
-private:
+protected:
     sf::Text text;
     unsigned int alignment;
 
@@ -19,7 +19,7 @@ private:
 
 public:
     Label(unsigned int alignment = ALIGN_LEFT);
-    ~Label();
+    virtual ~Label();
 
     void modifyText(sf::String const& _text, sf::Color const& color = sf::Color::Black, unsigned int charSize = 36);
     void setAlign(unsigned int const align);
