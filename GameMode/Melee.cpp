@@ -50,14 +50,13 @@ void Melee::update(float dt)
 
     for(auto& tank : tanks)
     {
-        this->get_bullet(tank.second);
         this->handleCollision(tank.second, dt);
 
         if(tank.second->need_to_spawn()) tank.second->spawn(this->generate_pos());
         else tank.second->update(dt);
     }
 
-    this->update_bullets(dt);
+    BulletsManager::update(dt);
     this->align_player_barrel();
     this->scrolling();
     this->handleKills();

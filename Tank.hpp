@@ -1,7 +1,7 @@
 #ifndef TANK_HPP_INCLUDED
 #define TANK_HPP_INCLUDED
 
-#include "Bullet.hpp"
+#include "BulletsManager.hpp"
 #include "HealthBar.hpp"
 #include "Core/Label.hpp"
 
@@ -19,7 +19,6 @@ class Tank : public Object
 protected:
     sf::Sprite barrel;
     float barrel_angle;
-    Bullet* bullet;
     sf::Clock reloading;
     void init_barrel();
     void update_barrel();
@@ -50,7 +49,7 @@ public:
     void change_direction(float const new_direction);
     void align_barrel(sf::Vector2f point);
     void fire();
-    bool damaged(Bullet* bullet);
+    bool damaged(Bullet& bullet);
     void spawn(sf::Vector2f pos);
     bool need_to_spawn();
 
@@ -58,7 +57,6 @@ public:
     const sf::Color getColorName() const;
 
     bool isDestroyed() const;
-    Bullet* getBullet();
 };
 
 #endif // TANK_HPP_INCLUDED

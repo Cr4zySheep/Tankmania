@@ -48,6 +48,8 @@
 		<Unit filename="Barrel.hpp" />
 		<Unit filename="Bullet.cpp" />
 		<Unit filename="Bullet.hpp" />
+		<Unit filename="BulletsManager.cpp" />
+		<Unit filename="BulletsManager.hpp" />
 		<Unit filename="Core/Button.cpp" />
 		<Unit filename="Core/Button.hpp" />
 		<Unit filename="Core/CollisionManager.cpp" />

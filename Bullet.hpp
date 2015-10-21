@@ -6,18 +6,26 @@
 
 class Bullet : public Object
 {
+private:
+    uint damage;
+    sf::String shooter;
+    int team;
+
 public:
-    uint const damage;
-    sf::String const shooter;
-    int const team;
     sf::Time lifeTime;
 
-    Bullet(TextureManager& textureManager, float x, float y, float direction, sf::String const _owner, int const _team);
+    Bullet(sf::Texture& texture, float x, float y, float direction, sf::String const _owner, int const _team);
     ~Bullet();
+
+    Bullet& operator=(const Bullet& bullet);
 
     void handleInput();
     void update(float dt);
     void draw(sf::RenderWindow& window);
+
+    const uint getDamage() const;
+    const sf::String getShooter() const;
+    const int getTeam() const;
 
     bool alive() const;
 };

@@ -1,6 +1,6 @@
 #include "Tank.hpp"
 
-Tank::Tank(TextureManager& tM, sf::Font& _font, float x, float y, sf::String _name, int const _team) : Object(tM.getRef("tankBeige"), x, y, 83, 78), barrel_angle(0), bullet(nullptr), textureManager(tM), health(100), destroyed(false), affected(false), font(_font), labelName(ALIGN_CENTER), name(_name), team(_team)
+Tank::Tank(TextureManager& tM, sf::Font& _font, float x, float y, sf::String _name, int const _team) : Object(tM.getRef("tankBeige"), x, y, 83, 78), barrel_angle(0), textureManager(tM), health(100), destroyed(false), affected(false), font(_font), labelName(ALIGN_CENTER), name(_name), team(_team)
 {
     sprite.rotate(90);
     barrel.rotate(90);
@@ -26,7 +26,6 @@ Tank::Tank(TextureManager& tM, sf::Font& _font, float x, float y, sf::String _na
 
 Tank::~Tank()
 {
-    delete bullet;
 }
 
 void Tank::update(float dt)
@@ -36,7 +35,6 @@ void Tank::update(float dt)
     this->move(dt);
 
     update_barrel();
-    if(bullet != 0) bullet->update(dt);
 
     this->adapt_labelName();
 }
@@ -48,7 +46,6 @@ void Tank::draw(sf::RenderWindow& window)
 
     //Tank
     window.draw(sprite);
-    if(bullet != 0) bullet->draw(window);
     window.draw(barrel);
 
     //Name
@@ -105,17 +102,9 @@ void Tank::fire()
     sf::Time time = reloading.getElapsedTime();
     if(time.asSeconds() > TANK_RELOAD_TIME)
     {
-        delete bullet;
-        bullet = new Bullet(textureManager, this->getPosition().x, this->getPosition().y, barrel_angle, name, team);
+        BulletsManager::addBullet(textureManager.getRef("bulletBeige"), this->getPosition().x, this->getPosition().y, barrel_angle, name, team);
         reloading.restart();
     }
-}
-
-Bullet* Tank::getBullet()
-{
-    Bullet* bullet = this->bullet;
-    this->bullet = nullptr;
-    return bullet;
 }
 
 bool Tank::isDestroyed() const
@@ -123,9 +112,9 @@ bool Tank::isDestroyed() const
     return destroyed;
 }
 
-bool Tank::damaged(Bullet* bullet)
+bool Tank::damaged(Bullet& bullet)
 {
-    health.remove(bullet->damage);
+    health.remove(bullet.getDamage());
     affected = true;
 
     //Died ?

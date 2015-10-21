@@ -29,7 +29,6 @@ protected:
 
     Map map;
     std::map<sf::String, Tank*> tanks;
-    std::vector<Bullet*> bullets;
 
     std::stack<KillData> kills;
 
@@ -39,10 +38,8 @@ protected:
     void scrolling();
 
     void limit_dt(float& dt);
-    void get_bullet(Tank* tank);
     void handleCollision(Tank* tank, float dt);
     void align_player_barrel();
-    void update_bullets(float dt);
     sf::Vector2f generate_pos();
 
     virtual bool isFinished() = 0;

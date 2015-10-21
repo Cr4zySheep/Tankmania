@@ -6,6 +6,7 @@ GameMode::GameMode(Game* game) : map(textureManager)
     this->adapt_view_to_window();
     this->load_textures();
     map.create();
+    BulletsManager::eraseAllBullets();
     cursor.setTexture(textureManager.getRef("cursor"));
     cursor.setOrigin(16, 16);
 
@@ -21,11 +22,7 @@ GameMode::~GameMode()
         delete tank.second;
     }
 
-    while(!bullets.empty())
-    {
-        delete bullets.back();
-        bullets.pop_back();
-    }
+    BulletsManager::eraseAllBullets();
 }
 
 void GameMode::handleInput()
@@ -62,7 +59,7 @@ void GameMode::draw()
     //Display game
     map.draw_below(game->window);
     for(auto& tank : tanks)    tank.second->draw(game->window);
-    for(auto bullet : bullets) bullet->draw(game->window);
+    BulletsManager::draw(game->window);
     map.draw_above(game->window);
 
     //Display cursor
@@ -79,20 +76,19 @@ void GameMode::align_player_barrel()
 void GameMode::handleCollision(Tank* tank, float dt)
 {
     map.handle_collision(*tank, dt);
-    for(int a(bullets.size() - 1); a >= 0; a--)
+    for(int a(BulletsManager::bulletsCount() - 1); a >= 0; a--)
     {
-        if(map.handle_collision(*bullets[a], dt) || !bullets[a]->alive())
+        Bullet& bullet = BulletsManager::getBullet(a);
+        if(map.handle_collision(bullet, dt))
         {
-            delete bullets[a];
-            bullets.erase(bullets.begin() + a);
+            BulletsManager::removeBullet(a);
         }
-        else if(CollisionManager::collide(*tank, *bullets[a], dt, false) &&
-                tank->name != bullets[a]->shooter &&
-                (tank->team != bullets[a]->team || bullets[a]->team == NO_TEAM))
+        else if(CollisionManager::collide(*tank, bullet, dt, false) &&
+                tank->name != bullet.getShooter() &&
+                (tank->team != bullet.getTeam() || bullet.getTeam() == NO_TEAM))
         {
-            if(!tank->isDestroyed()) if(tank->damaged(bullets[a])) kills.push({bullets[a]->shooter, tank->name, bullets[a]->team});
-            delete bullets[a];
-            bullets.erase(bullets.begin() + a);
+            if(!tank->isDestroyed()) if(tank->damaged(bullet)) kills.push({bullet.getShooter(), tank->name, bullet.getTeam()});
+            BulletsManager::removeBullet(a);
         }
     }
     for(auto& i : tanks) if(i.second->name != tank->name) CollisionManager::collide(*i.second, *tank, dt);
@@ -105,18 +101,6 @@ sf::Vector2f GameMode::generate_pos()
         sf::Vector2f pos({rand() % 128 * 30, rand() % 128 * 30});
         if(Pathfinding::graph[Pathfinding::convert_pos(pos)].obstacle == false) return pos;
     }
-}
-
-void GameMode::update_bullets(float dt)
-{
-    for(int a(bullets.size() - 1); a >= 0; a--) bullets[a]->update(dt);
-}
-
-void GameMode::get_bullet(Tank* tank)
-{
-    //Récupération des obus
-    Bullet* bullet = tank->getBullet();
-    if(bullet != nullptr) bullets.push_back(bullet);
 }
 
 void GameMode::limit_dt(float& dt)
