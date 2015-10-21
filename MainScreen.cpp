@@ -33,6 +33,7 @@ MainScreen::MainScreen(Game* game) : title(ALIGN_CENTER), version(ALIGN_RIGHT), 
     quit.setPosition(720 / 2, 480 / 2 + 48 * 2);
 
     this->game->window.create({720, 480, sf::VideoMode::getDesktopMode().bitsPerPixel}, "Tankmania", sf::Style::Default);
+    this->game->window.setMouseCursorVisible(true);
 }
 
 MainScreen::~MainScreen() {

@@ -4,8 +4,8 @@
 #include "GameMode.hpp"
 #include "../HUD/HUD_Melee.hpp"
 
-constexpr int MAX_KILLS = 20;     //Number of kill to do to win
-constexpr int MAX_TIME = 10 * 60; //Max game time in seconds
+constexpr int MAX_KILLS = 15;     //Number of kill to do to win
+constexpr int MAX_TIME = 4 * 60; //Max game time in seconds
 
 class Melee : public GameMode
 {

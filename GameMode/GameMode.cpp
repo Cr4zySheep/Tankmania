@@ -6,8 +6,11 @@ GameMode::GameMode(Game* game) : map(textureManager)
     this->adapt_view_to_window();
     this->load_textures();
     map.create();
+    cursor.setTexture(textureManager.getRef("cursor"));
+    cursor.setOrigin(16, 16);
 
     game->window.create(sf::VideoMode::getFullscreenModes()[0], "Tankmania", sf::Style::Fullscreen);
+    this->game->window.setMouseCursorVisible(false);
     this->adapt_view_to_window();
 }
 
@@ -50,6 +53,8 @@ void GameMode::handleInput()
     }
 
     for(auto& tank : tanks) tank.second->handleInput();
+
+    cursor.setPosition(game->window.mapPixelToCoords(sf::Mouse::getPosition()));
 }
 
 void GameMode::draw()
@@ -59,6 +64,9 @@ void GameMode::draw()
     for(auto& tank : tanks)    tank.second->draw(game->window);
     for(auto bullet : bullets) bullet->draw(game->window);
     map.draw_above(game->window);
+
+    //Display cursor
+    game->window.draw(cursor);
 }
 
 void GameMode::align_player_barrel()
@@ -166,6 +174,9 @@ void GameMode::load_textures()
 
     //Fonts
     fontManager.loadFont("thickhead", "rsc/fonts/thickhead.ttf");
+
+    //Cursor
+    textureManager.loadTexture("cursor", "rsc/crosshair32.png");
 }
 
 void GameMode::finish() {

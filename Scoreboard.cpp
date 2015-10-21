@@ -1,4 +1,5 @@
 #include "Scoreboard.hpp"
+#include "MainScreen.hpp"
 
 Scoreboard::Scoreboard(Game* game, std::map<sf::String, std::map<sf::String, int>> scores, std::map<sf::String, sf::Color> colors) {
     this->game = game;
@@ -67,7 +68,13 @@ Scoreboard::Scoreboard(Game* game, std::map<sf::String, std::map<sf::String, int
                           label.getPosition().y + _y);
     }
 
-    this->game->window.create({720, 480, sf::VideoMode::getDesktopMode().bitsPerPixel}, "Tankmania", sf::Style::Close || sf::Style::Titlebar);
+    resume.setAlign(ALIGN_CENTER);
+    resume.setFont(font);
+    resume.setTexts("resume", "resume", 36, sf::Color::White);
+    resume.setPosition(720 / 2 + 25, 480 - 44);
+
+    this->game->window.create({720, 480, sf::VideoMode::getDesktopMode().bitsPerPixel}, "Tankmania", sf::Style::Default);
+    this->game->window.setMouseCursorVisible(true);
 }
 
 
@@ -107,10 +114,15 @@ void Scoreboard::handleInput() {
             break;
         }
     }
+    resume.handleInput(game->window);
 }
 
 void Scoreboard::update(float dt) {
-
+    resume.update();
+    if(resume.getClicked()) {
+        game->changeState(new MainScreen(game));
+        return;
+    }
 }
 
 void Scoreboard::draw() {
@@ -118,4 +130,5 @@ void Scoreboard::draw() {
     for(auto& label : labels) {
         label.draw(game->window);
     }
+    resume.draw(game->window);
 }

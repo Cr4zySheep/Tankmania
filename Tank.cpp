@@ -89,8 +89,8 @@ bool Tank::need_to_spawn()
 
 void Tank::regulate_velocity()
 {
-    if(velocity < tank_velocity_max * -1) velocity = tank_velocity_max * -1;
-    if(velocity > tank_velocity_max) velocity = tank_velocity_max;
+    if(velocity < TANK_VELOCITY_MAX * -1) velocity = TANK_VELOCITY_MAX * -1;
+    if(velocity > TANK_VELOCITY_MAX) velocity = TANK_VELOCITY_MAX;
 }
 
 void Tank::change_direction(float const new_direction)
@@ -103,7 +103,7 @@ void Tank::change_direction(float const new_direction)
 void Tank::fire()
 {
     sf::Time time = reloading.getElapsedTime();
-    if(time.asSeconds() > 2)
+    if(time.asSeconds() > TANK_RELOAD_TIME)
     {
         delete bullet;
         bullet = new Bullet(textureManager, this->getPosition().x, this->getPosition().y, barrel_angle, name, team);

@@ -5,7 +5,9 @@
 #include "HealthBar.hpp"
 #include "Core/Label.hpp"
 
-constexpr float tank_velocity_max(400);
+constexpr float TANK_VELOCITY_MAX(400);
+constexpr float TANK_RELOAD_TIME(0.8);
+
 enum {
     NO_TEAM,
     TEAM_1,

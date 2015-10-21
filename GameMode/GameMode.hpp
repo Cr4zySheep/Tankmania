@@ -47,6 +47,8 @@ protected:
 
     virtual bool isFinished() = 0;
 
+    sf::Sprite cursor;
+
 public:
     GameMode(Game* game);
     virtual ~GameMode();

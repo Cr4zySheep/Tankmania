@@ -2,7 +2,7 @@
 #define SCOREBOARD_HPP_INCLUDED
 
 #include "Core/GameState.hpp"
-#include "Core/Label.hpp"
+#include "Core/Button.hpp"
 #include "Core/FontManager.hpp"
 #include "Core/TextureManager.hpp"
 #include "Core/Str.hpp"
@@ -16,6 +16,7 @@ private:
     TextureManager textureManager;
     std::vector<Label> labels;
     sf::Sprite background;
+    Button resume;
 
     void addLabel(sf::Font& font, sf::String text, sf::Color color, unsigned int size, sf::Vector2f pos);
     void checkAndAdd(sf::Font& font, sf::String field, sf::Vector2f& pos, float addToX, std::map<sf::String, int>& data, sf::String nameField, bool needNameField);
