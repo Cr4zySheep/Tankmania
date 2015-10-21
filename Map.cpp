@@ -56,7 +56,6 @@ void Map::create()
     for(uint a(0); a < (uint)(10 + rand() % 10); a++) this->create_forest(128 + rand() % width, 128 + rand() % height, 1 + rand() % 20);
 
     this->create_scheme();
-    std::cout << "Map generated !" << std::endl;
 }
 
 void Map::draw_below(sf::RenderWindow& window)

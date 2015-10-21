@@ -4,9 +4,9 @@ Melee::Melee(Game* game) : GameMode(game), hud(nullptr) {
     sf::Vector2f pos = this->generate_pos();
     sf::Font& font = fontManager.getRef("thickhead");
 
-    tanks["CrazySheep57"] = new Human(textureManager, font, pos.x, pos.y, "CrazySheep57", NO_TEAM);
-    tankToFollow = "CrazySheep57";
-    mainPlayer = "CrazySheep57";
+    tanks["You"] = new Human(textureManager, font, pos.x, pos.y, "You", NO_TEAM);
+    tankToFollow = "You";
+    mainPlayer = "You";
 
     for(uint a(0); a <3; a++) {
         bestPlayers[a] = "";
@@ -30,6 +30,7 @@ Melee::Melee(Game* game) : GameMode(game), hud(nullptr) {
     hud->addMessage("Try to kill 15 people ! Good luck !");
     hud->addMessage("Press Esc to quit or space to leave the game");
     hud->addMessage("For any feedback, contact me at mura.loic0@gmail.com");
+    hud->addMessage("Don't forget to check on itch.io for any new release");
 }
 
 Melee::~Melee()
