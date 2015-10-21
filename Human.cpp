@@ -18,11 +18,11 @@ void Human::handleInput()
     //Déplacement
     if(sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
     {
-        this->change_direction(direction + 1);
+        this->change_direction(direction + 1.5);
     }
     if(sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
     {
-        this->change_direction(direction - 1);
+        this->change_direction(direction - 1.5);
     }
 
     if(sf::Keyboard::isKeyPressed(sf::Keyboard::Up))

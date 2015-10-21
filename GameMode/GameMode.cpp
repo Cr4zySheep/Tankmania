@@ -46,7 +46,10 @@ void GameMode::handleInput()
 
         case sf::Event::KeyPressed:
             if(event.key.code == sf::Keyboard::Escape) game->window.close();
-            if(event.key.code == sf::Keyboard::Space) {this->finish(); return;} //DO NOT forget to remove later
+            if(event.key.code == sf::Keyboard::Space) {
+                sf::Vector2f pos(this->generate_pos());
+                tanks[mainPlayer]->setPosition(pos.x, pos.y);
+            } //DO NOT forget to remove later
             break;
         }
     }
@@ -101,9 +104,9 @@ sf::Vector2f GameMode::generate_pos()
     for(;;)
     {
         sf::Vector2f pos({rand() % 128 * 30, rand() % 128 * 30});
-        if(Pathfinding::graph[Pathfinding::convert_pos(pos)].obstacle == false) {
+        if(Pathfinding::enough_place(Pathfinding::convert_pos(pos))) {
             if(!tanks.empty()) {
-                for(auto tank : tanks) if(!CollisionManager::circle_and_point(tank.second->getCollisionData(0.f).circle, Point(pos))) return pos;
+                for(auto tank : tanks) if(Point::distance(Point(tank.second->getPosition()), Point(pos)) > 150*150) return pos;
             } else {
                 return pos;
             }

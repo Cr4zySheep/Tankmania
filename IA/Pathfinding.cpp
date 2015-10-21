@@ -90,21 +90,18 @@ std::vector<Point> Pathfinding::find_path(pair<int, int> const start, pair<int, 
 
 bool Pathfinding::enough_place(std::pair<int, int> node)
 {
-    bool enough(true);
-    for(int _x(-1); _x < 2 && enough; _x++) for(int _y(-1); _y < 2 && enough; _y++) if(_x != 0 && _y != 0)
+    for(int _x(-1); _x < 2; _x++) for(int _y(-1); _y < 2; _y++)
     {
         pair<int, int> n = node;
         n.first  += _x;
         n.second += _y;
         if(n.first  < 0 || n.first  > 128 * 30 / 64 ||
            n.second < 0 || n.second > 128 * 30 / 64 ||
-           Pathfinding::graph[n].obstacle == true)
-        {
-            enough = false;
+           Pathfinding::graph[n].obstacle == true) {
+            return false;
         }
     }
-
-    return enough;
+    return true;
 }
 
 bool Pathfinding::exist(pair<int, int> n, Graph& graph)

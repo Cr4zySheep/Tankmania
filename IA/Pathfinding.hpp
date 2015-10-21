@@ -43,12 +43,12 @@ class Pathfinding
 private:
     static bool exist(std::pair<int, int> n, Graph& graph);
     static int heuristic(std::pair<int, int> p1, std::pair<int, int> p2);
-    static bool enough_place(std::pair<int, int> node);
 public:
     static bool enable;
     static std::map<std::pair<int, int>, Square> graph;
 
     static std::pair<int, int> convert_pos(sf::Vector2f pos);
+    static bool enough_place(std::pair<int, int> node);
     static std::vector<Point> find_path(std::pair<int, int> const start, std::pair<int, int> const finish);
 
 };

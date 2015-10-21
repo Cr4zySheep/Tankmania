@@ -18,7 +18,7 @@ MainScreen::MainScreen(Game* game) : title(ALIGN_CENTER), version(ALIGN_RIGHT), 
 
     //Current version
     version.setFont(font);
-    sf::String currentVersion = "1.01";
+    sf::String currentVersion = "1.01.001";
     version.modifyText(currentVersion, sf::Color::Black, 24);
     version.setPosition(720 - 10, 480 - 34);
 
