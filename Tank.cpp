@@ -6,6 +6,7 @@ Tank::Tank(TextureManager& tM, sf::Font& _font, float x, float y, sf::String _na
     barrel.rotate(90);
     this->init_barrel();
     this->update_barrel();
+    this->change_direction((float)(rand() % 360));
 
     sf::Color color;
     if(team == NO_TEAM) {

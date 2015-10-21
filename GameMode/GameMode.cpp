@@ -9,6 +9,7 @@ GameMode::GameMode(Game* game) : map(textureManager)
     BulletsManager::eraseAllBullets();
     cursor.setTexture(textureManager.getRef("cursor"));
     cursor.setOrigin(16, 16);
+    waitedTime = sf::seconds(5.f);
 
     game->window.create(sf::VideoMode::getFullscreenModes()[0], "Tankmania", sf::Style::Fullscreen);
     this->game->window.setMouseCursorVisible(false);
@@ -27,6 +28,7 @@ GameMode::~GameMode()
 
 void GameMode::handleInput()
 {
+    if(waitedTime.asSeconds() > 0) return;
     Pathfinding::enable = true;
 
     sf::Event event;
@@ -99,7 +101,13 @@ sf::Vector2f GameMode::generate_pos()
     for(;;)
     {
         sf::Vector2f pos({rand() % 128 * 30, rand() % 128 * 30});
-        if(Pathfinding::graph[Pathfinding::convert_pos(pos)].obstacle == false) return pos;
+        if(Pathfinding::graph[Pathfinding::convert_pos(pos)].obstacle == false) {
+            if(!tanks.empty()) {
+                for(auto tank : tanks) if(!CollisionManager::circle_and_point(tank.second->getCollisionData(0.f).circle, Point(pos))) return pos;
+            } else {
+                return pos;
+            }
+        }
     }
 }
 
@@ -170,4 +178,12 @@ void GameMode::finish() {
     }
 
     game->changeState(new Scoreboard(game, scores, colors));
+}
+
+bool GameMode::updateWaitedTime(float dt) {
+    if(waitedTime.asSeconds() > 0) {
+        waitedTime -= sf::seconds(dt);
+        return false;
+    }
+    return true;
 }

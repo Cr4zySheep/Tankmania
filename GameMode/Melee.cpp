@@ -27,7 +27,9 @@ Melee::Melee(Game* game) : GameMode(game), hud(nullptr) {
     scores[""]["kills"] = 0;
 
     hud = new HUD_Melee(game->window.getSize(), fontManager);
-    hud->addMessage("Go ! Good luck !");
+    hud->addMessage("Try to kill 15 people ! Good luck !");
+    hud->addMessage("Press Esc to quit or space to leave the game");
+    hud->addMessage("For any feedback, contact me at mura.loic0@gmail.com");
 }
 
 Melee::~Melee()
@@ -46,6 +48,10 @@ void Melee::draw() {
 
 void Melee::update(float dt)
 {
+    this->align_player_barrel();
+    this->scrolling();
+    if(!this->updateWaitedTime(dt)) return;
+
     this->limit_dt(dt);
 
     for(auto& tank : tanks)
@@ -57,8 +63,6 @@ void Melee::update(float dt)
     }
 
     BulletsManager::update(dt);
-    this->align_player_barrel();
-    this->scrolling();
     this->handleKills();
 
     if(this->isFinished()) {

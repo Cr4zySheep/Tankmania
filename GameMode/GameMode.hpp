@@ -45,6 +45,8 @@ protected:
     virtual bool isFinished() = 0;
 
     sf::Sprite cursor;
+    sf::Time waitedTime;
+    bool updateWaitedTime(float dt);
 
 public:
     GameMode(Game* game);
