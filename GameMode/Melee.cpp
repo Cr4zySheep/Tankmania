@@ -2,9 +2,9 @@
 
 Melee::Melee(Game* game) : GameMode(game), hud(nullptr) {
     sf::Vector2f pos = this->generate_pos();
-    sf::Font& font = fontLoader.getRef("thickhead");
+    sf::Font& font = app.fontLoader.getRef("thickhead");
 
-    tanks["You"] = new Human(textureLoader, font, pos.x, pos.y, "You", NO_TEAM);
+    tanks["You"] = new Human(app, pos.x, pos.y, "You", NO_TEAM);
     tankToFollow = "You";
     mainPlayer = "You";
 
@@ -17,7 +17,7 @@ Melee::Melee(Game* game) : GameMode(game), hud(nullptr) {
         sf::Vector2f pos = this->generate_pos();
         sf::String name = "bot_" + Str::convert(a);
 
-        tanks[name] = new IA(textureLoader, font, pos.x, pos.y, name, NO_TEAM, tanks);
+        tanks[name] = new IA(app, pos.x, pos.y, name, NO_TEAM, tanks);
     }
 
     for(auto& i : tanks) {
@@ -26,7 +26,7 @@ Melee::Melee(Game* game) : GameMode(game), hud(nullptr) {
     }
     scores[""]["kills"] = 0;
 
-    hud = new HUD_Melee(game->window.getSize(), fontLoader);
+    hud = new HUD_Melee(game->window.getSize(), app.fontLoader);
     hud->addMessage("Try to kill 15 people ! Good luck !");
     hud->addMessage("Press Esc to quit or space to leave the game");
     hud->addMessage("For any feedback, contact me at mura.loic0@gmail.com");
@@ -63,7 +63,7 @@ void Melee::update(float dt)
         else tank.second->update(dt);
     }
 
-    BulletsManager::update(dt);
+    app.bulletsManager.update(dt);
     this->handleKills();
 
     if(this->isFinished()) {

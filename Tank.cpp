@@ -1,6 +1,6 @@
 #include "Tank.hpp"
 
-Tank::Tank(Loader<sf::Texture>& tM, sf::Font& _font, float x, float y, sf::String _name, int const _team) : Object(tM.getRef("tankBeige"), x, y, 83, 78), barrel_angle(0), textureLoader(tM), health(100), destroyed(false), affected(false), font(_font), labelName(ALIGN_CENTER), name(_name), team(_team)
+Tank::Tank(App& _app, float x, float y, sf::String _name, int const _team) : Object(_app.textureLoader.getRef("tankBeige"), x, y, 83, 78), barrel_angle(0), app(_app), health(100), destroyed(false), affected(false), labelName(ALIGN_CENTER), name(_name), team(_team)
 {
     sprite.rotate(90);
     barrel.rotate(90);
@@ -17,7 +17,7 @@ Tank::Tank(Loader<sf::Texture>& tM, sf::Font& _font, float x, float y, sf::Strin
         color = {153, 0, 51};
     }
 
-    labelName.setFont(font);
+    labelName.setFont(app.fontLoader.getRef("thickhead"));
     labelName.setText({this->name, color, 36});
     this->adapt_labelName();
 
@@ -56,7 +56,7 @@ void Tank::draw(sf::RenderWindow& window)
 void Tank::init_barrel()
 {
     barrel.setOrigin(sf::Vector2f(12, 58));
-    barrel.setTexture(textureLoader.getRef("barrelBeige"));
+    barrel.setTexture(app.textureLoader.getRef("barrelBeige"));
     float sx((float)20 / (float)barrel.getTexture()->getSize().x),
           sy((float)58 / (float)barrel.getTexture()->getSize().y);
     barrel.scale(sx, sy);
@@ -103,7 +103,7 @@ void Tank::fire()
     sf::Time time = reloading.getElapsedTime();
     if(time.asSeconds() > TANK_RELOAD_TIME)
     {
-        BulletsManager::addBullet(textureLoader.getRef("bulletBeige"), this->getPosition().x, this->getPosition().y, barrel_angle, name, team);
+        app.bulletsManager.addBullet(app.textureLoader.getRef("bulletBeige"), this->getPosition().x, this->getPosition().y, barrel_angle, name, team);
         reloading.restart();
     }
 }

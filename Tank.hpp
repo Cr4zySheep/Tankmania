@@ -4,6 +4,7 @@
 #include "BulletsManager.hpp"
 #include "HealthBar.hpp"
 #include "Core/Label.hpp"
+#include "App.hpp"
 
 constexpr float TANK_VELOCITY_MAX(400);
 constexpr float TANK_RELOAD_TIME(0.8);
@@ -25,13 +26,13 @@ protected:
 
     void regulate_velocity();
 
-    Loader<sf::Texture>& textureLoader;
+    App& app;
+
     HealthBar health;
     bool destroyed;
     bool affected;
     sf::Clock respawn;
 
-    sf::Font& font;
     Label labelName;
     void adapt_labelName();
 
@@ -39,7 +40,7 @@ public:
     sf::String const name;
     int const team;
 
-    Tank(Loader<sf::Texture>& tM, sf::Font& _font, float x, float y, sf::String const _name, int const _team = NO_TEAM);
+    Tank(App& app, float x, float y, sf::String const _name, int const _team = NO_TEAM);
     virtual ~Tank();
 
     void handleInput() = 0;

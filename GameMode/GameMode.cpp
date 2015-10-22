@@ -1,13 +1,14 @@
 #include "GameMode.hpp"
 
-GameMode::GameMode(Game* game) : map(textureLoader)
+GameMode::GameMode(Game* game) : map(app.textureLoader)
 {
     this->game = game;
     this->adapt_view_to_window();
     this->load_textures();
     map.create();
-    BulletsManager::eraseAllBullets();
-    cursor.setTexture(textureLoader.getRef("cursor"));
+    app.bulletsManager.eraseAllBullets();
+
+    cursor.setTexture(app.textureLoader.getRef("cursor"));
     cursor.setOrigin(16, 16);
     waitedTime = sf::seconds(5.f);
 
@@ -22,8 +23,6 @@ GameMode::~GameMode()
     {
         delete tank.second;
     }
-
-    BulletsManager::eraseAllBullets();
 }
 
 void GameMode::handleInput()
@@ -61,7 +60,7 @@ void GameMode::draw()
     //Display game
     map.draw_below(game->window);
     for(auto& tank : tanks)    tank.second->draw(game->window);
-    BulletsManager::draw(game->window);
+    app.bulletsManager.draw(game->window);
     map.draw_above(game->window);
 
     //Display cursor
@@ -78,19 +77,19 @@ void GameMode::align_player_barrel()
 void GameMode::handleCollision(Tank* tank, float dt)
 {
     map.handle_collision(*tank, dt);
-    for(int a(BulletsManager::bulletsCount() - 1); a >= 0; a--)
+    for(int a(app.bulletsManager.bulletsCount() - 1); a >= 0; a--)
     {
-        Bullet& bullet = BulletsManager::getBullet(a);
+        Bullet& bullet = app.bulletsManager.getBullet(a);
         if(map.handle_collision(bullet, dt))
         {
-            BulletsManager::removeBullet(a);
+            app.bulletsManager.removeBullet(a);
         }
         else if(CollisionManager::collide(*tank, bullet, dt, false) &&
                 tank->name != bullet.getShooter() &&
                 (tank->team != bullet.getTeam() || bullet.getTeam() == NO_TEAM))
         {
             if(!tank->isDestroyed()) if(tank->damaged(bullet)) kills.push({bullet.getShooter(), tank->name, bullet.getTeam()});
-            BulletsManager::removeBullet(a);
+            app.bulletsManager.removeBullet(a);
         }
     }
     for(auto& i : tanks) if(i.second->name != tank->name) CollisionManager::collide(*i.second, *tank, dt);
@@ -144,6 +143,8 @@ void GameMode::scrolling()
 
 void GameMode::load_textures()
 {
+    Loader<sf::Texture>& textureLoader = app.textureLoader;
+
     //Sols
     textureLoader.load("dirt", "rsc/Environment/dirt.png");
     textureLoader.load("grass", "rsc/Environment/grass.png");
@@ -165,7 +166,7 @@ void GameMode::load_textures()
     textureLoader.load("bulletBeige", "rsc/Bullets/bulletBeige_outline.png");
 
     //Fonts
-    fontLoader.load("thickhead", "rsc/fonts/thickhead.ttf");
+    app.fontLoader.load("thickhead", "rsc/fonts/thickhead.ttf");
 
     //Cursor
     textureLoader.load("cursor", "rsc/crosshair32.png");
