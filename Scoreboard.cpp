@@ -5,11 +5,11 @@ Scoreboard::Scoreboard(Game* game, std::map<sf::String, std::map<sf::String, int
     this->game = game;
     this->game->window.setView(this->game->window.getDefaultView());
 
-    textureManager.loadTexture("background", "rsc/backgrounds/scoreboard.png");
-    background.setTexture(textureManager.getRef("background"));
+    textureLoader.load("background", "rsc/backgrounds/scoreboard.png");
+    background.setTexture(textureLoader.getRef("background"));
 
-    fontManager.loadFont("thickhead", "rsc/fonts/thickhead.ttf");
-    sf::Font& font = fontManager.getRef("thickhead");
+    fontLoader.load("thickhead", "rsc/fonts/thickhead.ttf");
+    sf::Font& font = fontLoader.getRef("thickhead");
 
     //Get the biggest name
     const sf::String* longest_name = &scores.begin()->first;

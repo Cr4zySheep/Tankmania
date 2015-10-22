@@ -3,13 +3,13 @@
 MainScreen::MainScreen(Game* game) : title(ALIGN_CENTER), version(ALIGN_RIGHT), start(ALIGN_CENTER), quit(ALIGN_CENTER) {
     this->game = game;
 
-    fontManager.loadFont("thickhead", "rsc/fonts/thickhead.ttf");
-    sf::Font& font = fontManager.getRef("thickhead");
+    fontLoader.load("thickhead", "rsc/fonts/thickhead.ttf");
+    sf::Font& font = fontLoader.getRef("thickhead");
 
-    textureManager.loadTexture("background", "rsc/backgrounds/mainscreen.png");
+    textureLoader.load("background", "rsc/backgrounds/mainscreen.png");
 
     //Background
-    background.setTexture(textureManager.getRef("background"));
+    background.setTexture(textureLoader.getRef("background"));
 
     //Title bar
     title.setFont(font);

@@ -1,13 +1,13 @@
 #include "GameMode.hpp"
 
-GameMode::GameMode(Game* game) : map(textureManager)
+GameMode::GameMode(Game* game) : map(textureLoader)
 {
     this->game = game;
     this->adapt_view_to_window();
     this->load_textures();
     map.create();
     BulletsManager::eraseAllBullets();
-    cursor.setTexture(textureManager.getRef("cursor"));
+    cursor.setTexture(textureLoader.getRef("cursor"));
     cursor.setOrigin(16, 16);
     waitedTime = sf::seconds(5.f);
 
@@ -148,30 +148,30 @@ void GameMode::scrolling()
 void GameMode::load_textures()
 {
     //Sols
-    textureManager.loadTexture("dirt", "rsc/Environment/dirt.png");
-    textureManager.loadTexture("grass", "rsc/Environment/grass.png");
+    textureLoader.load("dirt", "rsc/Environment/dirt.png");
+    textureLoader.load("grass", "rsc/Environment/grass.png");
 
     //Tanks
-    textureManager.loadTexture("tankBeige", "rsc/Tanks/tankBeige_outline.png");
-    textureManager.loadTexture("barrelBeige", "rsc/Tanks/barrelBeige_outline.png");
+    textureLoader.load("tankBeige", "rsc/Tanks/tankBeige_outline.png");
+    textureLoader.load("barrelBeige", "rsc/Tanks/barrelBeige_outline.png");
 
     //Obstacles
-    textureManager.loadTexture("barrelSide", "rsc/Obstacles/barrelGreen_side.png");
-    textureManager.loadTexture("barrelUp", "rsc/Obstacles/barrelGreen_up.png");
+    textureLoader.load("barrelSide", "rsc/Obstacles/barrelGreen_side.png");
+    textureLoader.load("barrelUp", "rsc/Obstacles/barrelGreen_up.png");
 
     //Décors
-    textureManager.loadTexture("oil", "rsc/Obstacles/oil.png");
-    textureManager.loadTexture("treeLarge", "rsc/Environment/treeLarge.png");
-    textureManager.loadTexture("treeSmall", "rsc/Environment/treeSmall.png");
+    textureLoader.load("oil", "rsc/Obstacles/oil.png");
+    textureLoader.load("treeLarge", "rsc/Environment/treeLarge.png");
+    textureLoader.load("treeSmall", "rsc/Environment/treeSmall.png");
 
     //Munitions
-    textureManager.loadTexture("bulletBeige", "rsc/Bullets/bulletBeige_outline.png");
+    textureLoader.load("bulletBeige", "rsc/Bullets/bulletBeige_outline.png");
 
     //Fonts
-    fontManager.loadFont("thickhead", "rsc/fonts/thickhead.ttf");
+    fontLoader.load("thickhead", "rsc/fonts/thickhead.ttf");
 
     //Cursor
-    textureManager.loadTexture("cursor", "rsc/crosshair32.png");
+    textureLoader.load("cursor", "rsc/crosshair32.png");
 }
 
 void GameMode::finish() {

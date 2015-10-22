@@ -23,7 +23,7 @@ struct PuddleOfOil
 class Map
 {
 private:
-    TextureManager& textureManager;
+    Loader<sf::Texture>& textureLoader;
     sf::Sprite tiles[total_tiles];
     std::vector<Barrel> borders;
     std::vector<Barrel> barrels;
@@ -36,7 +36,7 @@ private:
     void create_scheme(); //Create a sheme for the pathfinding
 
 public:
-    Map(TextureManager& tM);
+    Map(Loader<sf::Texture>& tM);
     ~Map();
 
     void create();

@@ -2,7 +2,7 @@
 #define BARREL_HPP_INCLUDED
 
 #include "Core/Object.hpp"
-#include "Core/TextureManager.hpp"
+#include "Core/Loader.hpp"
 
 class Barrel : public Object
 {
@@ -12,14 +12,14 @@ private:
 
 public:
     Barrel();
-    Barrel(TextureManager& TextureManager, bool topdown, float x, float y, bool indestructible = false);
+    Barrel(Loader<sf::Texture>& textureLoader, bool topdown, float x, float y, bool indestructible = false);
     ~Barrel();
 
     void handleInput();
     void update(float dt);
     void draw(sf::RenderWindow& window);
 
-    void setTexture(TextureManager& textureManager, bool topdown);
+    void setTexture(Loader<sf::Texture>& textureLoader, bool topdown);
 
     bool isDestroyed() const;
     void destroy();

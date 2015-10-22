@@ -3,6 +3,7 @@
 
 #include "GameMode/Melee.hpp"
 #include "Core/Button.hpp"
+#include "Core/Loader.hpp"
 
 class MainScreen : public GameState {
 private:
@@ -13,8 +14,8 @@ private:
 
     sf::Sprite background;
 
-    TextureManager textureManager;
-    FontManager fontManager;
+    Loader<sf::Texture> textureLoader;
+    Loader<sf::Font> fontLoader;
 
 public:
     MainScreen(Game* game);

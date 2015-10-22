@@ -5,7 +5,7 @@
 #include "../Human.hpp"
 #include "../IA/IA.hpp"
 #include "../Map.hpp"
-#include "../Core/FontManager.hpp"
+#include "../Core/Loader.hpp"
 #include "../Scoreboard.hpp"
 #include <iostream>
 
@@ -23,8 +23,8 @@ protected:
     sf::View view;
     void adapt_view_to_window();
 
-    TextureManager textureManager;
-    FontManager fontManager;
+    Loader<sf::Texture> textureLoader;
+    Loader<sf::Font> fontLoader;
     void load_textures();
 
     Map map;

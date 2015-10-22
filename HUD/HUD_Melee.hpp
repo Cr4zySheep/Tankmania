@@ -8,7 +8,7 @@ private:
     Label bests[3][3];
 
 public:
-    HUD_Melee(sf::Vector2u const wS, FontManager& _fontManager);
+    HUD_Melee(sf::Vector2u const wS, Loader<sf::Font>& _fontLoader);
     virtual ~HUD_Melee();
 
     void setBests(std::pair<std::pair<sf::String, sf::Color>, int> _bests[]);

@@ -25,7 +25,7 @@ protected:
 
     void regulate_velocity();
 
-    TextureManager& textureManager;
+    Loader<sf::Texture>& textureLoader;
     HealthBar health;
     bool destroyed;
     bool affected;
@@ -39,7 +39,7 @@ public:
     sf::String const name;
     int const team;
 
-    Tank(TextureManager& tM, sf::Font& _font, float x, float y, sf::String const _name, int const _team = NO_TEAM);
+    Tank(Loader<sf::Texture>& tM, sf::Font& _font, float x, float y, sf::String const _name, int const _team = NO_TEAM);
     virtual ~Tank();
 
     void handleInput() = 0;

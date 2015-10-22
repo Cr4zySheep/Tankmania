@@ -1,12 +1,12 @@
 #include "HUD.hpp"
 
-HUD::HUD(sf::Vector2u const wS, FontManager& _fontManager) : windowSize(wS), timer(ALIGN_CENTER), fontManager(_fontManager) {
-    timer.setFont(fontManager.getRef("thickhead"));
+HUD::HUD(sf::Vector2u const wS, Loader<sf::Font>& _fontLoader) : windowSize(wS), timer(ALIGN_CENTER), fontLoader(_fontLoader) {
+    timer.setFont(fontLoader.getRef("thickhead"));
     timer.setPosition(windowSize.x / 2, 18);
     timerClock.restart();
 
     for(unsigned int a(0); a < 5; a++) for(unsigned int b(0); b < 3; b++) {
-        tchat[a][b].setFont(fontManager.getRef("thickhead"));
+        tchat[a][b].setFont(fontLoader.getRef("thickhead"));
         tchat[a][b].setPosition(28, windowSize.y - (a + 1) * 24 - 28);
     }
 }

@@ -1,8 +1,8 @@
 #include "HUD_Melee.hpp"
 
-HUD_Melee::HUD_Melee(sf::Vector2u const wS, FontManager& fontManager) : HUD(wS, fontManager) {
+HUD_Melee::HUD_Melee(sf::Vector2u const wS, Loader<sf::Font>& fontLoader) : HUD(wS, fontLoader) {
     for(unsigned int a(0); a < 3; a++) for(unsigned int b(0); b < 3; b++) {
-        bests[a][b].setFont(fontManager.getRef("thickhead"));
+        bests[a][b].setFont(fontLoader.getRef("thickhead"));
         bests[a][b].setAlign(ALIGN_RIGHT);
         bests[a][b].setPosition(0, a * 24 + 24);
 

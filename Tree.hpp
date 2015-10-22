@@ -2,7 +2,7 @@
 #define TREE_HPP_INCLUDED
 
 #include "Core/Object.hpp"
-#include "Core/TextureManager.hpp"
+#include "Core/Loader.hpp"
 #include <cstdlib>
 
 class Tree : public Object
@@ -10,7 +10,7 @@ class Tree : public Object
 private:
 
 public:
-    Tree(TextureManager& textureManager, float x, float y);
+    Tree(Loader<sf::Texture>& textureLoader, float x, float y);
     ~Tree();
 
     void handleInput();

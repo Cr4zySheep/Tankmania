@@ -2,7 +2,7 @@
 #define HUD_HPP_INCLUDED
 
 #include "../Core/Label.hpp"
-#include "../Core/FontManager.hpp"
+#include "../Core/Loader.hpp"
 #include "../Core/Str.hpp"
 #include <iostream>
 
@@ -15,13 +15,13 @@ protected:
 
     Label tchat[5][3];
 
-    FontManager& fontManager;
+    Loader<sf::Font>& fontLoader;
 
     void updateTimer();
     void upTchatMsg();
 
 public:
-    HUD(sf::Vector2u const wS, FontManager& _fontManager);
+    HUD(sf::Vector2u const wS, Loader<sf::Font>& _fontLoader);
     virtual ~HUD();
 
     sf::Time getTime() const;

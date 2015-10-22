@@ -3,8 +3,7 @@
 
 #include "Core/GameState.hpp"
 #include "Core/Button.hpp"
-#include "Core/FontManager.hpp"
-#include "Core/TextureManager.hpp"
+#include "Core/Loader.hpp"
 #include "Core/Str.hpp"
 #include <map>
 #include <vector>
@@ -12,8 +11,8 @@
 
 class Scoreboard : public GameState {
 private:
-    FontManager fontManager;
-    TextureManager textureManager;
+    Loader<sf::Font> fontLoader;
+    Loader<sf::Texture> textureLoader;
     std::vector<Label> labels;
     sf::Sprite background;
     Button resume;

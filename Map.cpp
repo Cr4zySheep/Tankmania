@@ -2,7 +2,7 @@
 using std::cout;
 using std::endl;
 
-Map::Map(TextureManager& tM) : textureManager(tM)
+Map::Map(Loader<sf::Texture>& tM) : textureLoader(tM)
 {
 
 }
@@ -19,7 +19,7 @@ void Map::create()
     {
         uint iterator(x * map_width + y);
 
-        tiles[iterator].setTexture(textureManager.getRef("grass"));
+        tiles[iterator].setTexture(textureLoader.getRef("grass"));
         tiles[iterator].setPosition(x * 128, y * 128);
     }
 
@@ -28,18 +28,18 @@ void Map::create()
 
     for(uint x(0); x < limite_x; x++)
     {
-        borders.push_back(Barrel(textureManager, true, 24 + x * 48, 24, true));
+        borders.push_back(Barrel(textureLoader, true, 24 + x * 48, 24, true));
         borders.back().change_direction(rand() % 360);
-        borders.push_back(Barrel(textureManager, true, 24 + x * 48, limite_y * 48 - 24, true));
+        borders.push_back(Barrel(textureLoader, true, 24 + x * 48, limite_y * 48 - 24, true));
         borders.back().change_direction(rand() % 360);
     }
 
     for(uint y(1); y < limite_y - 1; y++)
     {
 
-        borders.push_back(Barrel(textureManager, true, 24, 24 + y * 48, true));
+        borders.push_back(Barrel(textureLoader, true, 24, 24 + y * 48, true));
         borders.back().change_direction(rand() % 360);
-        borders.push_back(Barrel(textureManager, true, limite_x * 48 - 24, 24 + y * 48, true));
+        borders.push_back(Barrel(textureLoader, true, limite_x * 48 - 24, 24 + y * 48, true));
         borders.back().change_direction(rand() % 360);
     }
 
@@ -109,12 +109,12 @@ void Map::create_puddleOfOil(float x, float y)
     puddleOfOils.push_back(PuddleOfOil());
     PuddleOfOil& puddleOfOil = puddleOfOils.back();
 
-    puddleOfOil.oil.setTexture(textureManager.getRef("oil"));
+    puddleOfOil.oil.setTexture(textureLoader.getRef("oil"));
     puddleOfOil.oil.setOrigin(45, 45);
     puddleOfOil.oil.setPosition(x, y);
 
-    if(rand() % 2 == 1) puddleOfOil.barrel.setTexture(textureManager, true);
-    else                puddleOfOil.barrel.setTexture(textureManager, false);
+    if(rand() % 2 == 1) puddleOfOil.barrel.setTexture(textureLoader, true);
+    else                puddleOfOil.barrel.setTexture(textureLoader, false);
 
     puddleOfOil.barrel.change_direction(rand() % 360);
 
@@ -124,7 +124,7 @@ void Map::create_puddleOfOil(float x, float y)
 
 void Map::create_barrel(float x, float y)
 {
-    barrels.push_back(Barrel(textureManager, rand() % 2, x, y));
+    barrels.push_back(Barrel(textureLoader, rand() % 2, x, y));
     barrels.back().change_direction(rand() % 360);
 }
 
@@ -147,6 +147,6 @@ void Map::create_forest(float x, float y, uint number_of_tree)
         if(new_x < 128) new_x += 128;
         if(new_y < 128) new_y += 128;
 
-        forest.push_back(Tree(textureManager, new_x, new_y));
+        forest.push_back(Tree(textureLoader, new_x, new_y));
     }
 }

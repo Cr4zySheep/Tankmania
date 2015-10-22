@@ -2,7 +2,7 @@
 #define BULLET_HPP_INCLUDED
 
 #include "Core/Object.hpp"
-#include "Core/TextureManager.hpp"
+#include "Core/Loader.hpp"
 
 class Bullet : public Object
 {
