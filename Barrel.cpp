@@ -38,7 +38,7 @@ void Barrel::update(float dt)
 
 void Barrel::draw(sf::RenderWindow& window)
 {
-    if(!destroyed) window.draw(sprite);
+    if(CollisionManager::isVisible(sprite.getGlobalBounds(), window.getView()) && !destroyed) window.draw(sprite);
 }
 
 bool Barrel::isDestroyed() const

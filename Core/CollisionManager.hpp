@@ -51,6 +51,7 @@ public:
     static bool circle_and_circle(Circle circle1, Circle circle2);
 
     static bool collide(Object& object1, Object& object2, float dt, bool react = true);
+    static bool isVisible(sf::FloatRect s, sf::View const& v);
 };
 
 #endif // COLLISIONMANAGER_HPP_INCLUDED

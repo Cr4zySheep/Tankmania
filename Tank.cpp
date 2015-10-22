@@ -42,15 +42,17 @@ void Tank::update(float dt)
 
 void Tank::draw(sf::RenderWindow& window)
 {
-    //HealthBar
-    if(!this->isDestroyed()) health.draw(window);
+    if(CollisionManager::isVisible(sprite.getGlobalBounds(), window.getView())) {
+        //HealthBar
+        if(!this->isDestroyed()) health.draw(window);
 
-    //Tank
-    window.draw(sprite);
-    window.draw(barrel);
+        //Tank
+        window.draw(sprite);
+        window.draw(barrel);
 
-    //Name
-    window.draw(labelName);
+        //Name
+        window.draw(labelName);
+    }
 }
 
 void Tank::init_barrel()

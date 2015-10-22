@@ -44,6 +44,7 @@
 		<Linker>
 			<Add directory="SFML-2.3/lib" />
 		</Linker>
+		<Unit filename="App.hpp" />
 		<Unit filename="Barrel.cpp" />
 		<Unit filename="Barrel.hpp" />
 		<Unit filename="Bullet.cpp" />

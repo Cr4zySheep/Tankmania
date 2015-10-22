@@ -60,12 +60,11 @@ void Map::create()
 
 void Map::draw_below(sf::RenderWindow& window)
 {
-    for(auto& tile : tiles) window.draw(tile);
-    for(auto& puddleOfOil : puddleOfOils) window.draw(puddleOfOil.oil);
+    for(auto& tile : tiles) if(CollisionManager::isVisible(tile.getGlobalBounds(), window.getView())) window.draw(tile);
+    for(auto& puddleOfOil : puddleOfOils) if(CollisionManager::isVisible(puddleOfOil.oil.getGlobalBounds(), window.getView())) window.draw(puddleOfOil.oil);
     for(auto& puddleOfOil : puddleOfOils) puddleOfOil.barrel.draw(window);
     for(auto& barrel : borders) barrel.draw(window);
     for(auto& barrel : barrels) barrel.draw(window);
-    for(auto& tree : forest) tree.draw(window);
 }
 
 void Map::draw_above(sf::RenderWindow& window)

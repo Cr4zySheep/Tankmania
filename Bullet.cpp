@@ -29,7 +29,7 @@ void Bullet::update(float dt)
 
 void Bullet::draw(sf::RenderWindow& window)
 {
-    window.draw(sprite);
+    if(CollisionManager::isVisible(sprite.getGlobalBounds(), window.getView())) window.draw(sprite);
 }
 
 const uint Bullet::getDamage() const {

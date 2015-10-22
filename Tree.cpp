@@ -27,5 +27,5 @@ void Tree::update(float dt)
 
 void Tree::draw(sf::RenderWindow& window)
 {
-    window.draw(sprite);
+    if(CollisionManager::isVisible(sprite.getGlobalBounds(), window.getView())) window.draw(sprite);
 }

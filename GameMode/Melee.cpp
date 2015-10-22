@@ -2,7 +2,6 @@
 
 Melee::Melee(Game* game) : GameMode(game), hud(nullptr) {
     sf::Vector2f pos = this->generate_pos();
-    sf::Font& font = app.fontLoader.getRef("thickhead");
 
     tanks["You"] = new Human(app, pos.x, pos.y, "You", NO_TEAM);
     tankToFollow = "You";
@@ -113,7 +112,6 @@ void Melee::orderBestPlayers() {
             if(name != bestPlayers[0] && killsNumber > scores[bestPlayers[0]]["kills"]) {
                 bestPlayers[0] = name;
                 bestPlayers[1] = "";
-                bestPlayers[2] = "";
                 changed = true;
                 break;
             } else if(name != bestPlayers[0] && name != bestPlayers[1] && killsNumber > scores[bestPlayers[1]]["kills"]) {

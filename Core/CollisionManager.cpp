@@ -47,8 +47,7 @@ bool CollisionManager::circle_and_point(Circle circle, Point point)
 
     double OI(x*x + y*y);
 
-    if(OI <= circle.radius * circle.radius) return true;
-    else                                   return false;
+    return OI <= circle.radius * circle.radius;
 }
 
 bool CollisionManager::circle_and_circle(Circle circle1, Circle circle2)
@@ -61,15 +60,22 @@ bool CollisionManager::circle_and_circle(Circle circle1, Circle circle2)
 
      auto OI(Point::distance(circle1.center, circle2.center));
 
-     if(OI <= (circle1.radius + circle2.radius) * (circle1.radius + circle2.radius)) return true;
-     else                                                                            return false;
+     return OI <= (circle1.radius + circle2.radius) * (circle1.radius + circle2.radius);
 }
 
 bool CollisionManager::AABB_and_AABB(AABB box1, AABB box2)
 {
-    if(box1.x > box2.x + box2.w ||
-       box1.x + box1.w < box2.x ||
-       box1.y > box2.y + box2.h  ||
-       box1.y + box1.h < box2.y) return false;
-    else return true;
+    return !(box1.x > box2.x + box2.w ||
+             box1.x + box1.w < box2.x ||
+             box1.y > box2.y + box2.h ||
+             box1.y + box1.h < box2.y);
+}
+
+bool CollisionManager::isVisible(sf::FloatRect s, sf::View const& v) {
+    sf::FloatRect viewport(v.getViewport());
+    viewport.left = v.getCenter().x - v.getSize().x / 2;
+    viewport.top = v.getCenter().y - v.getSize().y / 2;
+    viewport.width = v.getSize().x;
+    viewport.height = v.getSize().y;
+    return viewport.intersects(s);
 }
