@@ -2,7 +2,7 @@
 #define LABEL_HPP_INCLUDED
 
 #include <SFML/Graphics.hpp>
-#include <string>
+#include <map>
 
 enum {
     ALIGN_CENTER,
@@ -10,29 +10,37 @@ enum {
     ALIGN_LEFT
 };
 
-class Label {
-protected:
-    sf::Text text;
-    unsigned int alignment;
+enum {
+    UNUPDATE,
+    NORMAL,
+    HOVERED,
+    CLICKED
+};
 
+struct LabelData {
+    sf::String text;
+    sf::Color color;
+    unsigned int charSize;
+};
+
+class Label : public sf::Text {
+protected:
+    unsigned int alignment;
     void adaptAlign();
 
+    int state;
+    std::map<int, bool> states;
+
 public:
-    Label(unsigned int alignment = ALIGN_LEFT);
+    Label(unsigned int const alignment = ALIGN_LEFT);
     virtual ~Label();
 
-    void modifyText(sf::String const& _text, sf::Color const& color = sf::Color::Black, unsigned int charSize = 36);
+    void setText(LabelData lblData);
     void setAlign(unsigned int const align);
-    void setPosition(float x, float y);
-    void setFont(sf::Font const& font);
 
-    sf::String getString() const;
-    const sf::Color getColor() const;
-    sf::FloatRect getSize() const;
-    const sf::Vector2f getOrigin() const;
-    const sf::Vector2f getPosition() const;
+    bool getState(int const state);
 
-    void draw(sf::RenderWindow& window);
+    void handleInput(sf::Event& event);
 };
 
 #endif // LABEL_HPP_INCLUDED

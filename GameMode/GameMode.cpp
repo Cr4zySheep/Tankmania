@@ -46,10 +46,7 @@ void GameMode::handleInput()
 
         case sf::Event::KeyPressed:
             if(event.key.code == sf::Keyboard::Escape) game->window.close();
-            if(event.key.code == sf::Keyboard::Space) {
-                sf::Vector2f pos(this->generate_pos());
-                tanks[mainPlayer]->setPosition(pos.x, pos.y);
-            } //DO NOT forget to remove later
+            if(event.key.code == sf::Keyboard::Space) { this->finish(); return;} //DO NOT forget to remove later
             break;
         }
     }

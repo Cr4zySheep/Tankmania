@@ -70,7 +70,7 @@ Scoreboard::Scoreboard(Game* game, std::map<sf::String, std::map<sf::String, int
 
     resume.setAlign(ALIGN_CENTER);
     resume.setFont(font);
-    resume.setTexts("resume", "resume", 36, sf::Color::White);
+    resume.setLabels({"resume", sf::Color::White, 36}, {"resume", {128, 108, 0, 255}, 36});
     resume.setPosition(720 / 2 + 25, 480 - 44);
 
     this->game->window.create({720, 480, sf::VideoMode::getDesktopMode().bitsPerPixel}, "Tankmania", sf::Style::Default);
@@ -95,7 +95,7 @@ void Scoreboard::addLabel(sf::Font& font, sf::String text, sf::Color color, unsi
     labels.push_back(Label(ALIGN_CENTER));
     Label& label = labels.back();
     label.setFont(font);
-    label.modifyText(text, color, size);
+    label.setText({text, color, size});
     label.setPosition(pos.x, pos.y);
 }
 
@@ -113,13 +113,13 @@ void Scoreboard::handleInput() {
             if(event.key.code == sf::Keyboard::Escape) game->window.close();
             break;
         }
+        resume.handleInput(event);
     }
-    resume.handleInput(game->window);
 }
 
 void Scoreboard::update(float dt) {
     resume.update();
-    if(resume.getClicked()) {
+    if(resume.getState(CLICKED)) {
         game->changeState(new MainScreen(game));
         return;
     }
@@ -128,7 +128,7 @@ void Scoreboard::update(float dt) {
 void Scoreboard::draw() {
     game->window.draw(background);
     for(auto& label : labels) {
-        label.draw(game->window);
+        game->window.draw(label);
     }
-    resume.draw(game->window);
+    game->window.draw(resume);
 }

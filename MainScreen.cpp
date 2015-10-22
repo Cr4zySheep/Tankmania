@@ -13,23 +13,23 @@ MainScreen::MainScreen(Game* game) : title(ALIGN_CENTER), version(ALIGN_RIGHT), 
 
     //Title bar
     title.setFont(font);
-    title.modifyText("Tankmania", sf::Color::Black, 72);
+    title.setText({"Tankmania", sf::Color::Black, 72});
     title.setPosition(720 / 2, 10);
 
     //Current version
     version.setFont(font);
-    sf::String currentVersion = "1.01.001";
-    version.modifyText(currentVersion, sf::Color::Black, 24);
+    sf::String currentVersion = "1.01.002";
+    version.setText({currentVersion, sf::Color::Black, 24});
     version.setPosition(720 - 10, 480 - 34);
 
     //Button start
     start.setFont(font);
-    start.setTexts("start", "START", 48, sf::Color::Black);
+    start.setLabels({"start", sf::Color::Black, 48}, {"START", sf::Color::Black, 48});
     start.setPosition(720 / 2, 480 / 2 - 48 * 1);
 
     //Button quit
     quit.setFont(font);
-    quit.setTexts("exit", "EXIT", 48, sf::Color::Black);
+    quit.setLabels({"exit", sf::Color::Black, 48}, {"EXIT", sf::Color::Black, 48});
     quit.setPosition(720 / 2, 480 / 2 + 48 * 2);
 
     this->game->window.create({720, 480, sf::VideoMode::getDesktopMode().bitsPerPixel}, "Tankmania", sf::Style::Default);
@@ -53,19 +53,20 @@ void MainScreen::handleInput() {
             if(event.key.code == sf::Keyboard::Escape) game->window.close();
             break;
         }
+
+        start.handleInput(event);
+        quit.handleInput(event);
     }
-    start.handleInput(game->window);
-    quit.handleInput(game->window);
 }
 
 void MainScreen::update(float dt) {
     start.update();
     quit.update();
-    if(start.getClicked()) {
+    if(start.getState(CLICKED)) {
         game->changeState(new Melee(game));
         return;
     }
-    if(quit.getClicked()) {
+    if(quit.getState(CLICKED)) {
         game->window.close();
         return;
     }
@@ -73,8 +74,8 @@ void MainScreen::update(float dt) {
 
 void MainScreen::draw() {
     game->window.draw(background);
-    title.draw(game->window);
-    version.draw(game->window);
-    start.draw(game->window);
-    quit.draw(game->window);
+    game->window.draw(title);
+    game->window.draw(version);
+    game->window.draw(start);
+    game->window.draw(quit);
 }

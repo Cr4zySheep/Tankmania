@@ -16,35 +16,35 @@ HUD::~HUD() {
 
 void HUD::upTchatMsg() {
     for(unsigned int a(4); a > 0; a--) for(unsigned int b(0); b < 3; b++) {
-        float y = tchat[a][0].getSize().top;
-        tchat[a][b].modifyText(tchat[a - 1][b].getString(), tchat[a - 1][b].getColor(), 24);
-        tchat[a][1].setPosition(28 + tchat[a][0].getSize().width, y);
-        tchat[a][2].setPosition(28 + tchat[a][0].getSize().width + tchat[0][1].getSize().width, y);
+        float y = tchat[a][0].getGlobalBounds().top;
+        tchat[a][b].setText({tchat[a - 1][b].getString(), tchat[a - 1][b].getColor(), 24});
+        tchat[a][1].setPosition(28 + tchat[a][0].getGlobalBounds().width, y);
+        tchat[a][2].setPosition(28 + tchat[a][0].getGlobalBounds().width + tchat[0][1].getGlobalBounds().width, y);
     }
 }
 
 void HUD::addMessage(sf::String msg) {
     this->upTchatMsg();
 
-    tchat[0][0].modifyText("", sf::Color::Black, 24);
-    tchat[0][1].modifyText(msg, sf::Color::Black, 24);
-    tchat[0][2].modifyText("", sf::Color::Black, 24);
+    tchat[0][0].setText({"", sf::Color::Black, 24});
+    tchat[0][1].setText({msg, sf::Color::Black, 24});
+    tchat[0][2].setText({"", sf::Color::Black, 24});
 
-    float y = tchat[0][0].getSize().top;
-    tchat[0][1].setPosition(28 + tchat[0][0].getSize().width, y);
-    tchat[0][2].setPosition(28 + tchat[0][0].getSize().width + tchat[0][1].getSize().width, y);
+    float y = tchat[0][0].getGlobalBounds().top;
+    tchat[0][1].setPosition(28 + tchat[0][0].getGlobalBounds().width, y);
+    tchat[0][2].setPosition(28 + tchat[0][0].getGlobalBounds().width + tchat[0][1].getGlobalBounds().width, y);
 }
 
 void HUD::addMessage(sf::String msg, std::pair<sf::String, sf::Color> names[]) {
     this->upTchatMsg();
 
-    tchat[0][0].modifyText(names[0].first, names[0].second, 24);
-    tchat[0][1].modifyText(msg, sf::Color::Black, 24);
-    tchat[0][2].modifyText(names[1].first, names[1].second, 24);
+    tchat[0][0].setText({names[0].first, names[0].second, 24});
+    tchat[0][1].setText({msg, sf::Color::Black, 24});
+    tchat[0][2].setText({names[1].first, names[1].second, 24});
 
-    float y = tchat[0][0].getSize().top;
-    tchat[0][1].setPosition(28 + tchat[0][0].getSize().width, y);
-    tchat[0][2].setPosition(28 + tchat[0][0].getSize().width + tchat[0][1].getSize().width, y);
+    float y = tchat[0][0].getGlobalBounds().top;
+    tchat[0][1].setPosition(28 + tchat[0][0].getGlobalBounds().width, y);
+    tchat[0][2].setPosition(28 + tchat[0][0].getGlobalBounds().width + tchat[0][1].getGlobalBounds().width, y);
 }
 
 void HUD::updateTimer() {
@@ -62,7 +62,7 @@ void HUD::updateTimer() {
     }
     time += Str::convert(seconds);
 
-    timer.modifyText(time);
+    timer.setText({time, sf::Color::Black, 36});
 }
 
 void HUD::update() {
@@ -74,11 +74,11 @@ void HUD::draw(sf::RenderWindow& window) {
     window.setView(window.getDefaultView());
 
     //Timer
-    timer.draw(window);
+    window.draw(timer);
 
     //Tchat messages
     for(unsigned int a(0); a < 5; a++) for(unsigned int b(0); b < 3; b++) {
-        tchat[a][b].draw(window);
+        window.draw(tchat[a][b]);
     }
 }
 

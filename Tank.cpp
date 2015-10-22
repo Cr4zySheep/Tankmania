@@ -18,7 +18,7 @@ Tank::Tank(Loader<sf::Texture>& tM, sf::Font& _font, float x, float y, sf::Strin
     }
 
     labelName.setFont(font);
-    labelName.modifyText(this->name, color, 36);
+    labelName.setText({this->name, color, 36});
     this->adapt_labelName();
 
     collisionData.circle.radius = 40;
@@ -50,7 +50,7 @@ void Tank::draw(sf::RenderWindow& window)
     window.draw(barrel);
 
     //Name
-    labelName.draw(window);
+    window.draw(labelName);
 }
 
 void Tank::init_barrel()
