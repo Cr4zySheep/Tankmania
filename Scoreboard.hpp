@@ -7,7 +7,7 @@
 #include "Core/Str.hpp"
 #include <map>
 #include <vector>
-#include <iostream>
+#include <SFML/Audio.hpp>
 
 class Scoreboard : public GameState {
 private:
@@ -16,6 +16,7 @@ private:
     std::vector<Label> labels;
     sf::Sprite background;
     Button resume;
+    sf::Music theme;
 
     void addLabel(sf::Font& font, sf::String text, sf::Color color, unsigned int size, sf::Vector2f pos);
     void checkAndAdd(sf::Font& font, sf::String field, sf::Vector2f& pos, float addToX, std::map<sf::String, int>& data, sf::String nameField, bool needNameField);

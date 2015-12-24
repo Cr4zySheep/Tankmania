@@ -5,6 +5,12 @@ Scoreboard::Scoreboard(Game* game, std::map<sf::String, std::map<sf::String, int
     this->game = game;
     this->game->window.setView(this->game->window.getDefaultView());
 
+    //Load music
+    if(theme.openFromFile("rsc/musics/score_theme.ogg")) {
+        theme.setLoop(true);
+        theme.play();
+    }
+
     textureLoader.load("background", "rsc/backgrounds/scoreboard.png");
     background.setTexture(textureLoader.getRef("background"));
 

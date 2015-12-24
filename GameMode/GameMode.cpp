@@ -23,6 +23,14 @@ GameMode::~GameMode()
     {
         delete tank.second;
     }
+    theme.stop();
+}
+
+void GameMode::loadMusicTheme(std::string const& file) {
+    if(theme.openFromFile(file)) {
+        theme.setLoop(true);
+        theme.play();
+    }
 }
 
 void GameMode::handleInput()

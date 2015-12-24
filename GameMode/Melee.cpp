@@ -3,6 +3,8 @@
 Melee::Melee(Game* game) : GameMode(game), hud(nullptr) {
     sf::Vector2f pos = this->generate_pos();
 
+    this->loadMusicTheme("rsc/musics/main_theme.ogg");
+
     tanks["You"] = new Human(app, pos.x, pos.y, "You", NO_TEAM);
     tankToFollow = "You";
     mainPlayer = "You";

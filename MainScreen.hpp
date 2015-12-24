@@ -4,6 +4,7 @@
 #include "GameMode/Melee.hpp"
 #include "Core/Button.hpp"
 #include "Core/Loader.hpp"
+#include <SFML/Audio.hpp>
 
 class MainScreen : public GameState {
 private:
@@ -13,6 +14,7 @@ private:
     Button quit;
 
     sf::Sprite background;
+    sf::Music theme;
 
     Loader<sf::Texture> textureLoader;
     Loader<sf::Font> fontLoader;

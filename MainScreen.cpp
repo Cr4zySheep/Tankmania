@@ -3,6 +3,12 @@
 MainScreen::MainScreen(Game* game) : title(ALIGN_CENTER), version(ALIGN_RIGHT), start(ALIGN_CENTER), quit(ALIGN_CENTER) {
     this->game = game;
 
+    //Load music
+    if(theme.openFromFile("rsc/musics/menu_theme.ogg")) {
+        theme.setLoop(true);
+        theme.play();
+    }
+
     fontLoader.load("thickhead", "rsc/fonts/thickhead.ttf");
     sf::Font& font = fontLoader.getRef("thickhead");
 
@@ -32,11 +38,12 @@ MainScreen::MainScreen(Game* game) : title(ALIGN_CENTER), version(ALIGN_RIGHT), 
     quit.setLabels({"exit", sf::Color::Black, 48}, {"EXIT", sf::Color::Black, 48});
     quit.setPosition(720 / 2, 480 / 2 + 48 * 2);
 
-    this->game->window.create({720, 480, sf::VideoMode::getDesktopMode().bitsPerPixel}, "Tankmania", sf::Style::Default);
+    this->game->window.create({720, 480, sf::VideoMode::getDesktopMode().bitsPerPixel}, "Tankmania", sf::Style::Close | sf::Style::Titlebar);
     this->game->window.setMouseCursorVisible(true);
 }
 
 MainScreen::~MainScreen() {
+    theme.stop();
 }
 
 void MainScreen::handleInput() {

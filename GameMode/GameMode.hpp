@@ -7,7 +7,7 @@
 #include "../Map.hpp"
 #include "../App.hpp"
 #include "../Scoreboard.hpp"
-#include <iostream>
+#include <SFML/Audio.hpp>
 
 struct KillData {
     sf::String killer,
@@ -46,6 +46,9 @@ protected:
     sf::Sprite cursor;
     sf::Time waitedTime;
     bool updateWaitedTime(float dt);
+
+    sf::Music theme;
+    void loadMusicTheme(std::string const& file);
 
 public:
     GameMode(Game* game);
